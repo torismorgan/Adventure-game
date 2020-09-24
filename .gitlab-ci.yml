@@ -6,17 +6,35 @@ buildTests:
       paths:
          - test_project
 
-test:
+staticTest:
    stage: test
    script:
       - test_project
       - make static
+
+styleTest:
+   stage: test
+   script:
+      - test_project
       - make style
+
+coverageTest:
+   stage: test
+   script:
+      - test_project
       - make coverage
-      - make memcheck
    artifacts:
       paths:
          - coverage
+      expire_in: 14 days
+
+memcheckTest:
+   stage: test
+   script:
+      - test_project
+      - make memcheck
+   artifacts:
+      paths:
          - memcheck.xml
       expire_in: 14 days
 
