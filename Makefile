@@ -56,7 +56,7 @@ compileProject: $(SRC_DIR) $(PROJECT_SRC_DIR)
 
 # To perform all tests
 .PHONY: allTests
-	allTests: $(GTEST) memcheck coverage docs static style
+allTests: $(GTEST) memcheck coverage docs static style
 
 .PHONY: memcheck
 memcheck: $(GTEST)
