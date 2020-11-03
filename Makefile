@@ -60,11 +60,11 @@ allTests: $(GTEST) memcheck coverage docs static style
 
 .PHONY: memcheck
 memcheck: $(GTEST)
-	valgrind --tool=memcheck --leak-check=yes $(GTEST)
+	valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 $(GTEST)
 
 .PHONY: fullmemcheck
 fullmemcheck: $(GTEST)
-	valgrind --tool=memcheck --leak-check=full $(GTEST)
+	valgrind --tool=memcheck --leak-check=full --error-exitcode=1 $(GTEST)
 
 .PHONY: coverage
 coverage: $(GTEST)
