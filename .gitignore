@@ -12,13 +12,15 @@ project
 # Artifacts that are produced by different targets
 
 # make docs artifacts -- we want to download and read these but we do not want to push a copy to the repo
-docs/src/html
+docs/src/html/
 
 # make memcheck artifact -- may not be needed, 2021-10-09 investigating
 memcheck.xml
 
 # make coverage artifacts
-# -- only left behind if something goes wrong with the coverage target and it doesn't get to the rm at the end.
+results.coverage
+coverage/
+# These files are only left behind if something goes wrong with the coverage target.
 *.gcda
 *.gcno
 *.gcov
