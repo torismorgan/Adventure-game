@@ -1,5 +1,5 @@
-# The targets in this file are used in .gitlab-ci.yml.
-# Changing any names below can change the target names which will require that you update the .gitlab_ci.yml file to match.
+# The targets in this file are used in .gitlab-ci.yml and the files created are found in the .gitignore
+# Changing any names below can change the target names which will require that you update .gitlab_ci.yml and .gitignore
 PROJECT = project
 GTEST = test_$(PROJECT)
 
