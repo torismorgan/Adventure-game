@@ -16,7 +16,7 @@ GTEST_DIR = test
 SRC_INCLUDE = include
 INCLUDE = -I ${SRC_INCLUDE}
 
-# Tool varialbes
+# Tool variables
 GCOV = gcov
 LCOV = lcov
 COVERAGE_RESULTS = results.coverage
