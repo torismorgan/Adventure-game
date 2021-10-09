@@ -1,5 +1,5 @@
-# Directory that contains this project
-PROJECT_DIR = projdir
+# The targets in this file are used in .gitlab-ci.yml.
+# Changing any names below can change the target names which will require that you update the .gitlab_ci.yml file to match.
 PROJECT = project
 GTEST = test_$(PROJECT)
 
@@ -39,10 +39,10 @@ DOXY_DIR = docs/code
 .PHONY: clean
 clean:
 	rm -rf *~ $(SRC)/*.o $(GTEST_DIR)/output/*.dat \
-	*.gcov *.gcda *.gcno *.orig ???*/*.orig \
+	*.gcov *.gcda *.gcno \
 	$(PROJECT) $(COVERAGE_RESULTS) \
 	$(GTEST) $(MEMCHECK_RESULTS) $(COVERAGE_DIR)  \
-	$(DOXY_DIR)/html obj bin $(PROJECT).exe $(GTEST).exe
+	$(PROJECT).exe $(GTEST).exe
 
 # compilation using the files in include, src, and test, but not src/project
 $(GTEST): $(GTEST_DIR) $(SRC_DIR)
@@ -70,9 +70,9 @@ fullmemcheck: $(GTEST)
 coverage: $(GTEST)
 	$(GTEST)
 	# Determine code coverage
-	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS) --rc lcov_branch_coverage-1
+	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS) --rc lcov_branch_coverage=1
 	# Only show code coverage for the source code files (not library files)
-	$(LCOV) --extract $(COVERAGE_RESULTS) */$(PROJECT_DIR)/$(SRC_DIR)/* -o $(COVERAGE_RESULTS)
+	$(LCOV) --extract $(COVERAGE_RESULTS) */*/$(SRC_DIR)/* -o $(COVERAGE_RESULTS)
 	#Generate the HTML reports
 	genhtml $(COVERAGE_RESULTS) --output-directory $(COVERAGE_DIR)
 	#Remove all of the generated files from gcov
