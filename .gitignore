@@ -12,7 +12,7 @@ test_project
 # Artifacts that are produced by different targets
 
 # make docs artifacts -- we want to download and read these but we do not want to push a copy to the repo
-docs/src/html/
+html/
 
 # make memcheck artifact -- may not be needed, 2021-10-09 investigating
 memcheck.xml
