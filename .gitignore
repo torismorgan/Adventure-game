@@ -7,7 +7,7 @@
 # Executable files as they appear in different OSes 
 *.exe
 test_project
-project
+./project
 
 # Artifacts that are produced by different targets
 
