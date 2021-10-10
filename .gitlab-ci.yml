@@ -1,3 +1,9 @@
+stages:
+   - build
+   - test
+   - quality
+   - documentation
+
 buildTests:
    stage: build
    script:
@@ -6,32 +12,33 @@ buildTests:
       paths:
          - test_project
 
-staticTest:
+test:
    stage: test
    script:
       - test_project
+
+staticAnalysis:
+   stage: quality
+   script:
       - make static
 
-styleTest:
-   stage: test
+style:
+   stage: quality
    script:
-      - test_project
       - make style
 
-coverageTest:
-   stage: test
+coverage:
+   stage: quality
    script:
-      - test_project
       - make coverage
    artifacts:
-      paths:
-         - coverage
-      expire_in: 14 days
+     paths:
+        - coverage
+   expire_in: 14 days
 
-memcheckTest:
-   stage: test
+memoryLeaks:
+   stage: quality
    script:
-      - test_project
       - make memcheck
    artifacts:
       paths:
@@ -39,7 +46,7 @@ memcheckTest:
       expire_in: 14 days
 
 docs:
-   stage: deploy
+   stage: documentation
    script:
       - make docs
    artifacts:
