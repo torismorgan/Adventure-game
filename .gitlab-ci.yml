@@ -34,16 +34,11 @@ coverage:
    artifacts:
      paths:
         - coverage
-   expire_in: 14 days
 
 memoryLeaks:
    stage: quality
    script:
       - make memcheck
-   artifacts:
-      paths:
-         - memcheck.xml
-      expire_in: 14 days
 
 docs:
    stage: documentation
@@ -52,4 +47,3 @@ docs:
    artifacts:
       paths:
          - docs
-      expire_in: 14 days
