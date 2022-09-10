@@ -55,18 +55,11 @@ compileProject: $(SRC_DIR) $(PROJECT_SRC_DIR)
 	$(SRC_DIR)/*.cpp $(PROJECT_SRC_DIR)/*.cpp
 
 # To perform all tests
-.PHONY: allTests
 allTests: $(GTEST) memcheck coverage docs static style
 
-.PHONY: memcheck
 memcheck: $(GTEST)
 	valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 $(GTEST)
 
-.PHONY: fullmemcheck
-fullmemcheck: $(GTEST)
-	valgrind --tool=memcheck --leak-check=full --error-exitcode=1 $(GTEST)
-
-.PHONY: coverage
 coverage: $(GTEST)
 	$(GTEST)
 	# Determine code coverage
@@ -78,11 +71,9 @@ coverage: $(GTEST)
 	#Remove all of the generated files from gcov
 	rm -f *.gcda *.gcno
 
-.PHONY: static
 static: ${SRC_DIR} ${GTEST_DIR}
 	${STATIC_ANALYSIS} --verbose --enable=all ${SRC_DIR} ${GTEST_DIR} ${SRC_INCLUDE} --suppress=missingInclude
 
-.PHONY: style
 style: ${SRC_DIR} ${GTEST_DIR} ${SRC_INCLUDE} ${PROJECT_SRC_DIR}
 	${STYLE_CHECK} ${SRC_DIR}/* ${GTEST_DIR}/* ${SRC_INCLUDE}/* ${PROJECT_SRC_DIR}/*
 
