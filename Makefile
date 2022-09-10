@@ -24,7 +24,7 @@ COVERAGE_DIR = coverage
 
 STATIC_ANALYSIS = cppcheck
 
-STYLE_CHECK = CPPLINT.cfg
+STYLE_CHECK = cpplint.py
 
 DOXY_DIR = docs/code
 
