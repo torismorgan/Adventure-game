@@ -24,7 +24,7 @@ COVERAGE_DIR = coverage
 
 STATIC_ANALYSIS = cppcheck
 
-STYLE_CHECK = cpplint
+STYLE_CHECK = CPPLINT.cfg
 
 DOXY_DIR = docs/code
 
