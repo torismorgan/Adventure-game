@@ -9,6 +9,6 @@ class PlaceboClass {
   PlaceboClass();
   
   virtual ~PlaceboClass();
-}
+};
 
 #endif //PLACEBO_CLASS_H_INCLUDED
