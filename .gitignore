@@ -6,21 +6,32 @@
 
 # Executable files as they appear in different OSes 
 *.exe
-test_project
+./test_project
 ./project
+
+# Temporary files
+*~
+include/*~
+test/*~
+src/*~
+docs/*~
 
 # Artifacts that are produced by different targets
 
-# make docs artifacts -- we want to download and read these but we do not want to push a copy to the repo
+# make docs artifacts
+# -- we want to download and read these but we
+#    do not want to push a copy to the repo
 html/
 
-# make memcheck artifact -- may not be needed, 2021-10-09 investigating
+# make memcheck artifact
+# -- may not be needed, 2021-10-09 investigating
 memcheck.xml
 
 # make coverage artifacts
 results.coverage
 coverage/
-# These files are only left behind if something goes wrong with the coverage target.
+# These files are only left behind if something
+# goes wrong with the coverage target.
 *.gcda
 *.gcno
 *.gcov

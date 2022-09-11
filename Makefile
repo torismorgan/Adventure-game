@@ -1,9 +1,19 @@
+# Last updated: 2022-09-11 Nicole Wilson <n.wilson@uleth.ca>
 # The targets in this file are used in .gitlab-ci.yml and 
 # the files created are found in the .gitignore
 # Changing any names below can change the target names which 
 # will require that you update .gitlab_ci.yml and .gitignore
-PROJECT = project 
-GTEST = test_$(PROJECT)
+PROJECT = project
+
+# The variable GTEST is dependant on whether make is called from Ubuntu,
+# the lab machines and office machines (this includes student0, student1,
+# student2, and faculty0), or from gitlab which uses Centos.
+# OS is a variable set and exported when .bashrc is run (found in etc/bashrc)
+ifeq (${OS},ubuntu)
+	GTEST = ./test_$(PROJECT)
+else
+	GTEST = test_$(PROJECT)
+endif
 
 # Compilation command and flags
 CXX=g++
@@ -26,7 +36,15 @@ COVERAGE_DIR = coverage
 
 STATIC_ANALYSIS = cppcheck
 
-STYLE_CHECK = cpplint.py
+# The variable STYLE_CHECK is dependant on whether make is called from Ubuntu,
+# the lab machines and office machines (this includes student0, student1,
+# student2, and faculty0), or from gitlab which uses Centos.
+# OS is a variable set and exported when .bashrc is run (found in etc/bashrc)
+ifeq (${OS},ubuntu)
+	STYLE_CHECK = cpplint
+else
+	STYLE_CHECK = cpplint.py
+endif
 
 DOXY_DIR = docs/code
 
