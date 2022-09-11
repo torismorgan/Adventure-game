@@ -75,7 +75,7 @@ compileProject: ${SRC_DIR} ${PROJECT_SRC_DIR}
 	${SRC_DIR}/*.cpp ${PROJECT_SRC_DIR}/*.cpp
 
 # To perform all tests
-allTests: ${GTEST} memcheck coverage docs static style
+all: ${GTEST} memcheck coverage docs static style
 
 memcheck: ${GTEST}
 	valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ${GTEST}
