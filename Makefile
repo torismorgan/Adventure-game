@@ -10,15 +10,15 @@ PROJECT = project
 # student2, and faculty0), or from gitlab which uses Centos.
 # OS is a variable set and exported when .bashrc is run (found in etc/bashrc)
 ifeq (${OS},ubuntu)
-	GTEST = ./test_$(PROJECT)
+	GTEST = ./test_${PROJECT}
 else
-	GTEST = test_$(PROJECT)
+	GTEST = test_${PROJECT}
 endif
 
 # Compilation command and flags
 CXX=g++
 CXXVERSION= -std=c++11
-CXXFLAGS= $(CXXVERSION) -g -fprofile-arcs -ftest-coverage
+CXXFLAGS= ${CXXVERSION} -g -fprofile-arcs -ftest-coverage
 LINKFLAGS= -lgtest
 
 # Directories
@@ -39,7 +39,7 @@ STATIC_ANALYSIS = cppcheck
 # The variable STYLE_CHECK is dependant on whether make is called from Ubuntu,
 # the lab machines and office machines (this includes student0, student1,
 # student2, and faculty0), or from gitlab which uses Centos.
-# OS is a variable set and exported when .bashrc is run (found in etc/bashrc)
+# OS is a variable set and exported when .bashrc is run (found in etc/bashrc}
 ifeq (${OS},ubuntu)
 	STYLE_CHECK = cpplint
 else
@@ -53,41 +53,41 @@ DOXY_DIR = docs/code
 
 # default rule for compiling .cc to .o
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	${CXX} ${CXXFLAGS} -c $< -o $@
 
 # clean up all files that should NOT be submitted
 .PHONY: clean
 clean:
-	rm -rf *~ $(SRC)/*.o $(GTEST_DIR)/output/*.dat \
+	rm -rf *~ ${SRC}/*.o ${GTEST_DIR}/output/*.dat \
 	*.gcov *.gcda *.gcno \
-	$(PROJECT) $(COVERAGE_RESULTS) \
-	$(GTEST) $(MEMCHECK_RESULTS) $(COVERAGE_DIR)  \
-	$(PROJECT).exe $(GTEST).exe
+	${PROJECT} ${COVERAGE_RESULTS} \
+	${GTEST} ${MEMCHECK_RESULTS} ${COVERAGE_DIR}  \
+	${PROJECT}.exe ${GTEST}.exe
 
 # compilation using the files in include, src, and test, but not src/project
-$(GTEST): $(GTEST_DIR) $(SRC_DIR)
-	$(CXX) $(CXXFLAGS) -o $(GTEST) $(INCLUDE) \
-	$(GTEST_DIR)/*.cpp $(SRC_DIR)/*.cpp $(LINKFLAGS)
+${GTEST}: ${GTEST_DIR} ${SRC_DIR}
+	${CXX} ${CXXFLAGS} -o ${GTEST} ${INCLUDE} \
+	${GTEST_DIR}/*.cpp ${SRC_DIR}/*.cpp ${LINKFLAGS}
 
 # compilation using the files in include, src, and src/project, but not test
-compileProject: $(SRC_DIR) $(PROJECT_SRC_DIR)
-	$(CXX) $(CXXVERSION) -o $(PROJECT) $(INCLUDE) \
-	$(SRC_DIR)/*.cpp $(PROJECT_SRC_DIR)/*.cpp
+compileProject: ${SRC_DIR} ${PROJECT_SRC_DIR}
+	${CXX} ${CXXVERSION} -o ${PROJECT} ${INCLUDE} \
+	${SRC_DIR}/*.cpp ${PROJECT_SRC_DIR}/*.cpp
 
 # To perform all tests
-allTests: $(GTEST) memcheck coverage docs static style
+allTests: ${GTEST} memcheck coverage docs static style
 
-memcheck: $(GTEST)
-	valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 $(GTEST)
+memcheck: ${GTEST}
+	valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ${GTEST}
 
-coverage: $(GTEST)
-	$(GTEST)
+coverage: ${GTEST}
+	${GTEST}
 	# Determine code coverage
-	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS) --rc lcov_branch_coverage=1
+	${LCOV} --capture --gcov-tool ${GCOV} --directory . --output-file ${COVERAGE_RESULTS} --rc lcov_branch_coverage=1
 	# Only show code coverage for the source code files (not library files)
-	$(LCOV) --extract $(COVERAGE_RESULTS) */*/$(SRC_DIR)/* -o $(COVERAGE_RESULTS)
+	${LCOV} --extract ${COVERAGE_RESULTS} */*/${SRC_DIR}/* -o ${COVERAGE_RESULTS}
 	#Generate the HTML reports
-	genhtml $(COVERAGE_RESULTS) --output-directory $(COVERAGE_DIR)
+	genhtml ${COVERAGE_RESULTS} --output-directory ${COVERAGE_DIR}
 	#Remove all of the generated files from gcov
 	rm -f *.gcda *.gcno
 
@@ -99,4 +99,4 @@ style: ${SRC_DIR} ${GTEST_DIR} ${SRC_INCLUDE} ${PROJECT_SRC_DIR}
 
 .PHONY: docs
 docs: ${SRC_INCLUDE}
-	doxygen $(DOXY_DIR)/doxyfile
+	doxygen ${DOXY_DIR}/doxyfile
