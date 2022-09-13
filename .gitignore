@@ -1,8 +1,13 @@
-# You can add to this file (carefully) but there is no need to remove items unless you need to push that item to 
-# the repo. Remember one of your groupmates may need to ignore these files.
+# You can add to this file (carefully) but there is no need to remove items 
+# unless you need to push that item to the repo. 
+# Remember one of your groupmates may need to ignore these files.
 
 # Mac file: stores folder attributes
 *.DS_Store
+
+# Files produced by eclipse
+.settings
+
 
 # Executable files as they appear in different OSes 
 *.exe
