@@ -4,16 +4,8 @@
 # Changing any names below can change the target names which 
 # will require that you update .gitlab_ci.yml and .gitignore
 PROJECT = project
+GTEST = test_${PROJECT}
 
-# The variable GTEST is dependant on whether make is called from Ubuntu,
-# the lab machines and office machines (this includes student0, student1,
-# student2, and faculty0), or from gitlab which uses Centos.
-# OS is a variable set and exported when .bashrc is run (found in etc/bashrc)
-ifeq (${OS},ubuntu)
-	GTEST = ./test_${PROJECT}
-else
-	GTEST = test_${PROJECT}
-endif
 
 # Compilation command and flags
 CXX=g++
@@ -66,7 +58,7 @@ clean:
 
 # compilation using the files in include, src, and test, but not src/project
 ${GTEST}: ${GTEST_DIR} ${SRC_DIR}
-	${CXX} ${CXXFLAGS} -o ${GTEST} ${INCLUDE} \
+	${CXX} ${CXXFLAGS} -o ./${GTEST} ${INCLUDE} \
 	${GTEST_DIR}/*.cpp ${SRC_DIR}/*.cpp ${LINKFLAGS}
 
 # compilation using the files in include, src, and src/project, but not test
@@ -78,10 +70,10 @@ compileProject: ${SRC_DIR} ${PROJECT_SRC_DIR}
 all: ${GTEST} memcheck coverage docs static style
 
 memcheck: ${GTEST}
-	valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ${GTEST}
+	valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ./${GTEST}
 
 coverage: ${GTEST}
-	${GTEST}
+	./${GTEST}
 	# Determine code coverage
 	${LCOV} --capture --gcov-tool ${GCOV} --directory . --output-file ${COVERAGE_RESULTS} --rc lcov_branch_coverage=1
 	# Only show code coverage for the source code files (not library files)
