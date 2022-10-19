@@ -1,8 +1,8 @@
 stages:
+   - documentation
+   - quality
    - build
    - test
-   - quality
-   - documentation
 
 buildTests:
    stage: build
