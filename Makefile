@@ -1,4 +1,10 @@
-# Last updated: 2022-09-11 Nicole Wilson <n.wilson@uleth.ca>
+# Revision History
+# Updated: 2022-10-19 Dr. J. Anvik <john.anvik@uleth.ca>
+#  Changed the static command to make the pipeline fail on exit with errors.
+# Updated: 2022-09-11 Nicole Wilson <n.wilson@uleth.ca>
+#  Added reference to OS in setting of STYLE_CHECK.
+#  This is a temporary measure until the pipelines are running on Ubuntu
+#
 # The targets in this file are used in .gitlab-ci.yml and 
 # the files created are found in the .gitignore
 # Changing any names below can change the target names which 
