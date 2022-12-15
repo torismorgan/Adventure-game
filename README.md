@@ -5,7 +5,7 @@ Last Updated: 2022-12-15 by Nicole Wilson &lt;n.wilson@uleth.ca&gt;
 Notes:
 
 * The Makefile and .gitlab-ci.yml files are set up to run on Ubuntu.
-* The .gitlab-ci.yml file uses the targerts in the Makefile.
+* The .gitlab-ci.yml file uses the targets in the Makefile.
 * These are the tools/commands/apps used:
   * Compiler: g++
   * Version: c++14
