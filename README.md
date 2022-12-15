@@ -15,7 +15,7 @@ Notes:
     * gcov (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
     * lcov 1.14
   * Memory Check: valgrind 3.15.0
-  * Unit Test: gtest 
+  * Unit Test: gtest v.1.12.1 ??? checking this
   * Documentation: doxygen 1.8.17-Ounbuntu2
 
 Certain assumptions have been made:
