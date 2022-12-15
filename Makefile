@@ -1,9 +1,4 @@
-# Revision History
-# Updated: 2022-10-19 Dr. J. Anvik <john.anvik@uleth.ca>
-#  Changed the static command to make the pipeline fail on exit with errors.
-# Updated: 2022-09-11 Nicole Wilson <n.wilson@uleth.ca>
-#  Added reference to OS in setting of STYLE_CHECK.
-#  This is a temporary measure until the pipelines are running on Ubuntu
+# Revision History -- at the bottom of the document
 #
 # The targets in this file are used in .gitlab-ci.yml and 
 # the files created are found in the .gitignore
@@ -11,7 +6,6 @@
 # will require that you update .gitlab_ci.yml and .gitignore
 PROJECT = project
 GTEST = test_${PROJECT}
-
 
 # Compilation command and flags
 CXX=g++
@@ -31,19 +25,8 @@ GCOV = gcov
 LCOV = lcov
 COVERAGE_RESULTS = results.coverage
 COVERAGE_DIR = coverage
-
 STATIC_ANALYSIS = cppcheck
-
-# The variable STYLE_CHECK is dependant on whether make is called from Ubuntu,
-# the lab machines and office machines (this includes student0, student1,
-# student2, and faculty0), or from gitlab which uses Centos.
-# OS is a variable set and exported when .bashrc is run (found in etc/bashrc}
-ifeq (${OS},ubuntu)
-	STYLE_CHECK = cpplint
-else
-	STYLE_CHECK = cpplint.py
-endif
-
+STYLE_CHECK = cpplint
 DOXY_DIR = docs/code
 
 # Default goal, used by Atom for local compilation
@@ -52,15 +35,6 @@ DOXY_DIR = docs/code
 # default rule for compiling .cc to .o
 %.o: %.cpp
 	${CXX} ${CXXFLAGS} -c $< -o $@
-
-# clean up all files that should NOT be submitted
-.PHONY: clean
-clean:
-	rm -rf *~ ${SRC}/*.o ${GTEST_DIR}/output/*.dat \
-	*.gcov *.gcda *.gcno \
-	${PROJECT} ${COVERAGE_RESULTS} \
-	${GTEST} ${MEMCHECK_RESULTS} ${COVERAGE_DIR}  \
-	${PROJECT}.exe ${GTEST}.exe
 
 # compilation using the files in include, src, and test, but not src/project
 ${GTEST}: ${GTEST_DIR} ${SRC_DIR}
@@ -98,3 +72,40 @@ style: ${SRC_DIR} ${GTEST_DIR} ${SRC_INCLUDE} ${PROJECT_SRC_DIR}
 .PHONY: docs
 docs: ${SRC_INCLUDE}
 	doxygen ${DOXY_DIR}/doxyfile
+
+# clean up all files that should NOT be submitted
+.PHONY: clean
+clean: clean-cov clean-docs clean-exec clean-mem clean-obj clean-temp
+
+.PHONY: clean-cov
+clean-cov:
+	rm -rf *.gcov *.gcda *.gcno ${COVERAGE_RESULTS} ${COVERAGE_DIR}
+
+.PHONY: clean-docs
+clean-docs:
+	rm -rf docs/code/html
+
+.PHONY: clean-exec
+clean-exec:
+	rm -rf ${PROJECT} ${GTEST} ${PROJECT}.exe ${GTEST}.exe
+
+.PHONY: clean-mem
+clean-mem:
+	rm -rf ${MEMCHECK_RESULTS} ${PROJECT} ${GTEST}
+
+.PHONY: clean-obj
+clean-obj:
+	rm -rf ${SRC}/*.o
+
+.PHONY: clean-temp
+clean-temp:
+	rm -rf *~ \#* .\#*
+
+# Revision History
+# Updated: 2022-12-15 Nicole Wilson <n.wilson@uleth.ca>
+# Removed all references to OS as the pipelines are now running on Ubuntu
+# Updated: 2022-10-19 Dr. J. Anvik <john.anvik@uleth.ca>
+#  Changed the static command to make the pipeline fail on exit with errors.
+# Updated: 2022-09-11 Nicole Wilson <n.wilson@uleth.ca>
+#  Added reference to OS in setting of STYLE_CHECK.
+#  This is a temporary measure until the pipelines are running on Ubuntu

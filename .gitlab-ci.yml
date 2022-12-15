@@ -2,7 +2,26 @@ stages:
    - documentation
    - quality
    - build
-   - test
+   - unit_test
+   - tests
+
+docs:
+   stage: documentation
+   script:
+      - make docs
+   artifacts:
+      paths:
+         - docs
+
+style:
+   stage: quality
+   script:
+      - make style
+
+staticAnalysis:
+   stage: quality
+   script:
+      - make static
 
 buildTests:
    stage: build
@@ -12,38 +31,20 @@ buildTests:
       paths:
          - test_project
 
-test:
-   stage: test
+unitTests:
+   stage: unit_test
    script:
       - test_project
 
-staticAnalysis:
-   stage: quality
+memoryLeaks:
+   stage: tests
    script:
-      - make static
-
-style:
-   stage: quality
-   script:
-      - make style
+      - make memcheck
 
 coverage:
-   stage: quality
+   stage: tests
    script:
       - make coverage
    artifacts:
      paths:
         - coverage
-
-memoryLeaks:
-   stage: quality
-   script:
-      - make memcheck
-
-docs:
-   stage: documentation
-   script:
-      - make docs
-   artifacts:
-      paths:
-         - docs

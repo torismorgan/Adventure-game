@@ -4,13 +4,9 @@
 
 # 2022-09-14 : temp fix for files from unknown source in Ubuntu
 .nfs?????????*
-.nsf?????????*
 
 # Mac file: stores folder attributes
 *.DS_Store
-
-# Files produced by eclipse
-.settings
 
 # Executable files as they appear in different OSes 
 *.exe
@@ -23,6 +19,16 @@ include/*~
 test/*~
 src/*~
 docs/*~
+\#~
+include/\#*~
+test/\#*~
+src/\#*~
+docs/\#*~
+.\#~
+include/.\#*~
+test/.\#*~
+src/.\#*~
+docs/.\#*~
 
 # Artifacts that are produced by different targets
 
@@ -30,10 +36,6 @@ docs/*~
 # -- we want to download and read these but we
 #    do not want to push a copy to the repo
 html/
-
-# make memcheck artifact
-# -- may not be needed, 2021-10-09 investigating
-memcheck.xml
 
 # make coverage artifacts
 results.coverage
@@ -43,3 +45,12 @@ coverage/
 *.gcda
 *.gcno
 *.gcov
+
+# Code blocks files
+*.cbp
+bin/
+obj/
+
+# Eclipse files
+.project
+.settings
