@@ -1,13 +1,24 @@
-# Assignment D
+# Template for CPSC2720 Assignments, Labs, and Projects
 
-Updated: 2022-09-11 by Nicole Wilson &lt;n.wilson@uleth.ca&gt;
+Last Updated: 2022-12-15 by Nicole Wilson &lt;n.wilson@uleth.ca&gt;
 
-* The updates to the Makefile allow the project to compile with all tests on both Ubuntu and via gitlab.
+Notes:
 
-* For an assignment requiring the use of a variety of tests and consisting of one program with associated classes that have header files and source files.
+* The Makefile and .gitlab-ci.yml files are set up to run on Ubuntu.
+* The .gitlab-ci.yml file uses the targerts in the Makefile.
+* These are the tools/commands/apps used:
+  * Compiler: g++
+  * Version: c++14
+  * Style Check: cpplint
+  * Static Check: cppcheck
+  * Memory Check: gcov/lcov
+  * Unit Test: gtest
+  * Documentation: Doxygen
 
-* The source files must be saved in a directory named <code>src/</code>, the header files must be stored in a directory named <code>include/</code>, and the test files (using gtest) must be stored in a directory named <code>test/</code>.
-
-* The file <code>main.cpp</code> for running the project must be stored in <code>src/project/</code> and the <code>main.cpp</code> for running the gtesting must be in <code>test/</code>.
-
-* The <code>Makefile</code> contains targets for unit testing (gtest), static testing, style check, coverage, and doxygen.
+Certain assumptions have been made:
+* One repo contains the files for one project.
+* All unit testing files are found in <code>test/</code> including <code>main.cpp</code>.
+* All header files for the project are found in <code>include/</code> and named <code>*.h</code>, every class must have a header file.
+* All project source files for the project are named <code>*.cpp</code>.
+  * Any needed source files that correspond to header files are found in <code>src/</code>.
+  * There is a <code>main.cpp</code> found in <code>src/project/</code>.
