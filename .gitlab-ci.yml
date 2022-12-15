@@ -3,7 +3,7 @@ stages:
    - quality
    - build
    - unit_test
-   - tests
+   - test_quality
 
 docs:
    stage: documentation
@@ -37,12 +37,12 @@ unitTests:
       - test_project
 
 memoryLeaks:
-   stage: tests
+   stage: test_quality
    script:
       - make memcheck
 
 coverage:
-   stage: tests
+   stage: test_quality
    script:
       - make coverage
    artifacts:
