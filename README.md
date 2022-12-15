@@ -9,11 +9,14 @@ Notes:
 * These are the tools/commands/apps used:
   * Compiler: g++
   * Version: c++14
-  * Style Check: cpplint
-  * Static Check: cppcheck
-  * Memory Check: gcov/lcov
-  * Unit Test: gtest
-  * Documentation: Doxygen
+  * Style Check: cpplint 1.6.1
+  * Static Check: cppcheck 1.90
+  * Coverage Check: 
+    * gcov (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+    * lcov 1.14
+  * Memory Check: valgrind 3.15.0
+  * Unit Test: gtest 
+  * Documentation: doxygen 1.8.17-Ounbuntu2
 
 Certain assumptions have been made:
 * One repo contains the files for one project.
