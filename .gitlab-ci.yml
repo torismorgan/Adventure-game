@@ -15,7 +15,7 @@ docs:
       - make docs
    artifacts:
       paths:
-         - docs
+         - docs/code/src
 
 styleCheck:
    stage: quality

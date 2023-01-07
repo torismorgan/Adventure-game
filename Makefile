@@ -121,7 +121,7 @@ coverage: clean-exec clean-cov
 	${LCOV} --capture --gcov-tool ${GCOV} --directory . --output-file \
 	${COVERAGE_RESULTS} --rc lcov_branch_coverage=1
 	# Only show code coverage for the source code files (not library files)
-	${LCOV} --extract ${COVERAGE_RESULTS} */*/${SRC_DIR}/* -o \
+	${LCOV} --extract ${COVERAGE_RESULTS} */*/*/${SRC_DIR}/* -o \
 	${COVERAGE_RESULTS}
 	#Generate the HTML reports
 	genhtml ${COVERAGE_RESULTS} --output-directory ${COVERAGE_DIR}
