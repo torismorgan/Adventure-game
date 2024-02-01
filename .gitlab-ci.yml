@@ -17,7 +17,7 @@ docs:
       paths:
          - docs/code/src
 
-docs:
+versionInfo:
    stage: documentation
    script:
       - make version

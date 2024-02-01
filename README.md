@@ -8,15 +8,13 @@ Notes:
 * The .gitlab-ci.yml file uses the targets in the Makefile.
 * These are the tools/commands/apps used:
   * Compiler: g++
-  * Version: c++14
-  * Style Check: cpplint 1.6.1
-  * Static Check: cppcheck 1.90
-  * Coverage Check: 
-    * gcov (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
-    * lcov 1.14
-  * Memory Check: valgrind 3.15.0
-  * Unit Test: gtest v.1.12.1 
-  * Documentation: doxygen 1.8.17-Ounbuntu2
+  * Style Check: cpplint
+  * Static Check: cppcheck
+  * Coverage Check: gcov/lcov
+  * Memory Check: valgrind
+  * Unit Test: gtest 
+  * Documentation: doxygen
+* See the version report on the pipeline.
 
 Certain assumptions have been made:
 * One repo contains the files for one project.
