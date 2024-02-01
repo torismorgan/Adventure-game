@@ -147,6 +147,20 @@ style: ${SRC_DIR} ${GTEST_DIR} ${SRC_INCLUDE} ${PROJECT_SRC_DIR}
 docs: ${SRC_INCLUDE}
 	doxygen ${DOXY_DIR}/doxyfile
 
+# To produce version report
+.PHONY: version
+version:
+	doxygen --version
+	cppcheck --version
+	cpplint --version
+	gcc --version
+	${VERSION}
+	gcov --version
+	lcov --version
+	valgrind --version
+# Ask Trent where this script can be found
+#	gtest-config
+
 ################################################################################
 # Revision History
 ################################################################################

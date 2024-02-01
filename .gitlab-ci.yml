@@ -17,6 +17,11 @@ docs:
       paths:
          - docs/code/src
 
+docs:
+   stage: documentation
+   script:
+      - make version
+
 styleCheck:
    stage: quality
    script:
