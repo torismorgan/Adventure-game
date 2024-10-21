@@ -130,8 +130,8 @@ coverage: clean-exec clean-cov
 	make clean-temp
 
 # To perform the static check 
-static: ${SRC_DIR} ${GTEST_DIR}
-	${STATIC_ANALYSIS} --verbose --enable=all ${SRC_DIR} ${GTEST_DIR} \
+static: ${SRC_DIR}
+	${STATIC_ANALYSIS} --verbose --enable=all ${SRC_DIR} \
 	${SRC_INCLUDE} --suppress=missingInclude --error-exitcode=1
 
 # To perform the style check
