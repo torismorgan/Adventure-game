@@ -1,6 +1,5 @@
-# Template for CPSC2720 Assignments, Labs, and Projects
-
-Last Updated: 2022-12-15 by Nicole Wilson &lt;n.wilson@uleth.ca&gt;
+# Template for CPSC2720 Major Project: Text Based Adventure Game
+Last Updated: 2024-10-21 by Nicole Wilson &lt;n.wilson@uleth.ca&gt;
 
 Notes:
 
@@ -19,7 +18,7 @@ Notes:
 Certain assumptions have been made:
 * One repo contains the files for one project.
 * All unit testing files are found in <code>test/</code> including <code>main.cpp</code>.
-* All header files for the project are found in <code>include/</code> and named <code>*.h</code>, every class must have a header file.
+* All header files for the project are found in <code>include/</code> and named <code>*.hpp</code>, every class must have a header file.
 * All project source files for the project are named <code>*.cpp</code>.
   * Any needed source files that correspond to header files are found in <code>src/</code>.
   * There is a <code>main.cpp</code> found in <code>src/project/</code>.
