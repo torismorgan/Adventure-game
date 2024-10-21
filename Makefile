@@ -12,8 +12,9 @@
 ################################################################################
 
 # Executable names
-PROJECT = project
-GTEST = test_${PROJECT}
+PROJECT = Game
+COMPILE = play${PROJECT}
+GTEST = test${PROJECT}
 
 # Compilation command and flags
 CXX=g++
@@ -44,7 +45,7 @@ DOXY_DIR = docs/code
 ################################################################################
 
 # Default goal
-.DEFAULT_GOAL := compileProject
+.DEFAULT_GOAL := playGame
 
 ################################################################################
 # Clean-up targets
@@ -97,7 +98,7 @@ ${GTEST}: ${GTEST_DIR} ${SRC_DIR} clean-exec
 
 # compilation for making the project
 # using the files in include, src, and src/project, but not test
-compileProject: ${SRC_DIR} ${PROJECT_SRC_DIR} clean-exec
+${COMPILE}: ${SRC_DIR} ${PROJECT_SRC_DIR} clean-exec
 	${CXX} ${CXXVERSION} -o ${PROJECT} ${INCLUDE} \
 	${SRC_DIR}/*.cpp ${PROJECT_SRC_DIR}/*.cpp
 
