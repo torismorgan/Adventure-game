@@ -34,7 +34,7 @@ Manor of Mysteries
 
 #### Ayo Olasupo
 
-- Set up the `Room` and `Item` classes with basic properties and functions.
+- Set up the Room and Item classes with basic properties and functions.
 
 - Helped create the design report and game logo.
 
