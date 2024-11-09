@@ -36,7 +36,7 @@ Manor of Mysteries
 
 - Set up the `Room` and `Item` classes with basic properties and functions.
 
-- Organized how `Room` classes relate to each other, following good design rules.
+- Helped create the design report and game logo.
 
 - Made the first version of the UML diagram to show class connections.
 
