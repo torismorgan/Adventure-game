@@ -58,13 +58,13 @@ Manor of Mysteries
 
 - Set up how `NPCs` interact with `Player`, including special behaviors for `Ghost` and `WhisperingVoice`.
 
-- Added puzzle features and linked them to specific rooms.
+- Created a UML diagram and their connection between classes
 
  
 
 #### Orisakite Morgan-Owiriwa
 
-- Reviewed and improved the UML diagram with team feedback.
+- Reviewed and improved the  final UML diagram with team feedback.
 
 - Checked for repeated functions in similar classes to keep the design simple.
 
