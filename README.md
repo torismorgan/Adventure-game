@@ -44,19 +44,19 @@ Manor of Mysteries
 
 #### Chidera Okeke
 
-- Created the `Player` and `Game` classes, detailing what they do.
+- Created the Player and Game classes, detailing what they do.
 
-- Built the inventory system for `Player`, including ways to pick up and use items.
+- Built the inventory system for Player, including ways to pick up and use items.
 
-- Worked on how `Player` interacts with `Room` objects.
+- Worked on how Player interacts with Room objects.
 
  
 
 #### Chidalu Okeke
 
-- Designed the `NPC` and `Puzzle` classes, adding key properties and functions.
+- Designed the NPC and Puzzle classes, adding key properties and functions.
 
-- Set up how `NPCs` interact with `Player`, including special behaviors for `Ghost` and `WhisperingVoice`.
+- Set up how NPCs interact with Player, including special behaviors for Ghost and WhisperingVoice.
 
 - Created a UML diagram and their connection between classes
 
