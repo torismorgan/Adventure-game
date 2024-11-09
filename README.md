@@ -22,3 +22,52 @@ Certain assumptions have been made:
 * All project source files for the project are named <code>*.cpp</code>.
   * Any needed source files that correspond to header files are found in <code>src/</code>.
   * There is a <code>main.cpp</code> found in <code>src/project/</code>.
+
+# Project Name
+Manor of Mysteries
+ 
+
+## Design Phase
+
+
+### Team Member Contributions 
+
+#### Ayo Olasupo
+
+- Set up the `Room` and `Item` classes with basic properties and functions.
+
+- Organized how `Room` classes relate to each other, following good design rules.
+
+- Made the first version of the UML diagram to show class connections.
+
+ 
+
+#### Chidera Okeke
+
+- Created the `Player` and `Game` classes, detailing what they do.
+
+- Built the inventory system for `Player`, including ways to pick up and use items.
+
+- Worked on how `Player` interacts with `Room` objects.
+
+ 
+
+#### Chidalu Okeke
+
+- Designed the `NPC` and `Puzzle` classes, adding key properties and functions.
+
+- Set up how `NPCs` interact with `Player`, including special behaviors for `Ghost` and `WhisperingVoice`.
+
+- Added puzzle features and linked them to specific rooms.
+
+ 
+
+#### Orisakite Morgan-Owiriwa
+
+- Reviewed and improved the UML diagram with team feedback.
+
+- Checked for repeated functions in similar classes to keep the design simple.
+
+- Helped organize the README file and project layout.
+
+ 
