@@ -10,26 +10,31 @@ private:
     std::map<std::string, Room*> rooms; //All rooms in the game
     bool isGameOver; //tracks if the game has ended
 
+    void processCommand(const std::string& command); //handles player input
+    bool checkWinCondition(); //checks if the game is won
+
    
 public:
     Game();     //constructor
     Game~();    //destructor
 
-    void start();   //starts the game;loop
-    bool checkWinCondition(); //checks if the game is won
-    void endGame();
+    void start();   //starts the game loop
+    void endGame(); //ends game
 
-}
+};
 
 
 class GameDisplay{
     public:
     void setupRooms(); //imitializes all the rooms
-    void processCommand(const std::string& command); //handles player input
-    void displayWelcomeMessage();
-    void displayHelp();
-    void displayError();
+    
+    void displayWelcomeMessage();     //display welcome messages
+    void displayGoodbyeMessage();    //display goodbye messages
+    void displayRoomDescription();   //displays the current room player is in and the description
+    void displayError(const std::string& error);    //display error message
 
 
-}
+
+
+};
 #endif
