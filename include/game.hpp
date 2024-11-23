@@ -14,8 +14,14 @@ private:
     void processCommand(const std::string command); //handles player input
     void displayWelcomeMessage();
     void displayHelp();
-    
+
 public:
+    Game();     //constructor
+    Game~();    //destructor
+
+    void start();   //starts the game;loop
+    bool checkWinCondition(); //checks if the game is won
+    void endGame();
 
 }
 
