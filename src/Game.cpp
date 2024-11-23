@@ -27,3 +27,14 @@ void Game::start(){
 void Game::endGame(){}
 
 
+//GameDisplay class
+
+
+void GameDisplay::displayWelcomeMessage(){}
+
+
+void GameDisplay::displayGoodbyeMessage(){}
+
+void GameDisplay::displayRoomDescription(Room* room){}
+
+void GameDisplay::displayError(const std::string& error){}
