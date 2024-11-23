@@ -11,7 +11,7 @@ private:
     bool isGameOver; //tracks if the game has ended
 
     void setupRooms(); //imitializes all the rooms
-    void processCommand(const std::string command); //handles player input
+    void processCommand(const std::string& command); //handles player input
     void displayWelcomeMessage();
     void displayHelp();
 
