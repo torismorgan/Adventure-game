@@ -16,13 +16,12 @@ private:
    
 public:
     Game();     //constructor
-    Game~();    //destructor
+    ~Game();    //destructor
 
     void start();   //starts the game loop
-    void endGame(); //ends game
+    void endGame(); //ends the game
 
 };
-
 
 class GameDisplay{
     public:
@@ -30,7 +29,7 @@ class GameDisplay{
     
     void displayWelcomeMessage();     //display welcome messages
     void displayGoodbyeMessage();    //display goodbye messages
-    void displayRoomDescription();   //displays the current room player is in and the description
+    void displayRoomDescription(Room* room);   //displays the current room player is in and the description
     void displayError(const std::string& error);    //display error message
 
 };
