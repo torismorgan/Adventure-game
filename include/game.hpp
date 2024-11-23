@@ -33,8 +33,5 @@ class GameDisplay{
     void displayRoomDescription();   //displays the current room player is in and the description
     void displayError(const std::string& error);    //display error message
 
-
-
-
 };
 #endif
