@@ -10,11 +10,7 @@ private:
     std::map<std::string, Room*> rooms; //All rooms in the game
     bool isGameOver; //tracks if the game has ended
 
-    void setupRooms(); //imitializes all the rooms
-    void processCommand(const std::string& command); //handles player input
-    void displayWelcomeMessage();
-    void displayHelp();
-
+   
 public:
     Game();     //constructor
     Game~();    //destructor
@@ -26,5 +22,14 @@ public:
 }
 
 
+class GameDisplay{
+    public:
+    void setupRooms(); //imitializes all the rooms
+    void processCommand(const std::string& command); //handles player input
+    void displayWelcomeMessage();
+    void displayHelp();
+    void displayError();
 
+
+}
 #endif
