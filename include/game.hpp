@@ -25,7 +25,7 @@ public:
 
 class GameDisplay{
     public:
-    void setupRooms(); //imitializes all the rooms
+    //void setupRooms(); //imitializes all the rooms
     
     void displayWelcomeMessage();     //display welcome messages
     void displayGoodbyeMessage();    //display goodbye messages
