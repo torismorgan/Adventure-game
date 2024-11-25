@@ -1,8 +1,7 @@
-ConcreteItem.h
-#ifndef CONCRETEITEMS_H
-#define CONCRETEITEMS_H
+#ifndef CONCRETEITEMS_HPP
+#define CONCRETEITEMS_HPP
 
-#include "Item.h"
+#include "Item.hpp"
 
 class Flashlight : public Item {
 public:

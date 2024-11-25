@@ -1,6 +1,7 @@
 #ifndef PUZZLE_HPP
 #define PUZZLE_HPP
 #include <string>
+#include <cstddef>
 
 class Puzzle {
 private:

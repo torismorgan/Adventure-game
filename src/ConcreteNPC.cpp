@@ -1,4 +1,4 @@
-#include "ConcreteNPCs.h"
+#include "ConcreteNPC.hpp"
 #include <iostream>
 
 Ghost::Ghost() {

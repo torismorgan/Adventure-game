@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "GameClass.hpp"
 #include "room.hpp"
 #include "player.hpp"
 #include <iostream>

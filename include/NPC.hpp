@@ -14,3 +14,5 @@ public:
     std::string getName() const;
     std::string getDialogue() const;
 };
+
+#endif

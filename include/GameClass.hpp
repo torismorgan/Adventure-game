@@ -1,5 +1,5 @@
-#ifndef GAME_HPP
-#define GAME_HPP
+#ifndef GAMECLASS_HPP
+#define GAMECLASS_HPP
 
 #include <string>
 #include <map>

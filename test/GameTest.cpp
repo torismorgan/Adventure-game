@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "GameClass.hpp"
 #include "gtest/gtest.h"
 
 // Test the constructor

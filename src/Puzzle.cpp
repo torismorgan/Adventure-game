@@ -1,6 +1,3 @@
-
-11:08
-
 #include "Puzzle.hpp"
 
 // Constructor

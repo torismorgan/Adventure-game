@@ -1,7 +1,7 @@
-#ifndef CONCRETENPCS_H
-#define CONCRETENPCS_H
+#ifndef CONCRETENPC_HPP
+#define CONCRETENPC_HPP
 
-#include "NPC.h"
+#include "NPC.hpp"
 
 class Ghost : public NPC {
 public:
@@ -18,6 +18,3 @@ public:
 };
 
 #endif // CONCRETENPCS_H
-
-
-#endif // NPC_H
