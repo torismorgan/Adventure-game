@@ -1,4 +1,4 @@
-#include "Game.hpp"
+#include "game.hpp"
 #include <iostream>
 
 
@@ -82,3 +82,38 @@ void Game::endGame() {
 isGameOver = true;
 GameDisplay::displayGoodbyeMessage();
 }
+
+
+
+
+// ------------------ GameDisplay Class ------------------
+
+void GameDisplay::displayWelcomeMessage() {
+std::cout << "Welcome to the Adventure Game!" << std::endl;
+std::cout << "Explore the rooms and achieve your goal. Type 'help' for a list of commands." << std::endl;
+}
+
+void GameDisplay::displayGoodbyeMessage() {
+std::cout << "Thanks for playing! Goodbye!" << std::endl;
+}
+
+void GameDisplay::displayHelp() {
+std::cout << "Available commands:" << std::endl;
+std::cout << "- look: Look around the room." << std::endl;
+std::cout << "- move [direction]: Move to another room." << std::endl;
+std::cout << "- quit: Exit the game." << std::endl;
+}
+
+void GameDisplay::displayError(const std::string& error) {
+std::cout << "Error: " << error << std::endl;
+}
+
+void GameDisplay::displayRoomDescription(Room* room) {
+room->describe();
+}
+
+void GameDisplay::displayWinMessage() {
+std::cout << "Congratulations! You have achieved your goal and won the game!" << std::endl;
+}
+
+
