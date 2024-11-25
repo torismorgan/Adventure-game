@@ -3,8 +3,8 @@
 
 #include <memory>
 #include <vector>
-#include "Room.h"
-#include "Item.h"
+#include "Room.hpp"
+#include "Item.hpp"
 
 class Player {
 private:
