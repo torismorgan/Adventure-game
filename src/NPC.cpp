@@ -1,5 +1,4 @@
-NPC.CPP
-#include "NPC.h"
+#include "NPC.hpp"
 
 std::string NPC::getName() const {
     return name;
