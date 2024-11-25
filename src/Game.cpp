@@ -1,4 +1,6 @@
 #include "game.hpp"
+#include "room.hpp"
+#include "player.hpp"
 #include <iostream>
 
 
@@ -14,7 +16,7 @@ Room* basement = new Room("You are in a dark basement. It smells damp.");
 foyer->setExit("north", library);
 library->setExit("south", foyer);
 library->setExit("down", basement);
-basement->setExit("up", library);
+basement->setExit("up", library);f
 
 // Add to room map
 rooms["foyer"] = foyer;
