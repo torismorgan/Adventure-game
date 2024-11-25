@@ -31,30 +31,21 @@ delete pair.second;
 }
 }
 
-void Game::processCommand(const std::string& command){
-
+void Game::processCommand(const std::string& command) {
+if (command == "look") {
+GameDisplay::displayRoomDescription(player.getCurrentRoom());
+} else if (command.find("move") == 0) {
+std::string direction = command.substr(5); // Extract direction
+if (!player.move(direction)) {
+GameDisplay::displayError("You can't move that way!");
+}
+} else if (command == "help") {
+GameDisplay::displayHelp();
+} else if (command == "quit") {
+isGameOver = true;
+} else {
+GameDisplay::displayError("Invalid command. Type 'help' for a list of commands.");
+}
 }
 
 
-bool Game::checkWinCondition(){
-
-}
-
-void Game::start(){
-
-}
-
-void Game::endGame(){}
-
-
-//GameDisplay class
-
-
-void GameDisplay::displayWelcomeMessage(){}
-
-
-void GameDisplay::displayGoodbyeMessage(){}
-
-void GameDisplay::displayRoomDescription(Room* room){}
-
-void GameDisplay::displayError(const std::string& error){}
