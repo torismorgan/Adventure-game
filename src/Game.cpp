@@ -48,4 +48,30 @@ GameDisplay::displayError("Invalid command. Type 'help' for a list of commands."
 }
 }
 
+bool Game::checkWinCondition() {
+// Example condition: Player must reach the basement to win
+if (player.getCurrentRoom()->getDescription() == "You are in a dark basement. It smells damp.") {
+return true;
+}
+return false;
+}
+
+void Game::start() {
+GameDisplay::displayWelcomeMessage();
+
+while (!isGameOver) {
+std::cout << "> ";
+std::string command;
+std::getline(std::cin, command);
+
+processCommand(command);
+
+if (checkWinCondition()) {
+std::cout << "Congratulations! You have achieved your goal and won the game!" << std::endl;
+isGameOver = true;
+}
+}
+
+GameDisplay::displayGoodbyeMessage();
+}
 
