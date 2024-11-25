@@ -1,4 +1,4 @@
-#include "Room.h"
+#include "Room.hpp"
 #include <algorithm>
 
 Room::Room(const std::string& desc) : description(desc) {}

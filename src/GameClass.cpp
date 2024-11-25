@@ -1,6 +1,6 @@
 #include "GameClass.hpp"
-#include "room.hpp"
-#include "player.hpp"
+#include "Room.hpp"
+#include "Player.hpp"
 #include <iostream>
 
 
