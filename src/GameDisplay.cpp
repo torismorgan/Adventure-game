@@ -39,8 +39,8 @@ void GameDisplay::displayHelp() {
   std::cout << "2. move [dir] - Move to another room (e.g., 'move north','move south', 'move down').\n";
   std::cout << "3. take [item] - Pick up an item (e.g., 'take Key').\n";
   //std::cout << "4. use [item] - Use an item from your inventory.\n";
-  std::cout << "5. inventory - View your inventory.\n";
-  std::cout << "6. quit - Exit the game.\n";
+  std::cout << "4. inventory - View your inventory.\n";
+  std::cout << "5. quit - Exit the game.\n";
   std::cout << "\nHints:\n";
   std::cout << "- Use 'look' to check the room for items and exits.\n";
   std::cout << "- Use 'take' to collect important items.\n";
