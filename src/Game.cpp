@@ -1,7 +1,7 @@
 #include "Game.hpp"
-#include "ConcreteItems.hpp"
 #include <iostream>
 #include <algorithm>
+#include "ConcreteItems.hpp"
 
 Game::Game() : isGameOver(false) {
     setupGame();
@@ -87,5 +87,3 @@ void Game::start() {
     }
     std::cout << "Thanks fo playing\n";
 }
-
-

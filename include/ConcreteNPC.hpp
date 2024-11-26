@@ -3,22 +3,23 @@
 
 #include "NPC.hpp"
 #include <iostream>
+#include <string>
 
 // Ghost
- class Ghost : public NPC {
-public:
+  class Ghost : public NPC {
+ public:
     Ghost();
     void interact() override;
     void hauntPlayer();
-};
+    };
 
 // Whispering Voice
- class WhisperingVoice : public NPC {
-public:
+  class WhisperingVoice : public NPC {
+ public:
     WhisperingVoice();
     void interact() override;
     std::string giveHint() const;
-};
+    };
 
 #endif
 

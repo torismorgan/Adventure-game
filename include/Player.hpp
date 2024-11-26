@@ -3,6 +3,8 @@
 
 #include <memory>
 #include <vector>
+#include <utility>
+#include <string>
 #include "Room.hpp"
 #include "Item.hpp"
 
