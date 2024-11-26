@@ -12,8 +12,9 @@ public:
     virtual ~NPC() = default;
     virtual void interact() = 0;
 
-    std::string getName() const { return name; }
-    std::string getDialogue() const { return dialogue; }
+    std::string getName() const;         // Declaration only
+    std::string getDialogue() const;    // Declaration only
 };
 
 #endif
+
