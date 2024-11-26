@@ -5,7 +5,7 @@
 #include <iostream>
 
 // Ghost
-class Ghost : public NPC {
+ class Ghost : public NPC {
 public:
     Ghost();
     void interact() override;
@@ -13,7 +13,7 @@ public:
 };
 
 // Whispering Voice
-class WhisperingVoice : public NPC {
+ class WhisperingVoice : public NPC {
 public:
     WhisperingVoice();
     void interact() override;

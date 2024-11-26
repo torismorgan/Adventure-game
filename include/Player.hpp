@@ -7,11 +7,11 @@
 #include "Item.hpp"
 
 class Player {
-private:
+ private:
     std::shared_ptr<Room> currentRoom;
     std::vector<std::shared_ptr<Item>> inventory;
 
-public:
+ public:
     Player(std::shared_ptr<Room> startingRoom);
 
     bool move(const std::string& direction);

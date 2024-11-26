@@ -4,12 +4,12 @@
 #include <cstddef>
 
 class Puzzle {
-private:
+ private:
 std::string description; // Description of the puzzle
 std::string solution; // Correct solution for the puzzle
 bool isSolved; // Tracks if the puzzle has been solved
 
-public:
+ public:
 // Constructor
 Puzzle(const std::string& description, const std::string& solution);
 

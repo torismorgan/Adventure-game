@@ -6,21 +6,21 @@
 
 // Flashlight
 class Flashlight : public Item {
-public:
+ public:
     Flashlight();
     void use() override;
 };
 
 // Key
 class Key : public Item {
-public:
+ public:
     Key();
     void use() override;
 };
 
 // Amulet
 class Amulet : public Item {
-public:
+ public:
     Amulet();
     void use() override;
 };

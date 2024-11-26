@@ -4,11 +4,11 @@
 #include <string>
 
 class NPC {
-protected:
+ protected:
     std::string name;
     std::string dialogue;
 
-public:
+ public:
     virtual ~NPC() = default;
     virtual void interact() = 0;
 

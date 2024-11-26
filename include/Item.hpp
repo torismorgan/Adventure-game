@@ -4,11 +4,11 @@
 #include <string>
 
 class Item {
-protected:
+ protected:
     std::string name;
     std::string description;
 
-public:
+ public:
     virtual ~Item() = default;
     virtual void use() = 0;
 

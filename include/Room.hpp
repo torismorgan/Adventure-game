@@ -8,12 +8,12 @@
 #include "Item.hpp"
 
 class Room {
-private:
+ private:
     std::string description;
     std::vector<std::shared_ptr<Item>> items;
     std::map<std::string, std::shared_ptr<Room>> exits;
 
-public:
+ public:
     Room(const std::string& desc);
 
     std::string getDescription() const;
