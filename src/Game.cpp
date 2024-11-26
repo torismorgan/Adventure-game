@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "ConcreteItems.hpp"
 #include <iostream>
+#include <algorithm>
 
 Game::Game() {
     setupGame();
