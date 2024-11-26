@@ -29,8 +29,7 @@ void Game::setupGame() {
 void Game::processCommand(const std::string& command) {
     if (command == "look") {
         player->getCurrentRoom()->describe();
-    }
-    else if (command.rfind("take", 0) == 0) {
+    }else if (command.rfind("take", 0) == 0) {
         if (command.size() <= 5) {
             std::cout << "What do you want to take?\n";
             return;
@@ -52,8 +51,7 @@ void Game::processCommand(const std::string& command) {
         } else {
             std::cout << "There is no " << itemName << " here.\n";
         }
-    }
-    else if (command.rfind("move", 0) == 0) {
+    }else if (command.rfind("move", 0) == 0) {
         if (command.size() <= 5) {
             std::cout << "Move where? Please specify a direction.\n";
             return;
@@ -63,12 +61,10 @@ void Game::processCommand(const std::string& command) {
         if (!player->move(direction)) {
             std::cout << "You can't move that way!\n";
         }
-    }
-    else if (command == "quit") {
+    }else if (command == "quit") {
         std::cout << "Exiting game...\n";
         isGameOver = true; // Set isGameOver to true to exit the loop
-    }
-    else {
+    }else {
         std::cout << "Unknown command.\n";
     }
 }

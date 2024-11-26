@@ -1,13 +1,13 @@
 #ifndef CONCRETENPCS_HPP
 #define CONCRETENPCS_HPP
 
-#include "NPC.hpp"
 #include <iostream>
 #include <string>
+#include "NPC.hpp"
 
 // Ghost
   class Ghost : public NPC {
- public:
+    public:
     Ghost();
     void interact() override;
     void hauntPlayer();
@@ -15,12 +15,10 @@
 
 // Whispering Voice
   class WhisperingVoice : public NPC {
- public:
+    public:
     WhisperingVoice();
     void interact() override;
     std::string giveHint() const;
     };
 
 #endif
-
-
