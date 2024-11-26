@@ -38,7 +38,17 @@ void Game::setupGame() {
 
 // Process the player's input
 void Game::processCommand(const std::string& command) {
+<<<<<<< HEAD
 GameDisplay display;
+=======
+    if (command == "look") {
+        player->getCurrentRoom()->describe();
+    }else if (command.rfind("take", 0) == 0) {
+        if (command.size() <= 5) {
+            std::cout << "What do you want to take?\n";
+            return;
+        }
+>>>>>>> e4a936c38c7acec4d56edb6aa15af60c2b0e754b
 
 if (command == "look") {
 display.displayRoomDescription(player->getCurrentRoom().get());
@@ -63,6 +73,7 @@ auto it = std::find_if(items.begin(), items.end(),
             currentRoom->removeItem(*it);
             std::cout << "You picked up the " << itemName << ".\n";
         } else {
+<<<<<<< HEAD
 
 display.displayError("There is no " + itemName + " here.");
 }
@@ -71,6 +82,26 @@ else if (command.rfind("move", 0) == 0) {
 if (command.size() <= 5) {
 display.displayError("Move where? Please specify a direction.");
 return;
+=======
+            std::cout << "There is no " << itemName << " here.\n";
+        }
+    }else if (command.rfind("move", 0) == 0) {
+        if (command.size() <= 5) {
+            std::cout << "Move where? Please specify a direction.\n";
+            return;
+        }
+
+        std::string direction = command.substr(5);
+        if (!player->move(direction)) {
+            std::cout << "You can't move that way!\n";
+        }
+    }else if (command == "quit") {
+        std::cout << "Exiting game...\n";
+        isGameOver = true; // Set isGameOver to true to exit the loop
+    }else {
+        std::cout << "Unknown command.\n";
+    }
+>>>>>>> e4a936c38c7acec4d56edb6aa15af60c2b0e754b
 }
 
 std::string direction = command.substr(5);
