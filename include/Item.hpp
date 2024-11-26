@@ -11,8 +11,9 @@ protected:
 public:
     virtual ~Item() = default;
     virtual void use() = 0;
-    std::string getName() const;
-    std::string getDescription() const;
+
+    std::string getName() const { return name; }
+    std::string getDescription() const { return description; }
 };
 
-#endif // ITEM_H
+#endif

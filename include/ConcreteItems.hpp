@@ -2,34 +2,28 @@
 #define CONCRETEITEMS_HPP
 
 #include "Item.hpp"
+#include <iostream>
 
+// Flashlight
 class Flashlight : public Item {
 public:
     Flashlight();
     void use() override;
 };
+
+// Key
 class Key : public Item {
 public:
     Key();
     void use() override;
 };
 
+// Amulet
 class Amulet : public Item {
 public:
     Amulet();
     void use() override;
 };
 
-class Map : public Item {
-public:
-    Map();
-    void use() override;
-};
+#endif
 
-class Book : public Item {
-public:
-    Book();
-    void use() override;
-};
-
-#endif // CONCRETEITEMS_H

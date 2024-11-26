@@ -1,5 +1,5 @@
-#ifndef NPC_H
-#define NPC_H
+#ifndef NPC_HPP
+#define NPC_HPP
 
 #include <string>
 
@@ -11,8 +11,9 @@ protected:
 public:
     virtual ~NPC() = default;
     virtual void interact() = 0;
-    std::string getName() const;
-    std::string getDialogue() const;
+
+    std::string getName() const { return name; }
+    std::string getDialogue() const { return dialogue; }
 };
 
 #endif

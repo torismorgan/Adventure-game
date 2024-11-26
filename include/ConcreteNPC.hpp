@@ -1,8 +1,10 @@
-#ifndef CONCRETENPC_HPP
-#define CONCRETENPC_HPP
+#ifndef CONCRETENPCS_HPP
+#define CONCRETENPCS_HPP
 
 #include "NPC.hpp"
+#include <iostream>
 
+// Ghost
 class Ghost : public NPC {
 public:
     Ghost();
@@ -10,6 +12,7 @@ public:
     void hauntPlayer();
 };
 
+// Whispering Voice
 class WhisperingVoice : public NPC {
 public:
     WhisperingVoice();
@@ -17,4 +20,6 @@ public:
     std::string giveHint() const;
 };
 
-#endif // CONCRETENPCS_H
+#endif
+
+
