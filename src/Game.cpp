@@ -3,7 +3,7 @@
 #include <iostream>
 #include <algorithm>
 
-Game::Game() {
+Game::Game() : isGameOver(false) {
     setupGame();
 }
 
@@ -30,44 +30,43 @@ void Game::processCommand(const std::string& command) {
     if (command == "look") {
         player->getCurrentRoom()->describe();
     }
-    else if (command.rfind("take", 0) == 0) { // Check if the command starts with "take"
-        if (command.size() <= 5) { // Validate that an item name is provided
+    else if (command.rfind("take", 0) == 0) {
+        if (command.size() <= 5) {
             std::cout << "What do you want to take?\n";
             return;
         }
 
-        std::string itemName = command.substr(5); // Extract the item name after "take "
+        std::string itemName = command.substr(5);
         auto currentRoom = player->getCurrentRoom();
         auto& items = currentRoom->getItems();
 
-        // Look for the item in the room
         auto it = std::find_if(items.begin(), items.end(),
             [&itemName](const std::shared_ptr<Item>& item) {
                 return item->getName() == itemName;
             });
 
         if (it != items.end()) {
-            player->pickUp(*it);          // Add item to player's inventory
-            currentRoom->removeItem(*it); // Remove item from the room
+            player->pickUp(*it);
+            currentRoom->removeItem(*it);
             std::cout << "You picked up the " << itemName << ".\n";
         } else {
             std::cout << "There is no " << itemName << " here.\n";
         }
     }
-    else if (command.rfind("move", 0) == 0) { // Command starts with "move"
-        if (command.size() <= 5) { // Validate direction is provided
+    else if (command.rfind("move", 0) == 0) {
+        if (command.size() <= 5) {
             std::cout << "Move where? Please specify a direction.\n";
             return;
         }
 
-        std::string direction = command.substr(5); // Extract direction
+        std::string direction = command.substr(5);
         if (!player->move(direction)) {
             std::cout << "You can't move that way!\n";
         }
     }
     else if (command == "quit") {
         std::cout << "Exiting game...\n";
-        isGameOver = true;
+        isGameOver = true; // Set isGameOver to true to exit the loop
     }
     else {
         std::cout << "Unknown command.\n";
@@ -79,13 +78,14 @@ void Game::start() {
     std::cout << "Welcome to the adventure game!\n";
 
     std::string command;
-    while (true) {
+    while (!isGameOver) {
         std::cout << "> ";
         std::getline(std::cin, command);
         processCommand(command);
 
-        if (command == "quit") break;
+        //if (command == "quit") break;
     }
+    std::cout << "Thanks fo playing\n";
 }
 
 
