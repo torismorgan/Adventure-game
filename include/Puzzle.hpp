@@ -1,4 +1,4 @@
-/*#ifndef PUZZLE_HPP
+#ifndef PUZZLE_HPP
 #define PUZZLE_HPP
 #include <string>
 #include <cstddef>
