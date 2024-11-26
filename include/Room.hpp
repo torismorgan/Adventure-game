@@ -6,7 +6,6 @@
 #include <map>
 #include <memory>
 #include "Item.hpp"
-#include "NPC.hpp"
 
 class Room {
 private:
@@ -17,13 +16,17 @@ private:
 public:
     Room(const std::string& desc);
     std::string getDescription() const;
+
     void describe() const;
+    void enter();  // Add this method
 
     void addItem(std::shared_ptr<Item> item);
     void removeItem(std::shared_ptr<Item> item);
 
     void setExit(const std::string& direction, std::shared_ptr<Room> room);
     std::shared_ptr<Room> getExit(const std::string& direction) const;
+
+    const std::vector<std::shared_ptr<Item>>& getItems() const;  // Add this method
 };
 
 #endif

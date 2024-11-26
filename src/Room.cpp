@@ -10,13 +10,10 @@ std::string Room::getDescription() const {
 
 void Room::describe() const {
     std::cout << description << "\n";
-    if (!items.empty()) {
-        std::cout << "Items in the room: ";
-        for (const auto& item : items) {
-            std::cout << item->getName() << " ";
-        }
-        std::cout << "\n";
-    }
+}
+
+void Room::enter() {
+    std::cout << "You have entered: " << description << "\n";
 }
 
 void Room::addItem(std::shared_ptr<Item> item) {
@@ -38,4 +35,10 @@ std::shared_ptr<Room> Room::getExit(const std::string& direction) const {
     auto it = exits.find(direction);
     return it != exits.end() ? it->second : nullptr;
 }
+
+const std::vector<std::shared_ptr<Item>>& Room::getItems() const {
+    return items;
+}
+
+
 
