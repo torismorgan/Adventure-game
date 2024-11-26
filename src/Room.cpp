@@ -14,6 +14,15 @@ void Room::enter() {
 
 void Room::describe() const {
     std::cout << description << "\n";
+    if (!items.empty()) {
+        std::cout << "Items in the room: ";
+        for (const auto& item : items) {
+            std::cout << item->getName() << " ";
+        }
+        std::cout << "\n";
+    } else {
+        std::cout << "There are no items in this room.\n";
+    }
 }
 
 void Room::addItem(std::shared_ptr<Item> item) {
