@@ -10,7 +10,7 @@ bool Player::move(const std::string& direction) {
     auto nextRoom = currentRoom->getExit(direction);
     if (nextRoom) {
         currentRoom = nextRoom;
-        currentRoom->enter();
+        currentRoom->enter();  // Ensure enter() is defined in Room
         return true;
     }
     return false;
@@ -19,7 +19,7 @@ bool Player::move(const std::string& direction) {
 bool Player::pickUp(std::shared_ptr<Item> item) {
     if (!item) return false;
 
-    auto& roomItems = currentRoom->getItems();
+    auto& roomItems = currentRoom->getItems();  // Ensure getItems() is defined in Room
     auto it = std::find(roomItems.begin(), roomItems.end(), item);
 
     if (it != roomItems.end()) {
@@ -39,10 +39,9 @@ bool Player::useItem(std::shared_ptr<Item> item) {
         return true;
     }
     return false;
-}*/
+}
 
 std::shared_ptr<Room> Player::getCurrentRoom() const {
     return currentRoom;
 }
-
 
