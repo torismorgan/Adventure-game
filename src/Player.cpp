@@ -1,4 +1,4 @@
-#include "Player.hpp"
+/*#include "Player.hpp"
 #include <iostream>
 #include <algorithm>
 
@@ -39,7 +39,7 @@ bool Player::useItem(std::shared_ptr<Item> item) {
         return true;
     }
     return false;
-}
+}*/
 
 std::shared_ptr<Room> Player::getCurrentRoom() const {
     return currentRoom;
