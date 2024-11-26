@@ -12,8 +12,8 @@ public:
     virtual ~Item() = default;
     virtual void use() = 0;
 
-    std::string getName() const;         // Declaration only
-    std::string getDescription() const; // Declaration only
+    std::string getName() const { return name; }
+    std::string getDescription() const { return description; }
 };
 
 #endif
