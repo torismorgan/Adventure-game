@@ -5,7 +5,7 @@
 #include "Room.hpp"
 
 class GameDisplay {
-public:
+ public:
 void displayWelcomeMessage(); // Display welcome messages
 void displayGoodbyeMessage(); // Display goodbye messages
 void displayRoomDescription(Room* room); // Display current room description

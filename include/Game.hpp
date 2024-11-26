@@ -4,9 +4,10 @@
 #include <map>
 #include <memory>
 #include <string>
+
 #include "ConcreteItems.hpp"
+#include "GameDisplay.hpp"
 #include "Player.hpp"
-#include "GameDisplay.hpp" 
 
 class Game {
  private:
