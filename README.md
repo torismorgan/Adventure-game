@@ -34,40 +34,34 @@ Manor of Mysteries
 
 #### Ayo Olasupo
 
-- Set up the Room and Item classes with basic properties and functions.
+- Set up the Room class with basic properties and functions.
 
-- Helped create the design report and game logo.
-
-- Made the first version of the UML diagram to show class connections.
-
+- Made the subclsses for the room class
  
 
 #### Chidera Okeke
 
-- Created the Player and Game classes, detailing what they do.
+- Created the Player classes, detailing what they do.
 
 - Built the inventory system for Player, including ways to pick up and use items.
 
-- Worked on how Player interacts with Room objects.
 
- 
 
 #### Chidalu Okeke
 
-- Designed the NPC and Puzzle classes, adding key properties and functions.
+- Designed the NPC and item classes, adding key properties and functions.
 
 - Set up how NPCs interact with Player, including special behaviors for Ghost and WhisperingVoice.
 
-- Created a UML diagram and their connection between classes
+- fixed the style errors and made corrections for all the classes
 
  
 
 #### Orisakite Morgan-Owiriwa
 
-- Reviewed and improved the  final UML diagram with team feedback.
+- Resolved merge conflicts and managed the repo
 
-- Checked for repeated functions in similar classes to keep the design simple.
+- Made the Game, GameDisplay and Puzzle class
 
-- Helped organize the README file and project layout.
-
+-Fixed style errors and made corrections in all the classes
  

@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <iostream>
-
 #include "ConcreteItems.hpp"
 #include "GameDisplay.hpp"
 
@@ -60,6 +59,7 @@ void Game::processCommand(const std::string& command) {
     } else {
       display.displayError("There is no " + itemName + " here.");
     }
+
   } else if (command.rfind("move", 0) == 0) {
     if (command.size() <= 5) {
       display.displayError("Move where? Please specify a direction.");
