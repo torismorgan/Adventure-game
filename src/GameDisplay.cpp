@@ -36,7 +36,8 @@ void GameDisplay::displayHelp() {
   std::cout << "Your goal is to explore, collect items, and solve puzzles.\n";
   std::cout << "\nAvailable Commands:\n";
   std::cout << "1. look - Look around the room.\n";
-  std::cout << "2. move [dir] - Move to another room (e.g., 'move north','move south', 'move down').\n";
+  std::cout << "2. move [dir] - Move to another room"
+            << "(e.g., 'move north','move south', 'move down').\n";
   std::cout << "3. take [item] - Pick up an item (e.g., 'take Key').\n";
   //std::cout << "4. use [item] - Use an item from your inventory.\n";
   std::cout << "4. inventory - View your inventory.\n";
@@ -50,6 +51,7 @@ void GameDisplay::displayHelp() {
 
 // Winning Message
 void GameDisplay::displayWinMessage() {
-  std::cout << "\nCongratulations! You have successfully escaped first stage of the manor!For now...\n";
+  std::cout << "\nCongratulations! You have successfully"
+            << "escaped first stage of the manor!For now...\n";
   std::cout << "Well done, adventurer!\n";
 }
