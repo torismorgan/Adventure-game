@@ -43,5 +43,13 @@ bool Player::useItem(std::shared_ptr<Item> item) {
   }
   return false;
 }
+bool Player::dropItem(const std::shared_ptr<Item>& item) {
+    auto it = std::find(inventory.begin(), inventory.end(), item);
+    if (it != inventory.end()) {
+        inventory.erase(it); // Remove the item from the inventory
+        return true;
+    }
+    return false; // Item not found in inventory
+}
 
 std::shared_ptr<Room> Player::getCurrentRoom() const { return currentRoom; }

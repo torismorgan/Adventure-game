@@ -33,53 +33,99 @@ void Game::setupGame() {
 
 // Process the player's input
 void Game::processCommand(const std::string& command) {
-  GameDisplay display;
+    GameDisplay display;
 
-  if (command == "look") {
-    display.displayRoomDescription(player->getCurrentRoom().get());
-  } else if (command.rfind("take", 0) == 0) {
-    if (command.size() <= 5) {
-      display.displayError("What do you want to take?");
-      return;
+    if (command == "look") {
+        display.displayRoomDescription(player->getCurrentRoom().get());
     }
+    else if (command.rfind("take", 0) == 0) {
+        if (command.size() <= 5) {
+            display.displayError("What do you want to take?");
+            return;
+        }
 
-    std::string itemName = command.substr(5);
-    auto currentRoom = player->getCurrentRoom();
-    auto& items = currentRoom->getItems();
+        std::string itemName = command.substr(5);
+        auto currentRoom = player->getCurrentRoom();
+        auto& items = currentRoom->getItems();
 
-    auto it = std::find_if(items.begin(), items.end(),
-                           [&itemName](const std::shared_ptr<Item>& item) {
-                             return item->getName() == itemName;
-                           });
+        auto it = std::find_if(items.begin(), items.end(),
+            [&itemName](const std::shared_ptr<Item>& item) -> bool {
+                return item->getName() == itemName;
+            });
 
-    if (it != items.end()) {
-      player->pickUp(*it);
-      currentRoom->removeItem(*it);
-      std::cout << "You picked up the " << itemName << ".\n";
-    } else {
-      display.displayError("There is no " + itemName + " here.");
+        if (it != items.end()) {
+            player->pickUp(*it);
+            currentRoom->removeItem(*it);
+            std::cout << "You picked up the " << itemName << ".\n";
+        } else {
+            display.displayError("There is no " + itemName + " here.");
+        }
     }
+    else if (command.rfind("use", 0) == 0) {
+        if (command.size() <= 4) {
+            display.displayError("What do you want to use?");
+            return;
+        }
 
-  } else if (command.rfind("move", 0) == 0) {
-    if (command.size() <= 5) {
-      display.displayError("Move where? Please specify a direction.");
-      return;
-    }
+        std::string itemName = command.substr(4);
+        const auto& inventory = player->getInventory();
 
-    std::string direction = command.substr(5);
-    if (!player->move(direction)) {
-      display.displayError("You can't move that way!");
+        auto it = std::find_if(inventory.begin(), inventory.end(),
+            [&itemName](const std::shared_ptr<Item>& item) -> bool {
+                return item->getName() == itemName;
+            });
+
+        if (it != inventory.end()) {
+            (*it)->use();
+        } else {
+            display.displayError("You don't have " + itemName + " in your inventory.");
+        }
     }
-  } else if (command == "help") {
-    display.displayHelp();
-  } else if (command == "quit") {
-    std::cout << "Exiting game...\n";
-    isGameOver = true;
-  } else {
-    display.displayError(
-        "Unknown command. Type 'help' for a list of commands.");
-  }
+    else if (command.rfind("drop", 0) == 0) { // Drop command
+        if (command.size() <= 5) {
+            display.displayError("What do you want to drop?");
+            return;
+        }
+
+        std::string itemName = command.substr(5);
+        const auto& inventory = player->getInventory();
+
+        auto it = std::find_if(inventory.begin(), inventory.end(),
+            [&itemName](const std::shared_ptr<Item>& item) -> bool {
+                return item->getName() == itemName;
+            });
+
+        if (it != inventory.end()) {
+            player->dropItem(*it);
+            player->getCurrentRoom()->addItem(*it);
+            std::cout << "You dropped the " << itemName << ".\n";
+        } else {
+            display.displayError("You don't have " + itemName + " in your inventory.");
+        }
+    }
+    else if (command.rfind("move", 0) == 0) {
+        if (command.size() <= 5) {
+            display.displayError("Move where? Please specify a direction.");
+            return;
+        }
+
+        std::string direction = command.substr(5);
+        if (!player->move(direction)) {
+            display.displayError("You can't move that way!");
+        }
+    }
+    else if (command == "help") {
+        display.displayHelp();
+    }
+    else if (command == "quit") {
+        std::cout << "Exiting game...\n";
+        isGameOver = true;
+    }
+    else {
+        display.displayError("Unknown command. Type 'help' for a list of commands.");
+    }
 }
+
 
 // Check if the win condition is met
 bool Game::checkWinCondition() {

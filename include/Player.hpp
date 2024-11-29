@@ -25,6 +25,7 @@ class Player {
     // Additional utility methods
     bool hasItem(const std::shared_ptr<Item>& item) const;
     bool dropItem(std::shared_ptr<Item> item);
+    bool dropItem(const std::shared_ptr<Item>& item); // Declare dropItem method
 };
 
 #endif // PLAYER_H
