@@ -3,9 +3,6 @@
 #include <algorithm>
 #include <iostream>
 
-const std::vector<std::shared_ptr<Item>>& Player::getInventory() const {
-    return inventory; // Return the player's inventory
-}
 
 Player::Player(std::shared_ptr<Room> startingRoom)
     : currentRoom(startingRoom) {}
@@ -54,6 +51,10 @@ bool Player::dropItem(const std::shared_ptr<Item>& item) {
         return true;
     }
     return false; // Item not found in inventory
+}
+
+const std::vector<std::shared_ptr<Item>>& Player::getInventory() const {
+    return inventory; // Return the player's inventory
 }
 
 std::shared_ptr<Room> Player::getCurrentRoom() const { return currentRoom; }
