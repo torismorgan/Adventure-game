@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <iostream>
 
+const std::vector<std::shared_ptr<Item>>& Player::getInventory() const {
+    return inventory; // Return the player's inventory
+}
+
 Player::Player(std::shared_ptr<Room> startingRoom)
     : currentRoom(startingRoom) {}
 

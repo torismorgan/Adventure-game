@@ -26,6 +26,9 @@ class Player {
     bool hasItem(const std::shared_ptr<Item>& item) const;
    // bool dropItem(std::shared_ptr<Item> item);
     bool dropItem(const std::shared_ptr<Item>& item); // Declare dropItem method
+     const std::vector<std::shared_ptr<Item>>& getInventory() const;
+    // Other methods like move(), pickUp(), dropItem(), etc.
 };
+
 
 #endif // PLAYER_H
