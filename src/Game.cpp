@@ -37,8 +37,7 @@ void Game::processCommand(const std::string& command) {
 
     if (command == "look") {
         display.displayRoomDescription(player->getCurrentRoom().get());
-    }
-    else if (command.rfind("take", 0) == 0) {
+    } else if (command.rfind("take", 0) == 0) {
         if (command.size() <= 5) {
             display.displayError("What do you want to take?");
             return;
@@ -60,8 +59,7 @@ void Game::processCommand(const std::string& command) {
         } else {
             display.displayError("There is no " + itemName + " here.");
         }
-    }
-    else if (command.rfind("use", 0) == 0) {
+    } else if (command.rfind("use", 0) == 0) {
         if (command.size() <= 4) {
             display.displayError("What do you want to use?");
             return;
@@ -78,10 +76,10 @@ void Game::processCommand(const std::string& command) {
         if (it != inventory.end()) {
             (*it)->use();
         } else {
-            display.displayError("You don't have " + itemName + " in your inventory.");
+            display.displayError(
+                "You don't have " + itemName + " in your inventory.");
         }
-    }
-    else if (command.rfind("drop", 0) == 0) { // Drop command
+    } else if (command.rfind("drop", 0) == 0) { // Drop command
         if (command.size() <= 5) {
             display.displayError("What do you want to drop?");
             return;
@@ -100,10 +98,10 @@ void Game::processCommand(const std::string& command) {
             player->getCurrentRoom()->addItem(*it);
             std::cout << "You dropped the " << itemName << ".\n";
         } else {
-            display.displayError("You don't have " + itemName + " in your inventory.");
+            display.displayError(
+                "You don't have " + itemName + " in your inventory.");
         }
-    }
-    else if (command.rfind("move", 0) == 0) {
+    } else if (command.rfind("move", 0) == 0) {
         if (command.size() <= 5) {
             display.displayError("Move where? Please specify a direction.");
             return;
@@ -113,16 +111,14 @@ void Game::processCommand(const std::string& command) {
         if (!player->move(direction)) {
             display.displayError("You can't move that way!");
         }
-    }
-    else if (command == "help") {
+    } else if (command == "help") {
         display.displayHelp();
-    }
-    else if (command == "quit") {
+    } else if (command == "quit") {
         std::cout << "Exiting game...\n";
         isGameOver = true;
-    }
-    else {
-        display.displayError("Unknown command. Type 'help' for a list of commands.");
+    } else {
+        display.displayError(
+            "Unknown command. Type 'help' for a list of commands.");
     }
 }
 
