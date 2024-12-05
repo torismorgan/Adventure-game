@@ -1,34 +1,27 @@
 #include "Room.hpp"
-#include <iostream>
 #include <algorithm>
 
+// Constructor
 Room::Room(const std::string& desc) : description(desc) {}
 
+// Get the description of the room
 std::string Room::getDescription() const {
     return description;
 }
 
-void Room::enter() {
-    std::cout << "You entered: " << description << "\n";
+// Get the items in the room
+const std::vector<std::shared_ptr<Item>>& Room::getItems() const {
+    return items;
 }
 
-void Room::describe() const {
-    std::cout << description << "\n";
-    if (!items.empty()) {
-        std::cout << "Items in the room: ";
-        for (const auto& item : items) {
-            std::cout << item->getName() << " ";
-        }
-        std::cout << "\n";
-    } else {
-        std::cout << "There are no items in this room.\n";
+// Add an item to the room
+void Room::addItem(std::shared_ptr<Item> item) {
+    if (item) {
+        items.push_back(item);
     }
 }
 
-void Room::addItem(std::shared_ptr<Item> item) {
-    items.push_back(item);
-}
-
+// Remove an item from the room
 void Room::removeItem(std::shared_ptr<Item> item) {
     auto it = std::find(items.begin(), items.end(), item);
     if (it != items.end()) {
@@ -36,39 +29,41 @@ void Room::removeItem(std::shared_ptr<Item> item) {
     }
 }
 
-void Room::setExit(const std::string& direction, std::shared_ptr<Room> room) {
-    exits[direction] = room;
-}
-
-std::shared_ptr<Room> Room::getExit(const std::string& direction) const {
-    auto it = exits.find(direction);
-    return it != exits.end() ? it->second : nullptr;
-}
-
-const std::vector<std::shared_ptr<Item>>& Room::getItems() const {
-    return items;
-}
-
+// Set an exit with a door
 void Room::setExitWithDoor(const std::string& direction, std::shared_ptr<Room> room, std::shared_ptr<Door> door) {
     if (room) {
         exits[direction] = {room, door};
     }
 }
 
-bool Room::isDoorLocked(const std::string& direction) const {
+// Get the room in the given direction
+std::shared_ptr<Room> Room::getExit(const std::string& direction) const {
     auto it = exits.find(direction);
-    if (it != exits.end() && it->second.second) {
-        return it->second.second->getIsLocked(); // Check if the door is locked
+    if (it != exits.end()) {
+        return it->second.first; // Return the connected room
     }
-    return false;
+    return nullptr;
 }
 
+// Get the door in the given direction
 std::shared_ptr<Door> Room::getDoor(const std::string& direction) const {
     auto it = exits.find(direction);
     if (it != exits.end()) {
-        return it->second.second; // Return the door object
+        return it->second.second; // Return the door
     }
     return nullptr;
+}
+
+// Check if the door in the given direction is locked
+bool Room::isDoorLocked(const std::string& direction) const {
+    auto door = getDoor(direction);
+    return door ? door->getIsLocked() : false;
+}
+
+// Enter the room
+void Room::enter() {
+    // Base implementation - can be overridden if needed
+    std::cout << "You enter the room. " << description << "\n";
 }
 
 
