@@ -4,25 +4,26 @@
 #include <map>
 #include <memory>
 #include <string>
-
+#include "Room.hpp"
 #include "ConcreteItems.hpp"
-#include "GameDisplay.hpp"
+#include "Door.hpp"
 #include "Player.hpp"
 
 class Game {
- private:
-  std::shared_ptr<Player> player;
-  std::map<std::string, std::shared_ptr<Room>> rooms;
-  bool isGameOver;
-  void setupGame();  // Initializes rooms and items
-  void processCommand(const std::string& command);  // Handles player input
-  bool checkWinCondition();  // Checks if the player has won
+private:
+    std::map<std::string, std::shared_ptr<Room>> rooms;
+    std::shared_ptr<Player> player;
+    bool isGameOver = false;
 
- public:
-  Game();   // Constructor
-  ~Game();  // Destructor
+    void processCommand(const std::string& command);
 
-  void start();  // Starts the game loop
+public:
+    Game();
+    ~Game() = default;
+    void setupGame();
+    void start();
 };
 
-#endif
+#endif // GAME_HPP
+
+

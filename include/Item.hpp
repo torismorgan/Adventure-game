@@ -2,18 +2,21 @@
 #define ITEM_HPP
 
 #include <string>
+#include <iostream>
 
 class Item {
- protected:
+protected:
     std::string name;
     std::string description;
 
- public:
+public:
     virtual ~Item() = default;
-    virtual void use() = 0;
 
+    virtual void use() = 0; // Pure virtual function
+    void setName(const std::string& itemName) { name = itemName; }
     std::string getName() const { return name; }
     std::string getDescription() const { return description; }
 };
 
-#endif
+#endif // ITEM_HPP
+
