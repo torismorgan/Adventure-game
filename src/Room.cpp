@@ -49,5 +49,27 @@ const std::vector<std::shared_ptr<Item>>& Room::getItems() const {
     return items;
 }
 
+void Room::setExitWithDoor(const std::string& direction, std::shared_ptr<Room> room, std::shared_ptr<Door> door) {
+    if (room) {
+        exits[direction] = {room, door};
+    }
+}
+
+bool Room::isDoorLocked(const std::string& direction) const {
+    auto it = exits.find(direction);
+    if (it != exits.end() && it->second.second) {
+        return it->second.second->getIsLocked(); // Check if the door is locked
+    }
+    return false;
+}
+
+std::shared_ptr<Door> Room::getDoor(const std::string& direction) const {
+    auto it = exits.find(direction);
+    if (it != exits.end()) {
+        return it->second.second; // Return the door object
+    }
+    return nullptr;
+}
+
 
 

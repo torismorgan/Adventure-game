@@ -12,24 +12,38 @@ Game::Game() : isGameOver(false) { setupGame(); }
 Game::~Game() { rooms.clear(); }
 
 void Game::setupGame() {
-  auto foyer = std::make_shared<Room>("You are in a dimly lit foyer.");
-  auto library = std::make_shared<Room>("A grand library filled with books.");
-  auto basement = std::make_shared<Room>("A dark, damp basement.");
+    auto foyer = std::make_shared<Room>("A dimly lit foyer.");
+    auto library = std::make_shared<Room>("A grand library filled with dusty books.");
+    auto basement = std::make_shared<Room>("A dark, damp basement.");
 
-  foyer->setExit("north", library);
-  library->setExit("south", foyer);
-  library->setExit("down", basement);
-  basement->setExit("up", library);
+    // Create keys
+    auto foyerKey = std::make_shared<Key>();
+    foyerKey->setName("Key to Library");
+    foyer->addItem(foyerKey);
 
-  foyer->addItem(std::make_shared<Flashlight>());
-  library->addItem(std::make_shared<Key>());
+    auto basementKey = std::make_shared<Key>();
+    basementKey->setName("Key to Chest");
+    library->addItem(basementKey);
 
-  rooms["foyer"] = foyer;
-  rooms["library"] = library;
-  rooms["basement"] = basement;
+    // Add exits with doors
+    foyer->setExitWithDoor("north", library, std::make_shared<Door>(true, foyerKey));
+    library->setExitWithDoor("down", basement, std::make_shared<Door>(true, basementKey));
 
-  player = std::make_shared<Player>(foyer);
+    // Add chest to the basement
+    auto chest = std::make_shared<Item>();
+    chest->setName("Chest");
+    basement->addItem(chest);
+
+    // Add rooms to map
+    rooms["foyer"] = foyer;
+    rooms["library"] = library;
+    rooms["basement"] = basement;
+
+    // Set player's starting room
+    player = std::make_shared<Player>(foyer);
 }
+
+
 
 // Process the player's input
 void Game::processCommand(const std::string& command) {
@@ -37,7 +51,8 @@ void Game::processCommand(const std::string& command) {
 
     if (command == "look") {
         display.displayRoomDescription(player->getCurrentRoom().get());
-    } else if (command.rfind("take", 0) == 0) {
+    }
+    else if (command.rfind("take", 0) == 0) {
         if (command.size() <= 5) {
             display.displayError("What do you want to take?");
             return;
@@ -48,7 +63,7 @@ void Game::processCommand(const std::string& command) {
         auto& items = currentRoom->getItems();
 
         auto it = std::find_if(items.begin(), items.end(),
-            [&itemName](const std::shared_ptr<Item>& item) -> bool {
+            [&itemName](const std::shared_ptr<Item>& item) {
                 return item->getName() == itemName;
             });
 
@@ -59,68 +74,78 @@ void Game::processCommand(const std::string& command) {
         } else {
             display.displayError("There is no " + itemName + " here.");
         }
-    } else if (command.rfind("use", 0) == 0) {
-        if (command.size() <= 4) {
-            display.displayError("What do you want to use?");
-            return;
-        }
+    }
+    else if (command.rfind("use key", 0) == 0) { // Unlock door
+        std::string direction = command.substr(8); // Extract direction
+        auto currentRoom = player->getCurrentRoom();
+        auto door = currentRoom->getDoor(direction);
 
-        std::string itemName = command.substr(4);
-        const auto& inventory = player->getInventory();
+        if (door && door->getIsLocked()) {
+            auto inventory = player->getInventory();
+            auto it = std::find_if(inventory.begin(), inventory.end(),
+                [](const std::shared_ptr<Item>& item) { return item->getName().find("Key") != std::string::npos; });
 
-        auto it = std::find_if(inventory.begin(), inventory.end(),
-            [&itemName](const std::shared_ptr<Item>& item) -> bool {
-                return item->getName() == itemName;
-            });
-
-        if (it != inventory.end()) {
-            (*it)->use();
+            if (it != inventory.end() && door->unlock(*it)) {
+                std::cout << "You unlocked the door to the " << direction << ".\n";
+            } else {
+                std::cout << "You don't have the correct key to unlock this door.\n";
+            }
         } else {
-            display.displayError(
-                "You don't have " + itemName + " in your inventory.");
+            std::cout << "There is no locked door in that direction.\n";
         }
-    } else if (command.rfind("drop", 0) == 0) { // Drop command
-        if (command.size() <= 5) {
-            display.displayError("What do you want to drop?");
-            return;
-        }
-
-        std::string itemName = command.substr(5);
-        const auto& inventory = player->getInventory();
-
-        auto it = std::find_if(inventory.begin(), inventory.end(),
-            [&itemName](const std::shared_ptr<Item>& item) -> bool {
-                return item->getName() == itemName;
-            });
-
-        if (it != inventory.end()) {
-            player->dropItem(*it);
-            player->getCurrentRoom()->addItem(*it);
-            std::cout << "You dropped the " << itemName << ".\n";
-        } else {
-            display.displayError(
-                "You don't have " + itemName + " in your inventory.");
-        }
-    } else if (command.rfind("move", 0) == 0) {
+    }
+    else if (command.rfind("move", 0) == 0) {
         if (command.size() <= 5) {
             display.displayError("Move where? Please specify a direction.");
             return;
         }
 
         std::string direction = command.substr(5);
-        if (!player->move(direction)) {
+        auto currentRoom = player->getCurrentRoom();
+
+        if (currentRoom->isDoorLocked(direction)) {
+            std::cout << "The door to the " << direction << " is locked. Use a key to unlock it.\n";
+        } else if (!player->move(direction)) {
             display.displayError("You can't move that way!");
         }
-    } else if (command == "help") {
-        display.displayHelp();
-    } else if (command == "quit") {
+    }
+    else if (command == "open chest") { // Open chest in the basement
+        auto currentRoom = player->getCurrentRoom();
+        if (currentRoom->getDescription() == "A dark, damp basement.") {
+            auto inventory = player->getInventory();
+            auto it = std::find_if(inventory.begin(), inventory.end(),
+                [](const std::shared_ptr<Item>& item) { return item->getName() == "Key to Chest"; });
+
+            if (it != inventory.end()) {
+                std::cout << "You used the key to open the chest and found the Amulet of Dali the Great!\n";
+                isGameOver = true; // End the game
+            } else {
+                std::cout << "You need a key to open the chest.\n";
+            }
+        } else {
+            std::cout << "There is no chest here to open.\n";
+        }
+    }
+    else if (command == "inventory") {
+        const auto& inventory = player->getInventory();
+        if (inventory.empty()) {
+            std::cout << "Your inventory is empty.\n";
+        } else {
+            std::cout << "You are carrying:\n";
+            for (const auto& item : inventory) {
+                std::cout << "- " << item->getName() << "\n";
+            }
+        }
+    }
+    else if (command == "quit") {
         std::cout << "Exiting game...\n";
         isGameOver = true;
-    } else {
-        display.displayError(
-            "Unknown command. Type 'help' for a list of commands.");
+    }
+    else {
+        display.displayError("Unknown command. Type 'help' for a list of commands.");
     }
 }
+
 
 
 // Check if the win condition is met
