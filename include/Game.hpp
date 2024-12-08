@@ -3,29 +3,27 @@
 
 #include <map>
 #include <memory>
-#include <string>
 #include "Room.hpp"
-#include "ConcreteItems.hpp"
-#include "Door.hpp"
 #include "Player.hpp"
 
 class Game {
 private:
     std::map<std::string, std::shared_ptr<Room>> rooms;
     std::shared_ptr<Player> player;
-    bool isGameOver = false;
+    bool isGameOver;
 
-    void processCommand(const std::string& command);
+    void setupGame();
+    bool checkWinCondition();
 
 public:
     Game();
-    ~Game() = default;
-    void setupGame();
+    ~Game();
     void start();
-    bool checkWinCondition(); // Ensure it matches the definition
-
+    void processCommand(const std::string& command);
+    void displayInstructions() const; // Ensure this is declared
 };
 
 #endif // GAME_HPP
+
 
 
