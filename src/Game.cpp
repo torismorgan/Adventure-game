@@ -82,26 +82,3 @@ bool Game::checkWinCondition() {
   return false;
 }
 
-// Start the game loop
-void Game::start() {
-  GameDisplay display;
-  display.displayWelcomeMessage();
-  display.displayHelp();
-
-  std::cout << "You can type 'help' anytime to see the instructions again.\n";
-
-  std::string command;
-  while (!isGameOver) {
-    std::cout << "> ";
-    std::getline(std::cin, command);
-
-    processCommand(command);
-
-    if (checkWinCondition()) {
-      display.displayWinMessage();
-      isGameOver = true;
-    }
-  }
-
-  display.displayGoodbyeMessage();
-}
