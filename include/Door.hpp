@@ -3,13 +3,15 @@
 
 #include <memory>
 #include <string>
-#include "ConcreteItems.hpp"
-#include "Room.hpp"
+#include "Item.hpp"
+
+// Forward declaration of Room
+class Room;
 
 class Door {
 private:
     bool locked;
-    std::shared_ptr<Item> requiredKey; // Use Item since "Key" is part of ConcreteItems
+    std::shared_ptr<Item> requiredKey;
     std::shared_ptr<Room> connectedRoom;
 
 public:
@@ -23,6 +25,7 @@ public:
 };
 
 #endif // DOOR_HPP
+
 
 
 

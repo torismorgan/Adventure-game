@@ -1,4 +1,5 @@
 #include "Door.hpp"
+#include "Room.hpp"
 
 Door::Door(bool isLocked, std::shared_ptr<Room> room)
     : locked(isLocked), connectedRoom(room) {}
