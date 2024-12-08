@@ -1,11 +1,17 @@
 #include "Room.hpp"
-#include <algorithm>
 #include <iostream>
+#include <algorithm>
 
 Room::Room(const std::string& desc) : description(desc) {}
 
 void Room::describe() const {
-    std::cout << description << "\nItems in the room:\n";
+    std::cout << description << "\n";
+    if (npc) {
+        std::cout << "You see " << npc->getName() << " here.\n";
+    }
+    if (puzzle && !puzzle->getIsSolved()) {
+        std::cout << "There is a puzzle: " << puzzle->getDescription() << "\n";
+    }
     for (const auto& item : items) {
         std::cout << "- " << item->getName() << "\n";
     }
@@ -19,29 +25,31 @@ void Room::removeItem(std::shared_ptr<Item> item) {
     items.erase(std::remove(items.begin(), items.end(), item), items.end());
 }
 
-const std::vector<std::shared_ptr<Item>>& Room::getItems() const { // Return const reference
+const std::vector<std::shared_ptr<Item>>& Room::getItems() const {
     return items;
 }
 
-void Room::setExit(const std::string& direction, std::shared_ptr<Room> room) { // Corrected
-    exits[direction] = std::make_shared<Door>(false, room);
+void Room::setExit(const std::string& direction, std::shared_ptr<Room> room) {
+    exits[direction] = room;
 }
 
-void Room::lockExit(const std::string& direction, std::shared_ptr<Item> key) {
+std::shared_ptr<Room> Room::getExit(const std::string& direction) const {
     auto it = exits.find(direction);
-    if (it != exits.end() && it->second) {
-        it->second->lock(key);
-    }
+    return it != exits.end() ? it->second : nullptr;
 }
 
-std::shared_ptr<Door> Room::getExit(const std::string& direction) const {
-    auto it = exits.find(direction);
-    if (it != exits.end()) {
-        return it->second;
-    }
-    return nullptr;
+void Room::setNPC(std::shared_ptr<NPC> newNpc) {
+    npc = newNpc;
 }
 
-std::string Room::getDescription() const {
-    return description;
+std::shared_ptr<NPC> Room::getNPC() const {
+    return npc;
+}
+
+void Room::setPuzzle(std::shared_ptr<Puzzle> newPuzzle) {
+    puzzle = newPuzzle;
+}
+
+std::shared_ptr<Puzzle> Room::getPuzzle() const {
+    return puzzle;
 }

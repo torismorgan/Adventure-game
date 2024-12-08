@@ -1,30 +1,22 @@
 #include "ConcreteItems.hpp"
+#include <iostream>
 
-// Flashlight Implementation
-Flashlight::Flashlight() {
-    name = "Flashlight";
-    description = "A flashlight to help you see in the dark.";
-}
-void Flashlight::use() {
-    std::cout << "The flashlight illuminates the room.\n";
+Torch::Torch() {
+    name = "Torch";
+    description = "A small torch that lights the way.";
 }
 
-// Key Implementation
-Key::Key(const std::string& keyName) {
-    name = keyName;
-    description = "A small key, possibly for a door.";
-}
-void Key::use() {
-    std::cout << "The key unlocks a door.\n";
+void Torch::use() {
+    std::cout << "The torch flickers and lights the room.\n";
 }
 
-// Amulet Implementation
 Amulet::Amulet() {
     name = "Amulet";
-    description = "An ancient amulet that wards off spirits.";
+    description = "The amulet glows with a mysterious power.";
 }
+
 void Amulet::use() {
-    std::cout << "The amulet glows, protecting you from harm.\n";
+    std::cout << "The amulet pulses with energy, dispelling darkness.\n";
 }
 
 

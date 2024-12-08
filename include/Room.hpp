@@ -6,13 +6,18 @@
 #include <unordered_map>
 #include <memory>
 #include "Item.hpp"
-#include "Door.hpp"
+#include "NPC.hpp"
+#include "Puzzle.hpp"
+
+class Door;
 
 class Room {
 private:
     std::string description;
     std::vector<std::shared_ptr<Item>> items;
-    std::unordered_map<std::string, std::shared_ptr<Door>> exits;
+    std::unordered_map<std::string, std::shared_ptr<Room>> exits;
+    std::shared_ptr<NPC> npc;
+    std::shared_ptr<Puzzle> puzzle;
 
 public:
     Room(const std::string& desc);
@@ -20,11 +25,16 @@ public:
     void describe() const;
     void addItem(std::shared_ptr<Item> item);
     void removeItem(std::shared_ptr<Item> item);
-    const std::vector<std::shared_ptr<Item>>& getItems() const; // Return const reference
-    void setExit(const std::string& direction, std::shared_ptr<Room> room); // Added
-    void lockExit(const std::string& direction, std::shared_ptr<Item> key);
-    std::shared_ptr<Door> getExit(const std::string& direction) const;
-    std::string getDescription() const;
+    const std::vector<std::shared_ptr<Item>>& getItems() const;
+
+    void setExit(const std::string& direction, std::shared_ptr<Room> room);
+    std::shared_ptr<Room> getExit(const std::string& direction) const;
+
+    void setNPC(std::shared_ptr<NPC> npc);
+    std::shared_ptr<NPC> getNPC() const;
+
+    void setPuzzle(std::shared_ptr<Puzzle> puzzle);
+    std::shared_ptr<Puzzle> getPuzzle() const;
 };
 
 #endif // ROOM_HPP

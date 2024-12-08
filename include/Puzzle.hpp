@@ -1,29 +1,20 @@
 #ifndef PUZZLE_HPP
 #define PUZZLE_HPP
-#include <cstddef>
+
 #include <string>
 
 class Puzzle {
- private:
-  std::string description;  // Description of the puzzle
-  std::string solution;     // Correct solution for the puzzle
-  bool isSolved;            // Tracks if the puzzle has been solved
+private:
+    std::string description;
+    std::string solution;
+    bool isSolved;
 
- public:
-  // Constructor
-  Puzzle(const std::string& description, const std::string& solution);
+public:
+    Puzzle(const std::string& desc, const std::string& sol);
 
-  // Getter for the puzzle's hint
-  std::string getHint() const;
-
-  // Method to attempt solving the puzzle
-  bool attemptSolution(const std::string& playerInput);
-
-  // Getter for isSolved
-  bool getIsSolved() const;
-
-  // Getter for the description
-  std::string getDescription() const;
+    std::string getDescription() const;
+    bool attemptSolution(const std::string& playerInput);
+    bool getIsSolved() const;
 };
 
-#endif
+#endif // PUZZLE_HPP

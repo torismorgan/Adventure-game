@@ -11,6 +11,7 @@ class Player {
 private:
     std::shared_ptr<Room> currentRoom;
     std::vector<std::shared_ptr<Item>> inventory;
+    bool hasTorchLit;
 
 public:
     Player(std::shared_ptr<Room> startingRoom);
@@ -21,6 +22,9 @@ public:
     std::shared_ptr<Item> findItemInInventory(const std::string& itemName) const;
     const std::vector<std::shared_ptr<Item>>& getInventory() const;
     std::shared_ptr<Room> getCurrentRoom() const;
+
+    void lightTorch();
+    bool isTorchLit() const;
 };
 
 #endif // PLAYER_HPP

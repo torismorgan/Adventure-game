@@ -1,18 +1,17 @@
 #include "Player.hpp"
-#include "Room.hpp"
-#include <algorithm>
 #include <iostream>
+#include <algorithm>
 
-Player::Player(std::shared_ptr<Room> startingRoom)
-    : currentRoom(startingRoom) {}
+Player::Player(std::shared_ptr<Room> startingRoom) 
+    : currentRoom(startingRoom), hasTorchLit(false) {}
 
 void Player::move(const std::string& direction) {
-    auto door = currentRoom->getExit(direction);
-    if (door && !door->isLocked()) {
-        currentRoom = door->getConnectedRoom();
+    auto room = currentRoom->getExit(direction);
+    if (room) {
+        currentRoom = room;
         currentRoom->describe();
     } else {
-        std::cout << "The door is locked or does not exist.\n";
+        std::cout << "There is no exit in that direction.\n";
     }
 }
 
@@ -33,6 +32,20 @@ std::shared_ptr<Item> Player::findItemInInventory(const std::string& itemName) c
     return nullptr;
 }
 
+const std::vector<std::shared_ptr<Item>>& Player::getInventory() const {
+    return inventory;
+}
+
 std::shared_ptr<Room> Player::getCurrentRoom() const {
     return currentRoom;
 }
+
+void Player::lightTorch() {
+    hasTorchLit = true;
+    std::cout << "The torch is now lit.\n";
+}
+
+bool Player::isTorchLit() const {
+    return hasTorchLit;
+}
+
