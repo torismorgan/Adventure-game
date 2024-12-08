@@ -53,6 +53,7 @@ void Room::describe() const {
         std::cout << "\n";
     }
 }
+
 void Room::enter() const {
     std::cout << "You enter the room. " << description << "\n";
 }
