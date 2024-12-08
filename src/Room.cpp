@@ -1,5 +1,5 @@
 #include "Room.hpp"
-#include "Door.hpp"
+#include <algorithm>
 #include <iostream>
 
 Room::Room(const std::string& desc) : description(desc) {}
@@ -27,6 +27,13 @@ void Room::setExit(const std::string& direction, std::shared_ptr<Room> room) {
     exits[direction] = std::make_shared<Door>(false, room);
 }
 
+void Room::lockExit(const std::string& direction, std::shared_ptr<Item> key) {
+    auto it = exits.find(direction);
+    if (it != exits.end()) {
+        it->second->lock(key);
+    }
+}
+
 std::shared_ptr<Door> Room::getExit(const std::string& direction) const {
     auto it = exits.find(direction);
     if (it != exits.end()) {
@@ -34,6 +41,11 @@ std::shared_ptr<Door> Room::getExit(const std::string& direction) const {
     }
     return nullptr;
 }
+
+std::string Room::getDescription() const {
+    return description;
+}
+
 
 
 

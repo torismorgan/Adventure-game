@@ -15,7 +15,7 @@ private:
     bool isGameOver;
 
     void setupGame();
-    bool checkWinCondition();
+    bool checkWinCondition() const;
     void displayInstructions() const;
 
 public:
@@ -26,6 +26,7 @@ public:
 };
 
 #endif // GAME_HPP
+
 
 
 

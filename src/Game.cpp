@@ -3,6 +3,8 @@
 #include "GameDisplay.hpp"
 #include <iostream>
 #include <algorithm>
+#include "Door.hpp" // Added for Door functionality
+#include "Room.hpp"
 
 Game::Game() : isGameOver(false) {
     setupGame();
