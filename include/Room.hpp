@@ -7,28 +7,28 @@
 #include <memory>
 #include "Item.hpp"
 #include "Door.hpp"
-#include "ConcreteItems.hpp" // For using the Key or other items in ConcreteItems
 
 class Room {
 private:
     std::string description;
-    std::unordered_map<std::string, std::shared_ptr<Door>> exits;
     std::vector<std::shared_ptr<Item>> items;
+    std::unordered_map<std::string, std::shared_ptr<Door>> exits;
 
 public:
-    Room(const std::string& description);
+    Room(const std::string& desc);
 
     void describe() const;
     void addItem(std::shared_ptr<Item> item);
     void removeItem(std::shared_ptr<Item> item);
-    std::vector<std::shared_ptr<Item>>& getItems();
+    std::vector<std::shared_ptr<Item>> getItems() const;
 
     void setExit(const std::string& direction, std::shared_ptr<Room> room);
-    void lockExit(const std::string& direction, std::shared_ptr<Flashlight> key);
+    void lockExit(const std::string& direction, std::shared_ptr<Item> key);
     std::shared_ptr<Door> getExit(const std::string& direction) const;
 };
 
 #endif // ROOM_HPP
+
 
 
 

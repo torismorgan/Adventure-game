@@ -1,33 +1,22 @@
-#ifndef PLAYER_H
-#define PLAYER_H
-
-#include <memory>
-#include <vector>
-#include <utility>
-#include <string>
-#include "Room.hpp"
 #include "Item.hpp"
+#include "Room.hpp"
+#include <vector>
+#include <memory>
+#include <string>
 
 class Player {
- private:
+private:
     std::shared_ptr<Room> currentRoom;
     std::vector<std::shared_ptr<Item>> inventory;
 
- public:
+public:
     Player(std::shared_ptr<Room> startingRoom);
 
-    bool move(const std::string& direction);
-    bool pickUp(std::shared_ptr<Item> item);
-    bool useItem(std::shared_ptr<Item> item);
+    void move(const std::string& direction);
+    void pickUp(std::shared_ptr<Item> item);
+    void dropItem(std::shared_ptr<Item> item);
+    std::shared_ptr<Item> findItemInInventory(const std::string& itemName) const;
     const std::vector<std::shared_ptr<Item>>& getInventory() const;
     std::shared_ptr<Room> getCurrentRoom() const;
-
-    // Additional utility methods
-    bool hasItem(const std::shared_ptr<Item>& item) const;
-// bool dropItem(std::shared_ptr<Item> item);
-    bool dropItem(const std::shared_ptr<Item>& item); // Declare dropItem method
-    // Other methods like move(), pickUp(), dropItem(), etc.
 };
 
-
-#endif // PLAYER_H
