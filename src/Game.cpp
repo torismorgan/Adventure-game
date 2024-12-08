@@ -1,89 +1,94 @@
 #include "Game.hpp"
 #include "ConcreteItems.hpp"
+#include "GameDisplay.hpp"
 #include <iostream>
 #include <algorithm>
 
-// Constructor: Initialize game state
 Game::Game() : isGameOver(false) {
     setupGame();
 }
 
-// Destructor: Clean up resources
-Game::~Game() {
-    rooms.clear();
-}
-
-// Set up the game environment
 void Game::setupGame() {
     // Create rooms
     auto foyer = std::make_shared<Room>("A dimly lit foyer.");
     auto library = std::make_shared<Room>("A grand library filled with dusty books.");
-    auto basement = std::make_shared<Room>("A dark, damp basement.");
-
-    // Create items
-    auto flashlight = std::make_shared<Flashlight>();
-    auto keyToLibrary = std::make_shared<Key>("Key to Library");
-    auto keyToBasement = std::make_shared<Key>("Key to Basement");
-    auto amulet = std::make_shared<Amulet>();
-
-    // Add items to rooms
-    foyer->addItem(flashlight);
-    foyer->addItem(keyToLibrary);
-    library->addItem(keyToBasement);
-    basement->addItem(amulet);
+    auto basement = std::make_shared<Room>("A dark, damp basement with a chest in the corner.");
 
     // Set room exits
     foyer->setExit("north", library);
     library->setExit("south", foyer);
     library->setExit("down", basement);
-    basement->setExit("up", library);
 
-    // Lock the basement door
-    library->lockExit("down", keyToBasement);
+    // Lock the basement door with a key
+    library->lockExit("down", std::make_shared<Flashlight>());
 
-    // Add rooms to the map
-    rooms["foyer"] = foyer;
-    rooms["library"] = library;
-    rooms["basement"] = basement;
+    // Add items to rooms
+    foyer->addItem(std::make_shared<Flashlight>());
+    library->addItem(std::make_shared<Amulet>());
 
-    // Set player's starting room
+    // Set the player's starting room
     player = std::make_shared<Player>(foyer);
 }
 
-// Display game instructions
 void Game::displayInstructions() const {
-    std::cout << "Welcome to the Adventure Game!\n";
-    std::cout << "Instructions:\n";
-    std::cout << "- Use 'look' to see the room's description and items.\n";
-    std::cout << "- Use 'take <item>' to pick up an item.\n";
-    std::cout << "- Use 'drop <item>' to drop an item from your inventory.\n";
-    std::cout << "- Use 'inventory' to see your inventory.\n";
-    std::cout << "- Use 'move <direction>' to move between rooms.\n";
-    std::cout << "- Use 'use <item>' to use an item.\n";
-    std::cout << "- Type 'help' to see these instructions again.\n";
-    std::cout << "- Type 'quit' to exit the game.\n\n";
+    std::cout << "Welcome to the adventure game!\n"
+              << "Your goal is to find the Amulet of Dali the Great hidden in the basement.\n"
+              << "Commands:\n"
+              << "  look          - Look around the room.\n"
+              << "  move <dir>    - Move in the specified direction (e.g., 'move north').\n"
+              << "  take <item>   - Pick up an item in the room.\n"
+              << "  drop <item>   - Drop an item from your inventory into the room.\n"
+              << "  use <item>    - Use an item in your inventory.\n"
+              << "  inventory     - View the items in your inventory.\n"
+              << "  help          - Display these instructions again.\n"
+              << "  quit          - Exit the game.\n";
 }
 
-// Process player commands
-void Game::processCommand(const std::string& command) {
-    if (command == "look") {
-        auto currentRoom = player->getCurrentRoom();
-        currentRoom->describe();
-    } else if (command.rfind("take", 0) == 0) {
-        if (command.size() <= 5) {
-            std::cout << "What do you want to take?\n";
-            return;
+void Game::start() {
+    GameDisplay display;
+
+    displayInstructions();
+    std::string command;
+
+    while (!isGameOver) {
+        std::cout << "> ";
+        std::getline(std::cin, command);
+        processCommand(command);
+
+        if (checkWinCondition()) {
+            display.displayWinMessage();
+            isGameOver = true;
         }
+    }
 
+    display.displayGoodbyeMessage();
+}
+
+void Game::processCommand(const std::string& command) {
+    auto currentRoom = player->getCurrentRoom();
+    GameDisplay display;
+
+    if (command == "look") {
+        currentRoom->describe();
+    } else if (command.find("move") == 0) {
+        std::string direction = command.substr(5);
+        auto exitDoor = currentRoom->getExit(direction);
+        if (exitDoor) {
+            if (exitDoor->isLocked()) {
+                std::cout << "The door is locked. You need a key to open it.\n";
+            } else {
+                player->move(direction);
+            }
+        } else {
+            std::cout << "There is no exit in that direction.\n";
+        }
+    } else if (command.find("take") == 0) {
         std::string itemName = command.substr(5);
-        auto currentRoom = player->getCurrentRoom();
         auto& items = currentRoom->getItems();
-
         auto it = std::find_if(items.begin(), items.end(),
             [&itemName](const std::shared_ptr<Item>& item) {
                 return item->getName() == itemName;
             });
-
         if (it != items.end()) {
             player->pickUp(*it);
             currentRoom->removeItem(*it);
@@ -91,91 +96,57 @@ void Game::processCommand(const std::string& command) {
         } else {
             std::cout << "There is no " << itemName << " here.\n";
         }
-    } else if (command.rfind("drop", 0) == 0) {
-        if (command.size() <= 5) {
-            std::cout << "What do you want to drop?\n";
-            return;
-        }
-
+    } else if (command.find("drop") == 0) {
         std::string itemName = command.substr(5);
         auto item = player->findItemInInventory(itemName);
         if (item) {
             player->dropItem(item);
-            player->getCurrentRoom()->addItem(item);
+            currentRoom->addItem(item);
             std::cout << "You dropped the " << itemName << ".\n";
         } else {
-            std::cout << "You don't have a " << itemName << " in your inventory.\n";
+            std::cout << "You don't have " << itemName << " in your inventory.\n";
         }
-    } else if (command == "inventory") {
-        auto inventory = player->getInventory();
-        std::cout << "Your inventory contains:\n";
-        for (const auto& item : inventory) {
-            std::cout << "- " << item->getName() << "\n";
-        }
-    } else if (command.rfind("move", 0) == 0) {
-        if (command.size() <= 5) {
-            std::cout << "Move where? Please specify a direction.\n";
-            return;
-        }
-
-        std::string direction = command.substr(5);
-        if (!player->move(direction)) {
-            std::cout << "The door is locked. You need a key to open it.\n";
-        }
-    } else if (command.rfind("use", 0) == 0) {
-        if (command.size() <= 4) {
-            std::cout << "What do you want to use?\n";
-            return;
-        }
-
+    } else if (command.find("use") == 0) {
         std::string itemName = command.substr(4);
         auto item = player->findItemInInventory(itemName);
         if (item) {
-            item->use();
+            if (itemName == "Flashlight") {
+                item->use();
+            } else if (itemName == "Amulet") {
+                std::cout << "The Amulet glows but does not seem to do anything here.\n";
+            } else {
+                std::cout << "You can't use that item here.\n";
+            }
         } else {
-            std::cout << "You don't have a " << itemName << " in your inventory.\n";
+            std::cout << "You don't have " << itemName << " in your inventory.\n";
+        }
+    } else if (command == "inventory") {
+        const auto& inventory = player->getInventory();
+        if (inventory.empty()) {
+            std::cout << "Your inventory is empty.\n";
+        } else {
+            std::cout << "Your inventory contains:\n";
+            for (const auto& item : inventory) {
+                std::cout << "- " << item->getName() << "\n";
+            }
         }
     } else if (command == "help") {
         displayInstructions();
     } else if (command == "quit") {
-        std::cout << "Thanks for playing! Goodbye.\n";
         isGameOver = true;
     } else {
         std::cout << "Unknown command. Type 'help' for a list of commands.\n";
     }
 }
 
-// Check if the win condition is met
-bool Game::checkWinCondition() {
+bool Game::checkWinCondition() const {
     auto currentRoom = player->getCurrentRoom();
-    auto inventory = player->getInventory();
-
-    for (const auto& item : inventory) {
-        if (item->getName() == "Amulet" &&
-            currentRoom->getDescription() == "A dark, damp basement.") {
-            return true;
-        }
+    if (currentRoom->getDescription() == "A dark, damp basement with a chest in the corner.") {
+        std::cout << "You found the chest containing the Amulet of Dali the Great!\n";
+        return true;
     }
     return false;
 }
 
-// Start the game loop
-void Game::start() {
-    displayInstructions();
-
-    std::string command;
-    while (!isGameOver) {
-        std::cout << "> ";
-        std::getline(std::cin, command);
-
-        processCommand(command);
-
-        if (checkWinCondition()) {
-            std::cout << "Congratulations! You found the Amulet of Dali the Great!\n";
-            std::cout << "You have won the game!\n";
-            isGameOver = true;
-        }
-    }
-}
 
 
