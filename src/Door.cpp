@@ -4,10 +4,10 @@ Door::Door(bool locked, std::shared_ptr<Item> key) : isLocked(locked), requiredK
 
 bool Door::unlock(const std::shared_ptr<Item>& key) {
     if (key && key == requiredKey) {
-        isLocked = false; // Unlock the door
+        isLocked = false;
         return true;
     }
-    return false; // Failed to unlock
+    return false;
 }
 
 bool Door::getIsLocked() const {

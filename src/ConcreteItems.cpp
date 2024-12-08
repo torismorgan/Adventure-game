@@ -1,6 +1,7 @@
 #include "ConcreteItems.hpp"
+#include <iostream>
 
-// Flashlight
+// Flashlight Implementation
 Flashlight::Flashlight() {
     name = "Flashlight";
     description = "A flashlight to help you see in the dark.";
@@ -10,7 +11,7 @@ void Flashlight::use() {
     std::cout << "The flashlight illuminates the room.\n";
 }
 
-// Key
+// Key Implementation
 Key::Key() {
     name = "Key";
     description = "A small key, possibly for a door.";
@@ -20,7 +21,7 @@ void Key::use() {
     std::cout << "The key unlocks a door.\n";
 }
 
-// Amulet
+// Amulet Implementation
 Amulet::Amulet() {
     name = "Amulet";
     description = "An ancient amulet that wards off spirits.";
@@ -29,4 +30,5 @@ Amulet::Amulet() {
 void Amulet::use() {
     std::cout << "The amulet glows, protecting you from harm.\n";
 }
+
 
