@@ -53,3 +53,7 @@ void Room::setPuzzle(std::shared_ptr<Puzzle> newPuzzle) {
 std::shared_ptr<Puzzle> Room::getPuzzle() const {
     return puzzle;
 }
+std::string Room::getDescription() const {
+    return description;
+}
+

@@ -28,8 +28,9 @@ void Game::setupGame() {
     auto ghost = std::make_shared<NPC>("Ghost", "The ghost's chilling presence blocks your way.");
 
     // Add items
-    auto torch = std::make_shared<Item>("Torch", "A small torch that lights the way.");
-    auto key = std::make_shared<Item>("Key", "A small, ornate key. It looks like it fits a chest.");
+   auto torch = std::make_shared<Torch>();
+auto key = std::make_shared<Key>();
+
 
     // Room configuration
     foyer->setExit("north", library);

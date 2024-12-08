@@ -35,6 +35,8 @@ public:
 
     void setPuzzle(std::shared_ptr<Puzzle> puzzle);
     std::shared_ptr<Puzzle> getPuzzle() const;
+    std::string getDescription() const;
+
 };
 
 #endif // ROOM_HPP
