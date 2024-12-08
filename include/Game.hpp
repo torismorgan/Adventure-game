@@ -3,8 +3,10 @@
 
 #include <map>
 #include <memory>
+#include <string>
 #include "Room.hpp"
 #include "Player.hpp"
+#include "GameDisplay.hpp"
 
 class Game {
 private:
@@ -14,16 +16,17 @@ private:
 
     void setupGame();
     bool checkWinCondition();
+    void displayInstructions() const;
 
 public:
     Game();
-   // ~Game();
+    ~Game();
     void start();
     void processCommand(const std::string& command);
-    void displayInstructions() const; // Ensure this is declared
 };
 
 #endif // GAME_HPP
+
 
 
 
