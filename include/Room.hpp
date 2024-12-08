@@ -1,12 +1,12 @@
 #ifndef ROOM_HPP
 #define ROOM_HPP
 
-#include <map>
-#include <memory>
-#include <string>
-#include <vector>
 #include "Item.hpp"
 #include "Door.hpp"
+#include <string>
+#include <memory>
+#include <map>
+#include <vector>
 
 class Room {
 private:
@@ -17,19 +17,19 @@ private:
 public:
     Room(const std::string& desc);
 
+    void setExit(const std::string& direction, std::shared_ptr<Room> connectedRoom);
+    void lockExit(const std::string& direction, std::shared_ptr<Key> key);
+
     std::string getDescription() const;
+    std::vector<std::shared_ptr<Item>>& getItems();
     void addItem(std::shared_ptr<Item> item);
     void removeItem(std::shared_ptr<Item> item);
-    const std::vector<std::shared_ptr<Item>>& getItems() const;
-
-    void setExit(const std::string& direction, std::shared_ptr<Room> room);
-    std::shared_ptr<Room> getExit(const std::string& direction) const;
-
-    void lockExit(const std::string& direction, std::shared_ptr<Key> key);
-    bool unlockExit(const std::string& direction, std::shared_ptr<Key> key);
+    std::shared_ptr<Door> getExit(const std::string& direction);
+    void describe() const;
 };
 
 #endif // ROOM_HPP
+
 
 
 

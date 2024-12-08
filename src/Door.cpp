@@ -1,15 +1,23 @@
 #include "Door.hpp"
 
-Door::Door(bool locked, std::shared_ptr<Item> key) : isLocked(locked), requiredKey(key) {}
+Door::Door(bool isLocked, std::shared_ptr<Room> room) 
+    : locked(isLocked), connectedRoom(room) {}
 
-bool Door::unlock(const std::shared_ptr<Item>& key) {
-    if (key && key == requiredKey) {
-        isLocked = false;
-        return true;
-    }
-    return false;
+void Door::lock(std::shared_ptr<Key> key) {
+    locked = true;
+    requiredKey = key;
 }
 
-bool Door::getIsLocked() const {
-    return isLocked;
+void Door::unlock(std::shared_ptr<Key> key) {
+    if (key == requiredKey) {
+        locked = false;
+    }
+}
+
+bool Door::isLocked() const {
+    return locked;
+}
+
+std::shared_ptr<Room> Door::getConnectedRoom() const {
+    return connectedRoom;
 }

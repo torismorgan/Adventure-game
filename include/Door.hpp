@@ -6,15 +6,19 @@
 
 class Door {
 private:
-    bool isLocked;
-    std::shared_ptr<Item> requiredKey;
+    bool locked;
+    std::shared_ptr<Key> requiredKey;
+    std::shared_ptr<Room> connectedRoom;
 
 public:
-    Door(bool locked, std::shared_ptr<Item> key);
-    bool unlock(const std::shared_ptr<Item>& key);
-    bool getIsLocked() const;
+    Door(bool isLocked, std::shared_ptr<Room> room);
+    void lock(std::shared_ptr<Key> key);
+    void unlock(std::shared_ptr<Key> key);
+    bool isLocked() const;
+    std::shared_ptr<Room> getConnectedRoom() const;
 };
 
 #endif // DOOR_HPP
+
 
 
