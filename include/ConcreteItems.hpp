@@ -15,8 +15,13 @@ public:
     void use() override;
 };
 
-#endif // CONCRETEITEMS_HPP
+class Key : public Item {
+public:
+    Key();
+    void use() override;
+};
 
+#endif // CONCRETEITEMS_HPP
 
 
 
