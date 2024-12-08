@@ -42,3 +42,19 @@ bool Room::isDoorLocked(const std::string& direction) const {
     return false;
 }
 
+void Room::describe() const {
+    std::cout << description << "\nItems in the room: ";
+    if (items.empty()) {
+        std::cout << "None.\n";
+    } else {
+        for (const auto& item : items) {
+            std::cout << item->getName() << " ";
+        }
+        std::cout << "\n";
+    }
+}
+void Room::enter() const {
+    std::cout << "You enter the room. " << description << "\n";
+}
+
+

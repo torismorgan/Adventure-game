@@ -22,6 +22,8 @@ public:
     ~Game() = default;
     void setupGame();
     void start();
+    bool checkWinCondition(); // Ensure it matches the definition
+
 };
 
 #endif // GAME_HPP

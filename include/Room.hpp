@@ -24,9 +24,13 @@ public:
     void setExitWithDoor(const std::string& direction, std::shared_ptr<Room> room, std::shared_ptr<Door> door);
     std::shared_ptr<Room> getExit(const std::string& direction) const;
     bool isDoorLocked(const std::string& direction) const;
+void enter() const; // Add declaration
+
+    void describe() const; // Add this declaration
 };
 
 #endif // ROOM_HPP
+
 
 
 

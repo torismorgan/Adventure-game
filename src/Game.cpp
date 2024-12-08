@@ -73,12 +73,12 @@ void Game::start() {
     }
 }
 
-// Check if the win condition is met
 bool Game::checkWinCondition() {
-  auto currentRoom = player->getCurrentRoom();
-  if (currentRoom->getDescription() == "A dark, damp basement.") {
-    return true;
-  }
-  return false;
+    auto currentRoom = player->getCurrentRoom();
+    if (currentRoom->getDescription() == "A dark, damp basement.") {
+        return true;
+    }
+    return false;
 }
+
 
