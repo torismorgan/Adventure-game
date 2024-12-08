@@ -1,8 +1,11 @@
-#include "Item.hpp"
-#include "Room.hpp"
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
+
 #include <vector>
 #include <memory>
 #include <string>
+#include "Room.hpp"
+#include "Item.hpp"
 
 class Player {
 private:
@@ -19,4 +22,7 @@ public:
     const std::vector<std::shared_ptr<Item>>& getInventory() const;
     std::shared_ptr<Room> getCurrentRoom() const;
 };
+
+#endif // PLAYER_HPP
+
 
