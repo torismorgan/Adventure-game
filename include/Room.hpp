@@ -20,13 +20,15 @@ public:
     void describe() const;
     void addItem(std::shared_ptr<Item> item);
     void removeItem(std::shared_ptr<Item> item);
-    std::vector<std::shared_ptr<Item>> getItems() const;
+    const std::vector<std::shared_ptr<Item>>& getItems() const; // Return const reference
+    void setExit(const std::string& direction, std::shared_ptr<Room> room); // Added
     void lockExit(const std::string& direction, std::shared_ptr<Item> key);
     std::shared_ptr<Door> getExit(const std::string& direction) const;
     std::string getDescription() const;
 };
 
 #endif // ROOM_HPP
+
 
 
 

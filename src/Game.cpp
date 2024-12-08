@@ -1,15 +1,24 @@
-#include "Game.hpp"
 #include "ConcreteItems.hpp"
 #include "GameDisplay.hpp"
 #include <iostream>
 #include <algorithm>
-#include "Door.hpp" // Added for Door functionality
+#include "Game.hpp"
 #include "Room.hpp"
+#include "Player.hpp"
+#include "ConcreteItems.hpp"
+#include "GameDisplay.hpp"
+#include <iostream>
+#include <algorithm>
 
+// Constructor
 Game::Game() : isGameOver(false) {
     setupGame();
 }
 
+// Destructor
+Game::~Game() = default;
+
+// Setup game environment
 void Game::setupGame() {
     // Create rooms
     auto foyer = std::make_shared<Room>("A dimly lit foyer.");
@@ -32,6 +41,7 @@ void Game::setupGame() {
     player = std::make_shared<Player>(foyer);
 }
 
+// Display game instructions
 void Game::displayInstructions() const {
     std::cout << "Welcome to the adventure game!\n"
               << "Your goal is to find the Amulet of Dali the Great hidden in the basement.\n"
@@ -46,9 +56,11 @@ void Game::displayInstructions() const {
               << "  quit          - Exit the game.\n";
 }
 
+// Start the game
 void Game::start() {
     GameDisplay display;
 
+    display.displayWelcomeMessage();
     displayInstructions();
     std::string command;
 
@@ -66,6 +78,7 @@ void Game::start() {
     display.displayGoodbyeMessage();
 }
 
+// Process player commands
 void Game::processCommand(const std::string& command) {
     auto currentRoom = player->getCurrentRoom();
     GameDisplay display;
@@ -86,7 +99,7 @@ void Game::processCommand(const std::string& command) {
         }
     } else if (command.find("take") == 0) {
         std::string itemName = command.substr(5);
-        auto& items = currentRoom->getItems();
+        const auto& items = currentRoom->getItems();
         auto it = std::find_if(items.begin(), items.end(),
             [&itemName](const std::shared_ptr<Item>& item) {
                 return item->getName() == itemName;
@@ -112,13 +125,7 @@ void Game::processCommand(const std::string& command) {
         std::string itemName = command.substr(4);
         auto item = player->findItemInInventory(itemName);
         if (item) {
-            if (itemName == "Flashlight") {
-                item->use();
-            } else if (itemName == "Amulet") {
-                std::cout << "The Amulet glows but does not seem to do anything here.\n";
-            } else {
-                std::cout << "You can't use that item here.\n";
-            }
+            item->use();
         } else {
             std::cout << "You don't have " << itemName << " in your inventory.\n";
         }
@@ -141,6 +148,7 @@ void Game::processCommand(const std::string& command) {
     }
 }
 
+// Check if the player has won the game
 bool Game::checkWinCondition() const {
     auto currentRoom = player->getCurrentRoom();
     if (currentRoom->getDescription() == "A dark, damp basement with a chest in the corner.") {
@@ -149,6 +157,4 @@ bool Game::checkWinCondition() const {
     }
     return false;
 }
-
-
 
