@@ -29,7 +29,7 @@ void Game::setupGame() {
 
     // Add items
    auto torch = std::make_shared<Torch>();
-auto key = std::make_shared<key>();
+auto keyitem = std::make_shared<Key>();
 
 
     // Room configuration
@@ -38,7 +38,7 @@ auto key = std::make_shared<key>();
     library->setExit("down", basement);
 
     foyer->addItem(torch);
-    library->addItem(key);
+    library->addItem(keyitem);
 
     foyer->setPuzzle(foyerPuzzle);
     foyer->setNPC(whisperingVoice);
