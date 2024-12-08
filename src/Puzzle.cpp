@@ -31,9 +31,3 @@ return false; // Solution is incorrect
 bool Puzzle::getIsSolved() const {
 return isSolved;
 }
-std::string Puzzle::getHint() const {
-    if (!isSolved) {
-        return "Hint: The solution starts with '" + solution.substr(0, 1) + "'.";
-    }
-    return "The puzzle is already solved.";
-}
