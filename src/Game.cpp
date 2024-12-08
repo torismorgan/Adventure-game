@@ -13,7 +13,7 @@
 
 // Constructor
 Game::Game() : isGameOver(false) {
-    setupGame();
+    setupGame(); // Call setupGame to initialize rooms and items
 }
 
 // Setup the game

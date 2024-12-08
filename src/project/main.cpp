@@ -1,9 +1,8 @@
-// Minimal source file that allows the pipeline to pass.
-
 #include "Game.hpp"
 
 int main() {
-    Game game;
-    game.start();
+    Game game; // Create Game instance
+    game.start(); // Start the game
     return 0;
 }
+
