@@ -12,8 +12,8 @@ void Flashlight::use() {
 }
 
 // Key Implementation
-Key::Key() {
-    name = "Key";
+Key::Key(const std::string& keyName) {
+    name = keyName;
     description = "A small key, possibly for a door.";
 }
 
@@ -30,5 +30,6 @@ Amulet::Amulet() {
 void Amulet::use() {
     std::cout << "The amulet glows, protecting you from harm.\n";
 }
+
 
 
