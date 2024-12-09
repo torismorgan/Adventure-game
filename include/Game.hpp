@@ -1,29 +1,21 @@
-#ifndef GAME_HPP
-#define GAME_HPP
-
-#include <map>
+#pragma once
+#include "Player.hpp"
+#include "Room.hpp"
 #include <memory>
 #include <string>
-#include "Room.hpp"
-#include "Player.hpp"
 
 class Game {
-private:
-    std::shared_ptr<Player> player;
-    bool isGameOver;
-
-    void setupGame();
-    bool checkWinCondition() const;
-    void displayInstructions() const;
-
 public:
     Game();
     ~Game();
     void start();
+
+private:
+    void setupGame();
+    void displayInstructions() const;
     void processCommand(std::string command);
+    bool checkWinCondition() const;
+
+    std::shared_ptr<Player> player;
+    bool isGameOver;
 };
-
-#endif // GAME_HPP
-
-
-

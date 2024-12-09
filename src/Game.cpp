@@ -4,43 +4,39 @@
 #include <iostream>
 #include <algorithm>
 
-// Constructor
 Game::Game() : isGameOver(false) {
     setupGame();
 }
 
-// Destructor
 Game::~Game() = default;
 
-// Set up the game world
 void Game::setupGame() {
-    // Create items
     auto torch = std::make_shared<Torch>();
     auto keyItem = std::make_shared<Key>();
     auto amulet = std::make_shared<Amulet>();
 
-    // Create rooms
-    auto foyer = std::make_shared<Room>("A dimly lit foyer with a whispering voice.");
-    auto library = std::make_shared<Room>("A grand library filled with dusty books and a ghost.");
-    auto basement = std::make_shared<Room>("A damp, dark basement with a locked chest.");
+    auto foyer = std::make_shared<Room>(
+        "A dimly lit foyer. You feel a chill in your spine. The room is locked; "
+        "to leave, you must solve the puzzle.");
+    auto library = std::make_shared<Room>(
+        "A grand library filled with dusty books and an evil ghost. The ghost blocks your way forward. Use something to scare it away");
+    auto basement = std::make_shared<Room>(
+        "A damp, dark basement. The air is heavy, and a locked chest is in the corner.");
 
-    // Add items to rooms
     foyer->addItem(torch);
     library->addItem(keyItem);
 
-    // Add NPCs to rooms
     auto whisperingVoice = std::make_shared<WhisperingVoice>();
     auto ghost = std::make_shared<Ghost>();
 
     foyer->setNPC(whisperingVoice);
     library->setNPC(ghost);
 
-    // Add puzzles to rooms
     auto foyerPuzzle = std::make_shared<Puzzle>(
         "Riddle: 'I'm light as a feather, yet the strongest man can't hold me for more than 5 minutes. What am I?'",
         "breath");
     auto libraryPuzzle = std::make_shared<Puzzle>(
-        "Combination: 'Three explorers set out on an adventure...'",
+        "Combination: 'Three explorers set out on an adventure. Each carries items in multiples of five: What are they'",
         "5 10 15");
     auto basementPuzzle = std::make_shared<Puzzle>(
         "Riddle: 'The more of me you take, the more you leave behind. What am I?'",
@@ -50,18 +46,16 @@ void Game::setupGame() {
     library->setPuzzle(libraryPuzzle);
     basement->setPuzzle(basementPuzzle);
 
-    // Set room exits
     foyer->setExit("north", library);
     library->setExit("south", foyer);
     library->setExit("down", basement);
 
-    // Set player's starting room
     player = std::make_shared<Player>(foyer);
 }
 
-// Display game instructions
 void Game::displayInstructions() const {
-    std::cout << "Your goal is to find the amulet and restore the manor.\n"
+    std::cout << "Welcome to Haunted Manor Adventure!\n"
+              << "Your goal is to find the amulet and restore the manor.\n"
               << "Commands:\n"
               << "  look          - Look around the room.\n"
               << "  move <dir>    - Move in a direction (e.g., 'move north').\n"
@@ -70,10 +64,10 @@ void Game::displayInstructions() const {
               << "  use <item>    - Use an item in your inventory.\n"
               << "  solve         - Solve a puzzle in the room.\n"
               << "  inventory     - View your inventory.\n"
-              << "  quit          - Exit the game.\n";
+              << "  quit          - Exit the game.\n"
+              << "  help          - Display the game instructions.\n";
 }
 
-// Start the game
 void Game::start() {
     displayInstructions();
 
@@ -92,80 +86,55 @@ void Game::start() {
     std::cout << "Thank you for playing! Goodbye!\n";
 }
 
-// Process player commands
 void Game::processCommand(std::string command) {
     auto currentRoom = player->getCurrentRoom();
-    std::transform(command.begin(), command.end(), command.begin(), ::tolower); // Convert command to lowercase
+    std::transform(command.begin(), command.end(), command.begin(), ::tolower);
 
     if (command == "look") {
-        // Describe the current room and its contents
         currentRoom->describe();
-        auto npc = currentRoom->getNPC();
-        if (npc) {
-            npc->interact(); // Interact with the NPC if present
-        }
     } else if (command.find("move") == 0) {
-        // Extract the direction and move to the next room if allowed
-        std::string direction = command.substr(5); // Extract direction
+        std::string direction = command.substr(5);
         auto nextRoom = currentRoom->getExit(direction);
-        if (nextRoom) {
-            if (!currentRoom->isPuzzleSolved()) {
-                std::cout << "You must solve the puzzle here before moving to the next room.\n";
-                return;
-            }
-            player->move(direction);
-        } else {
-            std::cout << "There is no exit in that direction.\n";
-        }
-    } else if (command.find("take") == 0) {
-    std::string itemName = command.substr(5); // Extract item name
-    std::cout << "Attempting to take: " << itemName << "\n"; // Debug print
-    std::transform(itemName.begin(), itemName.end(), itemName.begin(), ::tolower); // Normalize case
 
-    auto item = currentRoom->findItem(itemName);
-    if (item) {
-        player->pickUp(item);
-        currentRoom->removeItem(item);
-        std::cout << "You picked up the " << item->getName() << ".\n";
-    } else {
-        std::cout << "There is no " << itemName << " here.\n";
-    }
-}
- else if (command.find("drop") == 0) {
-    std::string itemName = command.substr(5); // Extract item name
-    auto item = player->findItemInInventory(itemName);
-    if (item) {
-        player->dropItem(item);
-        currentRoom->addItem(item);
-        std::cout << "You dropped the " << item->getName() << ".\n";
-    } else {
-        std::cout << "You don't have " << itemName << " in your inventory.\n";
-    }
-}
- else if (command.find("use") == 0) {
-    std::string itemName = command.substr(4); // Extract item name
-    auto item = player->findItemInInventory(itemName);
-    if (item) {
-        if (itemName == "key" && currentRoom->getDescription().find("chest") != std::string::npos) {
-            std::cout << "You unlocked the chest and found the Amulet!\n";
-            auto amulet = std::make_shared<Amulet>();
-            player->pickUp(amulet);
+        if (!nextRoom) {
+            std::cout << "There is no exit in that direction.\n";
+        } else if (currentRoom->getDescription().find("locked") != std::string::npos && !currentRoom->isPuzzleSolved()) {
+            std::cout << "The room is locked. Solve the puzzle to proceed.\n";
+        } else if (currentRoom->getNPC() && currentRoom->getNPC()->getName() == "Ghost") {
+            std::cout << "The ghost blocks your way! Use something to scare it away.\n";
         } else {
-            item->use();
+            player->move(direction);
         }
-    } else {
-        std::cout << "You don't have " << itemName << " in your inventory.\n";
-    }
-}
- else if (command == "solve") {
-        // Attempt to solve the puzzle in the current room
+
+         } else if (command == "help") {
+        // Display the help message
+        displayInstructions();
+    } else if (command.find("take") == 0) {
+        std::string itemName = command.substr(5);
+        auto item = currentRoom->findItem(itemName);
+        if (item) {
+            player->pickUp(item);
+            currentRoom->removeItem(item);
+            std::cout << "You picked up the " << item->getName() << ".\n";
+        } else {
+            std::cout << "There is no " << itemName << " here.\n";
+        }
+    } else if (command.find("use torch") != std::string::npos) {
+        auto npc = currentRoom->getNPC();
+        if (npc && npc->getName() == "Ghost") {
+            std::cout << "You used the torch! The ghost flees in terror!\n";
+            currentRoom->setNPC(nullptr);
+        } else {
+            std::cout << "The torch flickers but has no effect here.\n";
+        }
+    } else if (command == "solve") {
         auto puzzle = currentRoom->getPuzzle();
         if (puzzle && !puzzle->getIsSolved()) {
             std::cout << puzzle->getDescription() << "\nAnswer: ";
             std::string answer;
             std::getline(std::cin, answer);
             if (puzzle->attemptSolution(answer)) {
-                std::cout << "You solved the puzzle!\n";
+                std::cout << "You solved the puzzle! The room is now unlocked.\n";
             } else {
                 std::cout << "That's not correct.\n";
             }
@@ -173,29 +142,23 @@ void Game::processCommand(std::string command) {
             std::cout << "There is no puzzle to solve here.\n";
         }
     } else if (command == "inventory") {
-    const auto& inventory = player->getInventory();
-    if (inventory.empty()) {
-        std::cout << "Your inventory is empty.\n";
-    } else {
-        std::cout << "Your inventory contains:\n";
-        for (const auto& item : inventory) {
-            std::cout << "- " << item->getName() << "\n"; // Debug: print each item name
+        const auto& inventory = player->getInventory();
+        if (inventory.empty()) {
+            std::cout << "Your inventory is empty.\n";
+        } else {
+            std::cout << "Your inventory contains:\n";
+            for (const auto& item : inventory) {
+                std::cout << "- " << item->getName() << "\n";
+            }
         }
-    }
-}
- else if (command == "quit") {
-        // Exit the game
+    } else if (command == "quit") {
         isGameOver = true;
     } else {
-        // Handle unknown commands
         std::cout << "Unknown command. Type 'help' for a list of commands.\n";
     }
 }
 
-
-// Check if the player has won the game
 bool Game::checkWinCondition() const {
     auto amulet = player->findItemInInventory("amulet");
     return amulet != nullptr;
 }
-

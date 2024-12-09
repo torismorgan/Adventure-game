@@ -1,8 +1,5 @@
-#ifndef CONCRETENPCS_HPP
-#define CONCRETENPCS_HPP
-
+#pragma once
 #include "NPC.hpp"
-#include <string>
 
 class WhisperingVoice : public NPC {
 public:
@@ -11,10 +8,12 @@ public:
 };
 
 class Ghost : public NPC {
+private:
+    bool scaredAway;
+
 public:
     Ghost();
     void interact() override;
+    void scareAway();
+    bool isScaredAway() const;
 };
-
-#endif // CONCRETENPC_HPP
-

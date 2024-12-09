@@ -2,58 +2,92 @@
 #include <iostream>
 #include <algorithm>
 
+// Constructor
 Room::Room(const std::string& desc) : description(desc) {}
 
+// Display the room's description and its contents
 void Room::describe() const {
-    std::cout << description << std::endl;
+    // General room description
+    std::cout << "You are in " << description << " The atmosphere is heavy with mystery. "
+              << "A chill runs down your spine as you realize the room is locked.\n";
+
+    // NPC interaction if present
     if (npc) {
-        std::cout << "You see " << npc->getName() << " here.\n";
+        std::cout << npc->getName() << " whispers: '" << npc->getDialogue() << "'\n";
     }
+
+    // Puzzle introduction
     if (puzzle && !puzzle->getIsSolved()) {
-        std::cout << "There is a puzzle: " << puzzle->getDescription() << "\n";
+        std::cout << "The room feels mysterious and foreboding. To proceed, you must solve the following puzzle:\n"
+                  << "Puzzle: '" << puzzle->getDescription() << "'\n";
     }
-    std::cout << "Items in the room:\n";
-    for (const auto& item : items) {
-        std::cout << "- " << item->getName() << "\n"; // Debug: print item names
+
+    // List items in the room
+    if (!items.empty()) {
+        std::cout << "Looking around, you notice the following items:\n";
+        for (const auto& item : items) {
+            std::cout << "- " << item->getName() << "\n";
+        }
     }
 }
 
-
+// Add an item to the room
 void Room::addItem(std::shared_ptr<Item> item) {
     items.push_back(item);
 }
 
+// Remove an item from the room
 void Room::removeItem(std::shared_ptr<Item> item) {
     items.erase(std::remove(items.begin(), items.end(), item), items.end());
 }
 
+// Find an item in the room by name
 std::shared_ptr<Item> Room::findItem(const std::string& itemName) const {
-    std::string normalizedItemName = itemName;
-    std::transform(normalizedItemName.begin(), normalizedItemName.end(), normalizedItemName.begin(), ::tolower);
-
     for (const auto& item : items) {
-        std::string normalizedStoredName = item->getName();
-        std::transform(normalizedStoredName.begin(), normalizedStoredName.end(), normalizedStoredName.begin(), ::tolower);
-
-        if (normalizedStoredName == normalizedItemName) {
-            return item; // Return the matching item
+        if (item->getName() == itemName) {
+            return item;
         }
     }
-    return nullptr; // Return nullptr if no match is found
+    return nullptr;
 }
 
+// Set the NPC in the room
+void Room::setNPC(std::shared_ptr<NPC> npc) {
+    this->npc = npc;
+}
 
+// Get the NPC in the room
+std::shared_ptr<NPC> Room::getNPC() const {
+    return npc;
+}
+
+// Set the puzzle in the room
+void Room::setPuzzle(std::shared_ptr<Puzzle> puzzle) {
+    this->puzzle = puzzle;
+}
+
+// Get the puzzle in the room
+std::shared_ptr<Puzzle> Room::getPuzzle() const {
+    return puzzle;
+}
+
+// Check if the puzzle in the room is solved
+bool Room::isPuzzleSolved() const {
+    return puzzle && puzzle->getIsSolved();
+}
+
+// Set an exit to another room
 void Room::setExit(const std::string& direction, std::shared_ptr<Room> room) {
     exits[direction] = room;
 }
 
+// Get the room in the specified direction
 std::shared_ptr<Room> Room::getExit(const std::string& direction) const {
     auto it = exits.find(direction);
     return (it != exits.end()) ? it->second : nullptr;
 }
 
-// Implementation of getDescription
+// Get the room's description
 std::string Room::getDescription() const {
     return description;
 }
-
