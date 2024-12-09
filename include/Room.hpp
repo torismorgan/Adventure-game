@@ -34,6 +34,7 @@ public:
     void setPuzzle(std::shared_ptr<Puzzle> puzzle) { this->puzzle = puzzle; }
     std::shared_ptr<Puzzle> getPuzzle() const { return puzzle; }
     bool isPuzzleSolved() const { return puzzle ? puzzle->getIsSolved() : true; }
+    std::string getDescription() const { return description; }
 };
 
 #endif // ROOM_HPP
