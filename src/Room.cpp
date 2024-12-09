@@ -42,4 +42,9 @@ std::shared_ptr<Room> Room::getExit(const std::string& direction) const {
     auto it = exits.find(direction);
     return (it != exits.end()) ? it->second : nullptr;
 }
-std::string getDescription() const { return description; }
+
+// Implementation of getDescription
+std::string Room::getDescription() const {
+    return description;
+}
+
