@@ -12,10 +12,12 @@ void Room::describe() const {
     if (puzzle && !puzzle->getIsSolved()) {
         std::cout << "There is a puzzle: " << puzzle->getDescription() << "\n";
     }
+    std::cout << "Items in the room:\n";
     for (const auto& item : items) {
-        std::cout << "- " << item->getName() << "\n";
+        std::cout << "- " << item->getName() << "\n"; // Debug: print item names
     }
 }
+
 
 void Room::addItem(std::shared_ptr<Item> item) {
     items.push_back(item);
@@ -26,13 +28,20 @@ void Room::removeItem(std::shared_ptr<Item> item) {
 }
 
 std::shared_ptr<Item> Room::findItem(const std::string& itemName) const {
+    std::string normalizedItemName = itemName;
+    std::transform(normalizedItemName.begin(), normalizedItemName.end(), normalizedItemName.begin(), ::tolower);
+
     for (const auto& item : items) {
-        if (item->getName() == itemName) {
-            return item;
+        std::string normalizedStoredName = item->getName();
+        std::transform(normalizedStoredName.begin(), normalizedStoredName.end(), normalizedStoredName.begin(), ::tolower);
+
+        if (normalizedStoredName == normalizedItemName) {
+            return item; // Return the matching item
         }
     }
-    return nullptr;
+    return nullptr; // Return nullptr if no match is found
 }
+
 
 void Room::setExit(const std::string& direction, std::shared_ptr<Room> room) {
     exits[direction] = room;

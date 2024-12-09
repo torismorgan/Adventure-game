@@ -118,17 +118,20 @@ void Game::processCommand(std::string command) {
             std::cout << "There is no exit in that direction.\n";
         }
     } else if (command.find("take") == 0) {
-        // Extract the item name and attempt to take it
-        std::string itemName = command.substr(5); // Extract item name
-        auto item = currentRoom->findItem(itemName);
-        if (item) {
-            player->pickUp(item);
-            currentRoom->removeItem(item);
-            std::cout << "You picked up the " << itemName << ".\n";
-        } else {
-            std::cout << "There is no " << itemName << " here.\n";
-        }
-    } else if (command.find("drop") == 0) {
+    std::string itemName = command.substr(5); // Extract item name
+    std::cout << "Attempting to take: " << itemName << "\n"; // Debug print
+    std::transform(itemName.begin(), itemName.end(), itemName.begin(), ::tolower); // Normalize case
+
+    auto item = currentRoom->findItem(itemName);
+    if (item) {
+        player->pickUp(item);
+        currentRoom->removeItem(item);
+        std::cout << "You picked up the " << item->getName() << ".\n";
+    } else {
+        std::cout << "There is no " << itemName << " here.\n";
+    }
+}
+ else if (command.find("drop") == 0) {
         // Extract the item name and attempt to drop it
         std::string itemName = command.substr(5); // Extract item name
         auto item = player->findItemInInventory(itemName);
