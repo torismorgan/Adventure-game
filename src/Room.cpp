@@ -57,3 +57,19 @@ std::string Room::getDescription() const {
     return description;
 }
 
+bool Room::isPuzzleSolved() const {
+    return puzzle ? puzzle->getIsSolved() : true; // If no puzzle, consider it solved
+}
+
+void Room::setPuzzleSolved(bool solved) {
+    if (puzzle) {
+        puzzle->attemptSolution(""); // Automatically solve for transition logic
+    }
+}
+bool Room::hasLockedChest() const {
+    return description.find("chest") != std::string::npos;
+}
+
+void Room::unlockChest() {
+    description += " The chest is now open, revealing the amulet.";
+}

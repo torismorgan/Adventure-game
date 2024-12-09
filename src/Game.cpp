@@ -1,58 +1,67 @@
 #include "Game.hpp"
 #include "ConcreteItems.hpp"
-#include "GameDisplay.hpp"
-#include "Puzzle.hpp"
-#include "NPC.hpp"
+#include "ConcreteNPC.hpp"
 #include <iostream>
 #include <algorithm>
 
+// Constructor
 Game::Game() : isGameOver(false) {
     setupGame();
 }
 
+// Destructor
 Game::~Game() = default;
 
+// Set up the game world
 void Game::setupGame() {
-    // Create rooms
-    auto foyer = std::make_shared<Room>("You are in a dimly lit foyer. The air is heavy with an eerie silence.");
-    auto library = std::make_shared<Room>("A grand library filled with ancient books. Shadows move between the shelves.");
-    auto basement = std::make_shared<Room>("A damp, dark basement. The air smells of mildew, and the floor creaks underfoot.");
+    // Create items
+    auto torch = std::make_shared<Torch>();
+    auto keyItem = std::make_shared<Key>();
+    auto amulet = std::make_shared<Amulet>();
 
-    // Create puzzles
-    auto foyerPuzzle = std::make_shared<Puzzle>("Riddle: 'I'm light as a feather, yet the strongest man can't hold me for more than 5 minutes. What am I?'", "breath");
-    auto libraryPuzzle = std::make_shared<Puzzle>("Combination: 'Three explorers set out on an adventure...'", "5 10 15");
-    auto basementPuzzle = std::make_shared<Puzzle>("Riddle: 'The more of me you take, the more you leave behind. What am I?'", "footsteps");
+    // Create rooms
+    auto foyer = std::make_shared<Room>("A dimly lit foyer with a whispering voice.");
+    auto library = std::make_shared<Room>("A grand library filled with dusty books and a ghost.");
+    auto basement = std::make_shared<Room>("A damp, dark basement with a locked chest.");
+
+    // Add items to rooms
+    foyer->addItem(torch);
+    library->addItem(keyItem);
 
     // Create NPCs
-    auto whisperingVoice = std::make_shared<NPC>("Whispering Voice", "A faint whisper echoes: 'The library holds the key...'");
-    auto ghost = std::make_shared<NPC>("Ghost", "The ghost's chilling presence blocks your way.");
+    auto whisperingVoice = std::make_shared<WhisperingVoice>();
+    auto ghost = std::make_shared<Ghost>();
 
-    // Add items
-   auto torch = std::make_shared<Torch>();
-auto keyitem = std::make_shared<Key>();
+    foyer->setNPC(whisperingVoice);
+    library->setNPC(ghost);
 
+    // Add puzzles
+    auto foyerPuzzle = std::make_shared<Puzzle>(
+        "Riddle: 'I'm light as a feather, yet the strongest man can't hold me for more than 5 minutes. What am I?'",
+        "breath");
+    auto libraryPuzzle = std::make_shared<Puzzle>(
+        "Combination: 'Three explorers set out on an adventure...'",
+        "5 10 15");
+    auto basementPuzzle = std::make_shared<Puzzle>(
+        "Riddle: 'The more of me you take, the more you leave behind. What am I?'",
+        "footsteps");
 
-    // Room configuration
+    foyer->setPuzzle(foyerPuzzle);
+    library->setPuzzle(libraryPuzzle);
+    basement->setPuzzle(basementPuzzle);
+
+    // Set room exits
     foyer->setExit("north", library);
     library->setExit("south", foyer);
     library->setExit("down", basement);
 
-    foyer->addItem(torch);
-    library->addItem(keyitem);
-
-    foyer->setPuzzle(foyerPuzzle);
-    foyer->setNPC(whisperingVoice);
-    library->setPuzzle(libraryPuzzle);
-    library->setNPC(ghost);
-    basement->setPuzzle(basementPuzzle);
-
-    // Set starting room
+    // Set the player's starting room
     player = std::make_shared<Player>(foyer);
 }
 
+// Display game instructions
 void Game::displayInstructions() const {
-    std::cout << "Welcome to Haunted Manor Adventure!\n"
-              << "Your goal is to find the amulet and restore the manor.\n"
+    std::cout << "Your goal is to find the amulet and restore the manor.\n"
               << "Commands:\n"
               << "  look          - Look around the room.\n"
               << "  move <dir>    - Move in a direction (e.g., 'move north').\n"
@@ -64,52 +73,60 @@ void Game::displayInstructions() const {
               << "  quit          - Exit the game.\n";
 }
 
+// Start the game
 void Game::start() {
-    GameDisplay display;
-
-    display.displayWelcomeMessage();
     displayInstructions();
-    std::string command;
 
     while (!isGameOver) {
         std::cout << "> ";
+        std::string command;
         std::getline(std::cin, command);
         processCommand(command);
 
         if (checkWinCondition()) {
-            display.displayWinMessage();
+            std::cout << "The amulet glows brightly, banishing the darkness. You have restored the manor!\n";
             isGameOver = true;
         }
     }
 
-    display.displayGoodbyeMessage();
+    std::cout << "Thank you for playing! Goodbye!\n";
 }
 
-void Game::processCommand(const std::string& command) {
+// Process player commands
+void Game::processCommand(std::string command) {
     auto currentRoom = player->getCurrentRoom();
-    GameDisplay display;
+    std::transform(command.begin(), command.end(), command.begin(), ::tolower); // Convert command to lowercase
 
     if (command == "look") {
         currentRoom->describe();
+        auto npc = currentRoom->getNPC();
+        if (npc) {
+            npc->interact();
+        }
     } else if (command.find("move") == 0) {
-        std::string direction = command.substr(5);
-        player->move(direction);
+        std::string direction = command.substr(5); // Extract direction
+        auto nextRoom = currentRoom->getExit(direction);
+        if (nextRoom) {
+            if (!currentRoom->isPuzzleSolved()) {
+                std::cout << "You must solve the puzzle here before moving to the next room.\n";
+                return;
+            }
+            player->move(direction);
+        } else {
+            std::cout << "There is no exit in that direction.\n";
+        }
     } else if (command.find("take") == 0) {
-        std::string itemName = command.substr(5);
-        const auto& items = currentRoom->getItems();
-        auto it = std::find_if(items.begin(), items.end(),
-            [&itemName](const std::shared_ptr<Item>& item) {
-                return item->getName() == itemName;
-            });
-        if (it != items.end()) {
-            player->pickUp(*it);
-            currentRoom->removeItem(*it);
+        std::string itemName = command.substr(5); // Extract item name
+        auto item = currentRoom->findItem(itemName);
+        if (item) {
+            player->pickUp(item);
+            currentRoom->removeItem(item);
             std::cout << "You picked up the " << itemName << ".\n";
         } else {
             std::cout << "There is no " << itemName << " here.\n";
         }
     } else if (command.find("drop") == 0) {
-        std::string itemName = command.substr(5);
+        std::string itemName = command.substr(5); // Extract item name
         auto item = player->findItemInInventory(itemName);
         if (item) {
             player->dropItem(item);
@@ -117,12 +134,27 @@ void Game::processCommand(const std::string& command) {
             std::cout << "You dropped the " << itemName << ".\n";
         } else {
             std::cout << "You don't have " << itemName << " in your inventory.\n";
+    } else if (command.find("use") == 0) {
+        std::string itemName = command.substr(4); // Extract item name
+        auto item = player->findItemInInventory(itemName);
+        if (item) {
+            if (itemName == "torch" && currentRoom->getNPC() && currentRoom->getNPC()->getName() == "Ghost") {
+                std::cout << "The torch flickers brightly, and the ghost disappears!\n";
+                currentRoom->setNPC(nullptr); // Remove the ghost
+            } else if (itemName == "key" && currentRoom->getDescription().find("chest") != std::string::npos) {
+                std::cout << "You unlocked the chest and found the Amulet!\n";
+                auto amulet = std::make_shared<Amulet>();
+                player->pickUp(amulet);
+            } else {
+                item->use();
+            }
+        } else {
+            std::cout << "You don't have " << itemName << " in your inventory.\n";
         }
     } else if (command == "solve") {
         auto puzzle = currentRoom->getPuzzle();
         if (puzzle && !puzzle->getIsSolved()) {
-            std::cout << puzzle->getDescription() << "\n";
-            std::cout << "Answer: ";
+            std::cout << puzzle->getDescription() << "\nAnswer: ";
             std::string answer;
             std::getline(std::cin, answer);
             if (puzzle->attemptSolution(answer)) {
@@ -133,28 +165,8 @@ void Game::processCommand(const std::string& command) {
         } else {
             std::cout << "There is no puzzle to solve here.\n";
         }
-    } else if (command.find("use") == 0) {
-        std::string itemName = command.substr(4);
-        auto item = player->findItemInInventory(itemName);
-        if (item) {
-            if (item->getName() == "Torch") {
-                player->lightTorch();
-            } else {
-                std::cout << "You can't use that item here.\n";
-            }
-        } else {
-            std::cout << "You don't have " << itemName << " in your inventory.\n";
-        }
     } else if (command == "inventory") {
-        const auto& inventory = player->getInventory();
-        if (inventory.empty()) {
-            std::cout << "Your inventory is empty.\n";
-        } else {
-            std::cout << "Your inventory contains:\n";
-            for (const auto& item : inventory) {
-                std::cout << "- " << item->getName() << "\n";
-            }
-        }
+        player->showInventory();
     } else if (command == "quit") {
         isGameOver = true;
     } else {
@@ -162,14 +174,10 @@ void Game::processCommand(const std::string& command) {
     }
 }
 
+// Check if the player has won the game
 bool Game::checkWinCondition() {
-    auto currentRoom = player->getCurrentRoom();
-    auto amulet = player->findItemInInventory("Amulet");
-    if (currentRoom->getDescription().find("basement") != std::string::npos && amulet) {
-        std::cout << "The amulet glows brightly, banishing the darkness. You have restored the manor!\n";
-        return true;
-    }
-    return false;
+    auto amulet = player->findItemInInventory("amulet");
+    return amulet != nullptr;
 }
 
 
