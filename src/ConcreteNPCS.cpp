@@ -1,4 +1,4 @@
-#include "ConcreteNPC.hpp"
+#include "ConcreteNPCS.hpp"
 #include <iostream>
 
 // Whispering Voice Implementation

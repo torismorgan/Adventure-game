@@ -1,6 +1,6 @@
 #include "Game.hpp"
 #include "ConcreteItems.hpp"
-#include "ConcreteNPC.hpp"
+#include "ConcreteNPCS.hpp"
 #include <iostream>
 #include <algorithm>
 
