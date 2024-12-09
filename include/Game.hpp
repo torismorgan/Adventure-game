@@ -14,6 +14,7 @@ private:
 
     void setupGame();
     bool checkWinCondition() const;
+    void displayInstructions() const;
 
 public:
     Game();
