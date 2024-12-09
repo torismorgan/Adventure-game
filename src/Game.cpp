@@ -134,20 +134,12 @@ void Game::processCommand(std::string command) {
             std::cout << "You dropped the " << itemName << ".\n";
         } else {
             std::cout << "You don't have " << itemName << " in your inventory.\n";
-    } else if (command.find("use") == 0) {
+        }
+    } else if (command.find("use") == 0) {  // Check if the command is to use an item
         std::string itemName = command.substr(4); // Extract item name
         auto item = player->findItemInInventory(itemName);
         if (item) {
-            if (itemName == "torch" && currentRoom->getNPC() && currentRoom->getNPC()->getName() == "Ghost") {
-                std::cout << "The torch flickers brightly, and the ghost disappears!\n";
-                currentRoom->setNPC(nullptr); // Remove the ghost
-            } else if (itemName == "key" && currentRoom->getDescription().find("chest") != std::string::npos) {
-                std::cout << "You unlocked the chest and found the Amulet!\n";
-                auto amulet = std::make_shared<Amulet>();
-                player->pickUp(amulet);
-            } else {
-                item->use();
-            }
+            item->use();
         } else {
             std::cout << "You don't have " << itemName << " in your inventory.\n";
         }
@@ -173,7 +165,7 @@ void Game::processCommand(std::string command) {
         std::cout << "Unknown command. Type 'help' for a list of commands.\n";
     }
 }
-}
+
 
 // Check if the player has won the game
 bool Game::checkWinCondition() {
