@@ -252,6 +252,7 @@ void Game::processCommand(const std::string& command) {
     }
 }
 
+
 bool Game::checkWinCondition() const {
      auto amulet = player->findItemInInventory("amulet");
     return amulet != nullptr;
