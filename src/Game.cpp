@@ -19,7 +19,8 @@ void Game::setupGame() {
     // Create rooms
     auto foyer = std::make_shared<Room>("A dimly lit foyer. The room feels locked and mysterious.");
     auto library = std::make_shared<Room>("a grand library filled with dusty books.");
-    auto basement = std::make_shared<Room>("a damp, dark basement. The air is heavy, and you sense danger.");
+    auto basement = std::make_shared<Room>("You are in a damp, dark basement. The air is heavy, and you sense danger. "
+                                       "You must scare the ghost, or you will be possessed.");
 
     // Add items to rooms
     foyer->addItem(torch);
@@ -171,18 +172,15 @@ void Game::processCommand(const std::string& command) {
                 item->use();
                 if (argument == "torch" && currentRoom->getNPC() && currentRoom->getNPC()->getName() == "Ghost") {
                     std::cout << "The torch flickers and lights the room.\n";
-                    std::cout << "The Ghost is scared by the Torch and vanishes!\n";
-                    currentRoom->setNPC(nullptr);
-                } else if (argument == "key") {
-    if (currentRoom->hasChest() && currentRoom->isPuzzleSolved()) {
-        std::cout << "You use the key and open the chest to reveal the Amulet of Truth!\n";
-        std::cout << "The Amulet shines brightly, dispelling the darkness and restoring the manor!\n";
-        isGameOver = true; // End the game when the chest is opened
-    } else {
-        std::cout << "Using the key has no effect here.\n";
-    }
-}
- else {
+                    std::cout << "The ghost screams and vanishes into the darkness. You are now safe.\n";
+                    currentRoom->setNPC(nullptr); // Remove the ghost
+                } else if (argument == "key" && currentRoom->getDescription().find("basement") != std::string::npos) {
+                    std::cout << "You use the key and open the chest to reveal the Amulet of Truth!\n";
+                    std::cout << "The Amulet shines brightly, dispelling the darkness and restoring the manor!\n";
+                    player->pickUp(std::make_shared<Amulet>()); // Add the amulet to the player's inventory
+                    isGameOver = true;
+                    std::cout << "Congratulations! You have won the game!\n";
+                } else {
                     std::cout << "Using the " << argument << " has no effect here.\n";
                 }
             } else {
@@ -253,7 +251,6 @@ void Game::processCommand(const std::string& command) {
         std::cout << "Unknown command. Type 'help' for a list of commands.\n";
     }
 }
-
 
 bool Game::checkWinCondition() const {
      auto amulet = player->findItemInInventory("amulet");
