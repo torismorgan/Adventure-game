@@ -1,4 +1,4 @@
-#include "ConcreteNPCS.hpp"
+#include "ConcreteNPC.hpp"
 #include <iostream>
 
 // Whispering Voice Implementation
@@ -16,4 +16,5 @@ Ghost::Ghost()
 void Ghost::interact() {
     std::cout << dialogue << std::endl;
 }
+
 

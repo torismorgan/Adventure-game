@@ -10,13 +10,11 @@ private:
     bool isSolved;
 
 public:
-    Puzzle(const std::string& desc, const std::string& sol);
+    Puzzle(const std::string& description, const std::string& solution);
 
     std::string getDescription() const;
     bool attemptSolution(const std::string& playerInput);
     bool getIsSolved() const;
-    std::string getHint() const;
-
 };
 
 #endif // PUZZLE_HPP

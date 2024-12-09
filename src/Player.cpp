@@ -19,6 +19,7 @@ void Player::pickUp(std::shared_ptr<Item> item) {
     inventory.push_back(item);
 }
 
+
 void Player::dropItem(std::shared_ptr<Item> item) {
     inventory.erase(std::remove(inventory.begin(), inventory.end(), item), inventory.end());
 }

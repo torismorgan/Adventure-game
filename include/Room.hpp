@@ -1,15 +1,13 @@
 #ifndef ROOM_HPP
 #define ROOM_HPP
 
-#include <string>
 #include <vector>
-#include <unordered_map>
 #include <memory>
+#include <string>
+#include <unordered_map>
 #include "Item.hpp"
 #include "NPC.hpp"
 #include "Puzzle.hpp"
-
-class Door;
 
 class Room {
 private:
@@ -25,37 +23,20 @@ public:
     void describe() const;
     void addItem(std::shared_ptr<Item> item);
     void removeItem(std::shared_ptr<Item> item);
-    const std::vector<std::shared_ptr<Item>>& getItems() const;
+    std::shared_ptr<Item> findItem(const std::string& itemName) const;
 
     void setExit(const std::string& direction, std::shared_ptr<Room> room);
     std::shared_ptr<Room> getExit(const std::string& direction) const;
 
-    void setNPC(std::shared_ptr<NPC> npc);
-    std::shared_ptr<NPC> getNPC() const;
+    void setNPC(std::shared_ptr<NPC> npc) { this->npc = npc; }
+    std::shared_ptr<NPC> getNPC() const { return npc; }
 
-    void setPuzzle(std::shared_ptr<Puzzle> puzzle);
-    std::shared_ptr<Puzzle> getPuzzle() const;
-    std::string getDescription() const;
-    bool isPuzzleSolved() const;
-void setPuzzleSolved(bool solved);
-
-bool hasLockedChest() const;
-void unlockChest();
-std::shared_ptr<Item> findItem(const std::string& itemName) const;
-
-
+    void setPuzzle(std::shared_ptr<Puzzle> puzzle) { this->puzzle = puzzle; }
+    std::shared_ptr<Puzzle> getPuzzle() const { return puzzle; }
+    bool isPuzzleSolved() const { return puzzle ? puzzle->getIsSolved() : true; }
 };
 
 #endif // ROOM_HPP
-
-
-
-
-
-
-
-
-
 
 
 

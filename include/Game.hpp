@@ -6,17 +6,14 @@
 #include <string>
 #include "Room.hpp"
 #include "Player.hpp"
-#include "GameDisplay.hpp"
 
 class Game {
 private:
-    std::map<std::string, std::shared_ptr<Room>> rooms;
     std::shared_ptr<Player> player;
     bool isGameOver;
 
     void setupGame();
-    bool checkWinCondition();
-    void displayInstructions() const;
+    bool checkWinCondition() const;
 
 public:
     Game();
@@ -26,7 +23,6 @@ public:
 };
 
 #endif // GAME_HPP
-
 
 
 

@@ -28,7 +28,6 @@ Key::Key() {
 }
 
 void Key::use() {
-    std::cout << "You use the key to unlock something.\n";
+    std::cout << "You use the key.\n";
 }
-
 

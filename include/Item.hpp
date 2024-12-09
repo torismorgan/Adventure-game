@@ -11,14 +11,10 @@ protected:
 public:
     virtual ~Item() = default;
 
-    // Getters
+    virtual void use() = 0; // Pure virtual function
+    void setName(const std::string& itemName) { name = itemName; }
     std::string getName() const { return name; }
     std::string getDescription() const { return description; }
-std::shared_ptr<Item> findItem(const std::string& itemName) const;
-
-
-    // Virtual use function to be overridden by specific items
-    virtual void use() = 0;
 };
 
 #endif // ITEM_HPP
