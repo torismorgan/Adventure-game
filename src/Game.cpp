@@ -184,8 +184,8 @@ void Game::processCommand(const std::string& command) {
                     std::cout << "Using the " << argument << " has no effect here.\n";
                 }
             } else {
-                if (argument == "torch" && currentRoom->getNPC() && currentRoom->getNPC()->getName() == "Ghost") {
-                    std::cout << "You don't have the torch. The ghost looms over you. You are consumed by fear and perish. You have lost the game!\n";
+                if (argument == "key" && currentRoom->getDescription().find("basement") != std::string::npos) {
+                    std::cout << "You don't have the key. You couldn't open the chest. The manor remains in darkness forever. You have lost the game!\n";
                     isGameOver = true;
                     return;
                 }
