@@ -41,6 +41,8 @@ void setPuzzleSolved(bool solved);
 
 bool hasLockedChest() const;
 void unlockChest();
+std::shared_ptr<Item> findItem(const std::string& itemName) const;
+
 
 };
 
