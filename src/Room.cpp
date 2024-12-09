@@ -73,3 +73,12 @@ bool Room::hasLockedChest() const {
 void Room::unlockChest() {
     description += " The chest is now open, revealing the amulet.";
 }
+
+std::shared_ptr<Item> Room::findItem(const std::string& itemName) const {
+    for (const auto& item : items) {
+        if (item->getName() == itemName) {
+            return item;
+        }
+    }
+    return nullptr;
+}
