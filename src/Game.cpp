@@ -104,6 +104,8 @@ void Game::processCommand(const std::string& command) {
     std::transform(action.begin(), action.end(), action.begin(), ::tolower);
     std::transform(argument.begin(), argument.end(), argument.begin(), ::tolower);
 
+    static int wrongAttempts = 0; // Counter for wrong puzzle attempts
+
     if (action == "look") {
         currentRoom->describe();
     } 
@@ -114,17 +116,17 @@ void Game::processCommand(const std::string& command) {
                 if (!currentRoom->isPuzzleSolved()) {
                     std::cout << "The room is locked. Solve the puzzle first to proceed.\n";
                 } else if (currentRoom->getNPC() && currentRoom->getNPC()->getName() == "Ghost") {
-                    std::cout << "The ghost blocks your way! Scare it away to proceed.\n";
+                    if (!player->findItemInInventory("torch")) {
+                        std::cout << "The ghost looms before you. Without the torch, you are powerless. The ghost devours your soul. You have lost the game!\n";
+                        isGameOver = true;
+                        return;
+                    }
                 } else {
                     player->move(argument);
                     if (argument == "north" && currentRoom->getDescription().find("foyer") != std::string::npos) {
                         std::cout << "The Foyer is now unlocked. You can proceed to the North Wing.\n";
                     } else if (argument == "down" && currentRoom->getDescription().find("library") != std::string::npos) {
                         std::cout << "The Library's secrets are revealed. A dark abyss opens below...\n";
-                        if (!currentRoom->getNPC()) {
-                            currentRoom->setNPC(std::make_shared<Ghost>());
-                            std::cout << "A ghost suddenly appears and blocks your path. You must scare it away before you can proceed further.\n";
-                        }
                     }
                 }
             } else {
@@ -171,15 +173,24 @@ void Game::processCommand(const std::string& command) {
                     std::cout << "The torch flickers and lights the room.\n";
                     std::cout << "The Ghost is scared by the Torch and vanishes!\n";
                     currentRoom->setNPC(nullptr);
-                } else if (argument == "key" && currentRoom->getDescription().find("chest") != std::string::npos) {
-                    std::cout << "You use the key and open the chest to reveal the Amulet of Truth!\n";
-                    std::cout << "The Amulet shines brightly, dispelling the darkness and restoring the manor!\n";
-                    std::cout << "Congratulations! You have won the game!\n";
-                    isGameOver = true;
-                } else {
+                } else if (argument == "key") {
+    if (currentRoom->hasChest() && currentRoom->isPuzzleSolved()) {
+        std::cout << "You use the key and open the chest to reveal the Amulet of Truth!\n";
+        std::cout << "The Amulet shines brightly, dispelling the darkness and restoring the manor!\n";
+        isGameOver = true; // End the game when the chest is opened
+    } else {
+        std::cout << "Using the key has no effect here.\n";
+    }
+}
+ else {
                     std::cout << "Using the " << argument << " has no effect here.\n";
                 }
             } else {
+                if (argument == "torch" && currentRoom->getNPC() && currentRoom->getNPC()->getName() == "Ghost") {
+                    std::cout << "You don't have the torch. The ghost looms over you. You are consumed by fear and perish. You have lost the game!\n";
+                    isGameOver = true;
+                    return;
+                }
                 std::cout << "You don't have " << argument << " in your inventory.\n";
             }
         } else {
@@ -206,8 +217,16 @@ void Game::processCommand(const std::string& command) {
                 } else if (currentRoom->getDescription().find("basement") != std::string::npos) {
                     std::cout << "The chest lock clicks open, revealing its secrets.\n";
                 }
+                wrongAttempts = 0; // Reset wrong attempts on success
             } else {
-                std::cout << "That's not correct.\n";
+                wrongAttempts++;
+                if (wrongAttempts >= 3) {
+                    std::cout << "You have failed to solve the puzzle and lost the game!\n";
+                    isGameOver = true;
+                    return;
+                } else {
+                    std::cout << "That's not correct. Be careful! You have " << (3 - wrongAttempts) << " attempt(s) left.\n";
+                }
             }
         } else {
             std::cout << "There is no puzzle to solve here.\n";
@@ -233,14 +252,10 @@ void Game::processCommand(const std::string& command) {
     else {
         std::cout << "Unknown command. Type 'help' for a list of commands.\n";
     }
-
 }
-//end game
-
-
 
 
 bool Game::checkWinCondition() const {
-    auto amulet = player->findItemInInventory("amulet");
+     auto amulet = player->findItemInInventory("amulet");
     return amulet != nullptr;
 }
