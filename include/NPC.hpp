@@ -2,7 +2,6 @@
 #define NPC_HPP
 
 #include <string>
-#include <iostream>
 
 class NPC {
 protected:
@@ -10,19 +9,14 @@ protected:
     std::string dialogue;
 
 public:
-    NPC(const std::string& npcName, const std::string& npcDialogue)
-        : name(npcName), dialogue(npcDialogue) {}
-
+    NPC(const std::string& name, const std::string& dialogue);
     virtual ~NPC() = default;
 
-    // Getters
+    virtual void interact() = 0;
+
     std::string getName() const { return name; }
     std::string getDialogue() const { return dialogue; }
-
-    // Interaction method
-    virtual void interact() {
-        std::cout << dialogue << std::endl;
-    }
 };
 
 #endif // NPC_HPP
+
