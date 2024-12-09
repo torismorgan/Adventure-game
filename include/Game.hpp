@@ -22,7 +22,7 @@ public:
     Game();
     ~Game();
     void start();
-    void processCommand(const std::string& command);
+    void processCommand(std::string command);
 };
 
 #endif // GAME_HPP

@@ -173,12 +173,11 @@ void Game::processCommand(std::string command) {
         std::cout << "Unknown command. Type 'help' for a list of commands.\n";
     }
 }
+}
 
 // Check if the player has won the game
 bool Game::checkWinCondition() {
     auto amulet = player->findItemInInventory("amulet");
     return amulet != nullptr;
 }
-
-
 
