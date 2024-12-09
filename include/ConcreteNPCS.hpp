@@ -1,25 +1,21 @@
-#ifndef CONCRETENPCS_HPP
-#define CONCRETENPCS_HPP
+#ifndef CONCRETENPC_HPP
+#define CONCRETENPC_HPP
 
 #include "NPC.hpp"
+#include <string>
 
-// Whispering Voice NPC
+// Whispering Voice
 class WhisperingVoice : public NPC {
 public:
     WhisperingVoice();
-    void interact() override {
-        std::cout << "The Whispering Voice murmurs: 'Focus on the air, and the answer will come to you.'\n";
-    }
+    void interact() override;
 };
 
-
-// Ghost NPC
+// Ghost
 class Ghost : public NPC {
 public:
     Ghost();
     void interact() override;
-    bool isAfraidOfTorch() const { return true; }
 };
 
-
-#endif // CONCRETENPCS_HPP
+#endif // CONCRETENPC_HPP
