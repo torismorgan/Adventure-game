@@ -98,12 +98,14 @@ void Game::processCommand(std::string command) {
     std::transform(command.begin(), command.end(), command.begin(), ::tolower); // Convert command to lowercase
 
     if (command == "look") {
+        // Describe the current room and its contents
         currentRoom->describe();
         auto npc = currentRoom->getNPC();
         if (npc) {
-            npc->interact();
+            npc->interact(); // Interact with the NPC if present
         }
     } else if (command.find("move") == 0) {
+        // Extract the direction and move to the next room if allowed
         std::string direction = command.substr(5); // Extract direction
         auto nextRoom = currentRoom->getExit(direction);
         if (nextRoom) {
@@ -116,6 +118,7 @@ void Game::processCommand(std::string command) {
             std::cout << "There is no exit in that direction.\n";
         }
     } else if (command.find("take") == 0) {
+        // Extract the item name and attempt to take it
         std::string itemName = command.substr(5); // Extract item name
         auto item = currentRoom->findItem(itemName);
         if (item) {
@@ -126,6 +129,7 @@ void Game::processCommand(std::string command) {
             std::cout << "There is no " << itemName << " here.\n";
         }
     } else if (command.find("drop") == 0) {
+        // Extract the item name and attempt to drop it
         std::string itemName = command.substr(5); // Extract item name
         auto item = player->findItemInInventory(itemName);
         if (item) {
@@ -136,6 +140,7 @@ void Game::processCommand(std::string command) {
             std::cout << "You don't have " << itemName << " in your inventory.\n";
         }
     } else if (command.find("use") == 0) {
+        // Extract the item name and attempt to use it
         std::string itemName = command.substr(4); // Extract item name
         auto item = player->findItemInInventory(itemName);
         if (item) {
@@ -150,6 +155,7 @@ void Game::processCommand(std::string command) {
             std::cout << "You don't have " << itemName << " in your inventory.\n";
         }
     } else if (command == "solve") {
+        // Attempt to solve the puzzle in the current room
         auto puzzle = currentRoom->getPuzzle();
         if (puzzle && !puzzle->getIsSolved()) {
             std::cout << puzzle->getDescription() << "\nAnswer: ";
@@ -164,6 +170,7 @@ void Game::processCommand(std::string command) {
             std::cout << "There is no puzzle to solve here.\n";
         }
     } else if (command == "inventory") {
+        // Display the player's inventory
         const auto& inventory = player->getInventory();
         if (inventory.empty()) {
             std::cout << "Your inventory is empty.\n";
@@ -174,11 +181,14 @@ void Game::processCommand(std::string command) {
             }
         }
     } else if (command == "quit") {
+        // Exit the game
         isGameOver = true;
     } else {
+        // Handle unknown commands
         std::cout << "Unknown command. Type 'help' for a list of commands.\n";
     }
 }
+
 
 // Check if the player has won the game
 bool Game::checkWinCondition() const {
