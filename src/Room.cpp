@@ -5,6 +5,13 @@
 // Constructor
 Room::Room(const std::string& desc) : description(desc) {}
 
+void Room::setChest(bool hasChest) {
+    chest = hasChest;
+}
+
+bool Room::hasChest() const {
+    return chest;
+}
 // Display the room's description and its contents
 void Room::describe() const {
     // General room description

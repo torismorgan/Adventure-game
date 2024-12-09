@@ -87,62 +87,103 @@ void Game::start() {
     std::cout << "Thank you for playing! Goodbye!\n";
 }
 
-void Game::processCommand(std::string command) {
+void Game::processCommand(const std::string& command) {
     auto currentRoom = player->getCurrentRoom();
-    std::transform(command.begin(), command.end(), command.begin(), ::tolower);
+    std::string action, argument;
+    size_t spaceIndex = command.find(' ');
 
-    if (command == "look") {
+    if (spaceIndex != std::string::npos) {
+        action = command.substr(0, spaceIndex); // Extract action (e.g., "take", "move")
+        argument = command.substr(spaceIndex + 1); // Extract argument (e.g., "torch")
+    } else {
+        action = command; // Command without argument (e.g., "look", "inventory")
+    }
+
+    // Convert action and argument to lowercase for consistency
+    std::transform(action.begin(), action.end(), action.begin(), ::tolower);
+    std::transform(argument.begin(), argument.end(), argument.begin(), ::tolower);
+
+    if (action == "look") {
         currentRoom->describe();
-    } else if (command.find("move") == 0) {
-        std::string direction = command.substr(5);
-        auto nextRoom = currentRoom->getExit(direction);
-
-        if (!nextRoom) {
-            std::cout << "There is no exit in that direction.\n";
-        } else if (currentRoom->getDescription().find("locked") != std::string::npos && !currentRoom->isPuzzleSolved()) {
-            std::cout << "The room is locked. Solve the puzzle to proceed.\n";
-        } else if (currentRoom->getNPC() && currentRoom->getNPC()->getName() == "Ghost") {
-            std::cout << "The ghost blocks your way! Use something to scare it away.\n";
+    } 
+    else if (action == "move") {
+        if (!argument.empty()) {
+            auto nextRoom = currentRoom->getExit(argument);
+            if (nextRoom) {
+                if (!currentRoom->isPuzzleSolved()) {
+                    std::cout << "The room is locked. Solve the puzzle first to proceed.\n";
+                } else {
+                    player->move(argument);
+                }
+            } else {
+                std::cout << "There is no exit in that direction.\n";
+            }
         } else {
-            player->move(direction);
+            std::cout << "Specify a direction to move (e.g., 'move north').\n";
         }
-
-         } else if (command == "help") {
-        // Display the help message
-        displayInstructions();
-    } else if (command.find("take") == 0) {
-        std::string itemName = command.substr(5);
-        auto item = currentRoom->findItem(itemName);
-        if (item) {
-            player->pickUp(item);
-            currentRoom->removeItem(item);
-            std::cout << "You picked up the " << item->getName() << ".\n";
+    } 
+    else if (action == "take") {
+        if (!argument.empty()) {
+            auto item = currentRoom->findItem(argument);
+            if (item) {
+                player->pickUp(item);
+                currentRoom->removeItem(item);
+                std::cout << "You picked up the " << item->getName() << ".\n";
+            } else {
+                std::cout << "There is no " << argument << " here.\n";
+            }
         } else {
-            std::cout << "There is no " << itemName << " here.\n";
+            std::cout << "Specify an item to take (e.g., 'take torch').\n";
         }
-    } else if (command.find("use torch") != std::string::npos) {
-        auto npc = currentRoom->getNPC();
-        if (npc && npc->getName() == "Ghost") {
-            std::cout << "You used the torch! The ghost flees in terror!\n";
-            currentRoom->setNPC(nullptr);
+    } 
+    else if (action == "drop") {
+        if (!argument.empty()) {
+            auto item = player->findItemInInventory(argument);
+            if (item) {
+                player->dropItem(item);
+                currentRoom->addItem(item);
+                std::cout << "You dropped the " << item->getName() << " in the room.\n";
+            } else {
+                std::cout << "You don't have " << argument << " in your inventory.\n";
+            }
         } else {
-            std::cout << "The torch flickers but has no effect here.\n";
+            std::cout << "Specify an item to drop (e.g., 'drop torch').\n";
         }
-    } else if (command == "solve") {
+    } 
+    else if (action == "use") {
+        if (!argument.empty()) {
+            auto item = player->findItemInInventory(argument);
+            if (item) {
+                item->use();
+                // Add specific game logic for "using" items (e.g., unlocking rooms, scaring NPCs, etc.)
+                if (argument == "torch" && currentRoom->getNPC() && currentRoom->getNPC()->getName() == "Ghost") {
+                    std::cout << "The ghost is scared by the torch and vanishes!\n";
+                    currentRoom->setNPC(nullptr);
+                }
+            } else {
+                std::cout << "You don't have " << argument << " in your inventory.\n";
+            }
+        } else {
+            std::cout << "Specify an item to use (e.g., 'use torch').\n";
+        }
+    } 
+    else if (action == "solve") {
         auto puzzle = currentRoom->getPuzzle();
         if (puzzle && !puzzle->getIsSolved()) {
             std::cout << puzzle->getDescription() << "\nAnswer: ";
             std::string answer;
             std::getline(std::cin, answer);
+            std::transform(answer.begin(), answer.end(), answer.begin(), ::tolower);
             if (puzzle->attemptSolution(answer)) {
-                std::cout << "You solved the puzzle! The room is now unlocked.\n";
+                std::cout << "You solved the puzzle!\n";
             } else {
                 std::cout << "That's not correct.\n";
             }
         } else {
             std::cout << "There is no puzzle to solve here.\n";
         }
-    } else if (command == "inventory") {
+    } 
+    else if (action == "inventory") {
         const auto& inventory = player->getInventory();
         if (inventory.empty()) {
             std::cout << "Your inventory is empty.\n";
@@ -152,12 +193,18 @@ void Game::processCommand(std::string command) {
                 std::cout << "- " << item->getName() << "\n";
             }
         }
-    } else if (command == "quit") {
+    } 
+    else if (action == "help") {
+        displayInstructions();
+    } 
+    else if (action == "quit") {
         isGameOver = true;
-    } else {
+    } 
+    else {
         std::cout << "Unknown command. Type 'help' for a list of commands.\n";
     }
 }
+
 
 bool Game::checkWinCondition() const {
     auto amulet = player->findItemInInventory("amulet");

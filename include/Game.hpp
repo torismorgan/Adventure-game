@@ -13,7 +13,7 @@ public:
 private:
     void setupGame();
     void displayInstructions() const;
-    void processCommand(std::string command);
+    void processCommand(const std::string& command);
     bool checkWinCondition() const;
 
     std::shared_ptr<Player> player;
