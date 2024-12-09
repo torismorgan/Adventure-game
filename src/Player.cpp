@@ -22,9 +22,14 @@ void Player::move(const std::string& direction) {
 
 // Add an item to the player's inventory
 void Player::pickUp(std::shared_ptr<Item> item) {
-    inventory.push_back(item);
-    std::cout << item->getName() << " has been added to your inventory.\n";
+    if (item) {
+        inventory.push_back(item);
+        std::cout << item->getName() << " has been added to your inventory.\n";
+    } else {
+        std::cout << "You cannot pick that up.\n";
+    }
 }
+
 
 // Drop an item from the player's inventory
 void Player::dropItem(std::shared_ptr<Item> item) {

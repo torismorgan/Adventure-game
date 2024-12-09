@@ -16,10 +16,11 @@ void Game::setupGame() {
     auto amulet = std::make_shared<Amulet>();
 
     auto foyer = std::make_shared<Room>(
-        "A dimly lit foyer. You feel a chill in your spine. The room is locked; "
+        "A dimly lit foyer. You feel a chill in your spine.\n The room is locked; "
         "to leave, you must solve the puzzle.");
     auto library = std::make_shared<Room>(
-        "A grand library filled with dusty books and an evil ghost. The ghost blocks your way forward. Use something to scare it away");
+        "A grand library filled with dusty books and an evil ghost. The ghost blocks your way forward.\n"
+        " Use something to scare it away");
     auto basement = std::make_shared<Room>(
         "A damp, dark basement. The air is heavy, and a locked chest is in the corner.");
 

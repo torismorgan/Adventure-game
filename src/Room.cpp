@@ -43,12 +43,18 @@ void Room::removeItem(std::shared_ptr<Item> item) {
 
 // Find an item in the room by name
 std::shared_ptr<Item> Room::findItem(const std::string& itemName) const {
+    std::string normalizedInput = itemName;
+    std::transform(normalizedInput.begin(), normalizedInput.end(), normalizedInput.begin(), ::tolower);
+
     for (const auto& item : items) {
-        if (item->getName() == itemName) {
-            return item;
+        std::string normalizedItemName = item->getName();
+        std::transform(normalizedItemName.begin(), normalizedItemName.end(), normalizedItemName.begin(), ::tolower);
+
+        if (normalizedItemName == normalizedInput) {
+            return item; // Found the item
         }
     }
-    return nullptr;
+    return nullptr; // Item not found
 }
 
 // Set the NPC in the room

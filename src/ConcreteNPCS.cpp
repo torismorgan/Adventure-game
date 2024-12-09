@@ -3,7 +3,7 @@
 
 // Whispering Voice Implementation
 WhisperingVoice::WhisperingVoice()
-    : NPC("Whispering Voice", "A faint voice whispers: 'Focus on the air, and the answer will come to you.'") {}
+    : NPC("Whispering Voice", "'Focus on the air, and the answer will come to you.'") {}
 
 void WhisperingVoice::interact() {
     std::cout << dialogue << std::endl;
