@@ -17,7 +17,9 @@ void Player::move(const std::string& direction) {
 
 void Player::pickUp(std::shared_ptr<Item> item) {
     inventory.push_back(item);
+    std::cout << item->getName() << " has been added to your inventory.\n"; // Debug message
 }
+
 
 
 void Player::dropItem(std::shared_ptr<Item> item) {
@@ -25,17 +27,24 @@ void Player::dropItem(std::shared_ptr<Item> item) {
 }
 
 std::shared_ptr<Item> Player::findItemInInventory(const std::string& itemName) const {
+    std::string normalizedItemName = itemName;
+    std::transform(normalizedItemName.begin(), normalizedItemName.end(), normalizedItemName.begin(), ::tolower);
+
     for (const auto& item : inventory) {
-        if (item->getName() == itemName) {
-            return item;
+        std::string normalizedStoredName = item->getName();
+        std::transform(normalizedStoredName.begin(), normalizedStoredName.end(), normalizedStoredName.begin(), ::tolower);
+
+        if (normalizedStoredName == normalizedItemName) {
+            return item; // Return the matching item
         }
     }
-    return nullptr;
+    return nullptr; // Return nullptr if no match is found
 }
 
 const std::vector<std::shared_ptr<Item>>& Player::getInventory() const {
-    return inventory;
+    return inventory; // Simply return the inventory vector
 }
+
 
 std::shared_ptr<Room> Player::getCurrentRoom() const {
     return currentRoom;

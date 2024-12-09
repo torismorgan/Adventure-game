@@ -132,32 +132,32 @@ void Game::processCommand(std::string command) {
     }
 }
  else if (command.find("drop") == 0) {
-        // Extract the item name and attempt to drop it
-        std::string itemName = command.substr(5); // Extract item name
-        auto item = player->findItemInInventory(itemName);
-        if (item) {
-            player->dropItem(item);
-            currentRoom->addItem(item);
-            std::cout << "You dropped the " << itemName << ".\n";
+    std::string itemName = command.substr(5); // Extract item name
+    auto item = player->findItemInInventory(itemName);
+    if (item) {
+        player->dropItem(item);
+        currentRoom->addItem(item);
+        std::cout << "You dropped the " << item->getName() << ".\n";
+    } else {
+        std::cout << "You don't have " << itemName << " in your inventory.\n";
+    }
+}
+ else if (command.find("use") == 0) {
+    std::string itemName = command.substr(4); // Extract item name
+    auto item = player->findItemInInventory(itemName);
+    if (item) {
+        if (itemName == "key" && currentRoom->getDescription().find("chest") != std::string::npos) {
+            std::cout << "You unlocked the chest and found the Amulet!\n";
+            auto amulet = std::make_shared<Amulet>();
+            player->pickUp(amulet);
         } else {
-            std::cout << "You don't have " << itemName << " in your inventory.\n";
+            item->use();
         }
-    } else if (command.find("use") == 0) {
-        // Extract the item name and attempt to use it
-        std::string itemName = command.substr(4); // Extract item name
-        auto item = player->findItemInInventory(itemName);
-        if (item) {
-            if (itemName == "key" && currentRoom->getDescription().find("chest") != std::string::npos) {
-                std::cout << "You unlocked the chest and found the Amulet!\n";
-                auto amulet = std::make_shared<Amulet>();
-                player->pickUp(amulet);
-            } else {
-                item->use();
-            }
-        } else {
-            std::cout << "You don't have " << itemName << " in your inventory.\n";
-        }
-    } else if (command == "solve") {
+    } else {
+        std::cout << "You don't have " << itemName << " in your inventory.\n";
+    }
+}
+ else if (command == "solve") {
         // Attempt to solve the puzzle in the current room
         auto puzzle = currentRoom->getPuzzle();
         if (puzzle && !puzzle->getIsSolved()) {
@@ -173,17 +173,17 @@ void Game::processCommand(std::string command) {
             std::cout << "There is no puzzle to solve here.\n";
         }
     } else if (command == "inventory") {
-        // Display the player's inventory
-        const auto& inventory = player->getInventory();
-        if (inventory.empty()) {
-            std::cout << "Your inventory is empty.\n";
-        } else {
-            std::cout << "Your inventory contains:\n";
-            for (const auto& item : inventory) {
-                std::cout << "- " << item->getName() << "\n";
-            }
+    const auto& inventory = player->getInventory();
+    if (inventory.empty()) {
+        std::cout << "Your inventory is empty.\n";
+    } else {
+        std::cout << "Your inventory contains:\n";
+        for (const auto& item : inventory) {
+            std::cout << "- " << item->getName() << "\n"; // Debug: print each item name
         }
-    } else if (command == "quit") {
+    }
+}
+ else if (command == "quit") {
         // Exit the game
         isGameOver = true;
     } else {
