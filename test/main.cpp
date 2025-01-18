@@ -1,7 +1,7 @@
 /**
-* @author Dr. Anvik <john.anvik@uleth.ca>, LN Wilson <n.wilson@uleth.ca>
-* @date 2018, 2020-03
-*/
+ * @author Dr. Anvik <john.anvik@uleth.ca>, LN Wilson <n.wilson@uleth.ca>
+ * @date 2018, 2020-03
+ */
 
 #include "gtest/gtest.h"
 

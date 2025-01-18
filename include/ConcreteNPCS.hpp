@@ -3,17 +3,17 @@
 
 class WhisperingVoice : public NPC {
 public:
-    WhisperingVoice();
-    void interact() override;
+  WhisperingVoice();
+  void interact() override;
 };
 
 class Ghost : public NPC {
 private:
-    bool scaredAway;
+  bool scaredAway;
 
 public:
-    Ghost();
-    void interact() override;
-    void scareAway();
-    bool isScaredAway() const;
+  Ghost();
+  void interact() override;
+  void scareAway();
+  bool isScaredAway() const;
 };

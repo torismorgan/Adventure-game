@@ -6,16 +6,16 @@
 
 class Game {
 public:
-    Game();
-    ~Game();
-    void start();
+  Game();
+  ~Game();
+  void start();
 
 private:
-    void setupGame();
-    void displayInstructions() const;
-    void processCommand(const std::string& command);
-    bool checkWinCondition() const;
+  void setupGame();
+  void displayInstructions() const;
+  void processCommand(const std::string &command);
+  bool checkWinCondition() const;
 
-    std::shared_ptr<Player> player;
-    bool isGameOver;
+  std::shared_ptr<Player> player;
+  bool isGameOver;
 };

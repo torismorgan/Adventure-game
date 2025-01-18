@@ -5,23 +5,20 @@
 
 class Torch : public Item {
 public:
-    Torch();
-    void use() override;
+  Torch();
+  void use() override;
 };
 
 class Amulet : public Item {
 public:
-    Amulet();
-    void use() override;
+  Amulet();
+  void use() override;
 };
 
 class Key : public Item {
 public:
-    Key();
-    void use() override;
+  Key();
+  void use() override;
 };
 
 #endif // CONCRETEITEMS_HPP
-
-
-

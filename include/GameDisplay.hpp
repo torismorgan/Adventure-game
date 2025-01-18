@@ -5,9 +5,9 @@
 
 class GameDisplay {
 public:
-    void displayWelcomeMessage();
-    void displayGoodbyeMessage();
-    void displayWinMessage();
+  void displayWelcomeMessage();
+  void displayGoodbyeMessage();
+  void displayWinMessage();
 };
 
 #endif // GAMEDISPLAY_HPP
