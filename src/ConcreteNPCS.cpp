@@ -22,6 +22,7 @@ void Ghost::interact() {
   }
 }
 
+
 void Ghost::scareAway() {
   scaredAway = true;
   std::cout << "The ghost shrieks and vanishes into the ether as the torch "
