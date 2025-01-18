@@ -1,67 +1,74 @@
-# Template for CPSC2720 Major Project: Text Based Adventure Game
-Last Updated: 2024-10-21 by Nicole Wilson &lt;n.wilson@uleth.ca&gt;
+### Haunted Manor Adventure Game
 
-Notes:
+Welcome to Haunted Manor Adventure, a thrilling text-based game where you explore a mysterious manor filled with puzzles, items, and eerie encounters. Your ultimate goal is to find the amulet and restore the manor's glory. Good luck!
 
-* The Makefile and .gitlab-ci.yml files are set up to run on Ubuntu.
-* The .gitlab-ci.yml file uses the targets in the Makefile.
-* These are the tools/commands/apps used:
-  * Compiler: g++
-  * Style Check: cpplint
-  * Static Check: cppcheck
-  * Coverage Check: gcov/lcov
-  * Memory Check: valgrind
-  * Unit Test: gtest 
-  * Documentation: doxygen
-* See the version report on the pipeline.
+# Game Features
 
-Certain assumptions have been made:
-* One repo contains the files for one project.
-* All unit testing files are found in <code>test/</code> including <code>main.cpp</code>.
-* All header files for the project are found in <code>include/</code> and named <code>*.hpp</code>, every class must have a header file.
-* All project source files for the project are named <code>*.cpp</code>.
-  * Any needed source files that correspond to header files are found in <code>src/</code>.
-  * There is a <code>main.cpp</code> found in <code>src/project/</code>.
+* Immersive Exploration: Navigate through multiple rooms, each with unique descriptions and challenges.
 
-# Project Name
-Manor of Mysteries
- 
+* Engaging Puzzles: Solve riddles and puzzles to unlock new areas and progress.
 
-## Design Phase
+* Interactive Items: Collect and use items to overcome obstacles and uncover secrets.
+
+* Dynamic NPC Interactions: Encounter non-playable characters with dialogue and roles that influence your journey.
 
 
-### Team Member Contributions 
+# Game Instructions
 
-#### Ayo Olasupo
+# Commands
 
-- Set up the Room class with basic properties and functions.
+Use the following commands to interact with the game:
 
-- Made the subclsses for the room class
- 
+* look: Examine the current room and its contents.
 
-#### Chidera Okeke
+* move : Move to a different room (e.g., move north).
 
-- Created the Player classes, detailing what they do.
+* take : Pick up an item in the room.
 
-- Built the inventory system for Player, including ways to pick up and use items.
+* drop : Drop an item from your inventory.
+
+* use : Use an item in your inventory.
+
+* solve: Attempt to solve a puzzle in the room.
+
+* inventory: View the items you are carrying.
+
+* quit: Exit the game.
+
+* help: Display the game instructions.
 
 
+### Game Flow
 
-#### Chidalu Okeke
+# Foyer
 
-- Designed the NPC and item classes, adding key properties and functions.
+* Solve the first puzzle to unlock the closet and reveal the door.
 
-- Set up how NPCs interact with Player, including special behaviors for Ghost and WhisperingVoice.
+* Solve the second puzzle to unlock the door leading to the library.
 
-- fixed the style errors and made corrections for all the classes
+# Library
 
- 
+* Solve the second puzzle to reveal a storybook explaining the haunted manor’s backstory.
 
-#### Orisakite Morgan-Owiriwa
+* Solve the first puzzle to unlock the door to the basement.
 
-- Resolved merge conflicts and managed the repo
+# Basement
 
-- Made the Game, GameDisplay and Puzzle class
+* Face the ghost. Use your collected items and wits to scare it away and avoid possession.
 
--Fixed style errors and made corrections in all the classes
- 
+## Setup Instructions
+
+# Prerequisites
+
+* Ensure you have a C++ compiler installed (e.g., GCC).
+
+* Install cpplint for style checks (optional).
+
+
+### Contributors
+
+Victoria Morgan
+
+
+Enjoy your adventure and restore the haunted manor to its former glory!
+
